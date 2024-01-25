@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
-public class MapManager
+public class MapManager : MonoBehaviour
 {
     private int[,] OddOffset = { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 }, { -1, 1 } };
     private int[,] EvenOffset = { { 0, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, -1 }, { -1, 0 } };
+    public Dictionary<HexNode, Dictionary<HexNode, HexNode>> DMaps = new Dictionary<HexNode, Dictionary<HexNode, HexNode>>();
     HexNode[,] map;
     int map_x;
     int map_z;
-   public MapManager(GameObject[,] m) {
+   public void initMap(GameObject[,] m) {
         map_x = m.GetLength(0);
         map_z = m.GetLength(1);
         map = new HexNode[map_x, map_z];
@@ -42,5 +44,47 @@ public class MapManager
 
         }
         return neighbours;
+    }
+    //This is only half the implementation, ill need to create another pass that stores weights as this only stores directional information at the moment 
+    //Technically this is BFS instead of A* since we lack any heuristics 
+    public bool GenerateFlowField(HexNode goal)
+    {
+        if (DMaps.ContainsKey(goal)) { return true; }
+
+        var tempDict = new Dictionary<HexNode, HexNode>(); 
+        var queue = new Queue<HexNode>();
+
+        queue.Enqueue(goal);
+        tempDict.Add(goal, null);
+
+        while (queue.Count != 0) {
+            var cur = queue.Dequeue();
+            foreach(var obj in cur.getNeightbours())
+            {
+                if(obj == null) continue;
+                if (tempDict.ContainsKey(obj)) continue;
+                queue.Enqueue(obj);
+                tempDict.Add(obj, cur);
+            }
+        }
+        DMaps.Add(goal, tempDict);
+        tempDict.Select(i => $"{i.Key}: {i.Value}").ToList().ForEach(Debug.Log);
+        return true;
+    }
+    public HexNode nextNodeInPath(HexNode goal, HexNode cur)
+    {
+        if(!DMaps.ContainsKey(goal)) GenerateFlowField(goal);
+
+        var dict = DMaps[goal];
+        HexNode nextNode = null;
+        dict.TryGetValue(cur, out nextNode);
+        return nextNode;
+    }
+    public void GenerateAll()
+    {
+        foreach(var node in map)
+        {
+            GenerateFlowField(node);
+        }
     }
 }

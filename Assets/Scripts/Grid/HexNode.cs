@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class HexNode : MonoBehaviour
 {
-    public HexNode[] neightbours = new HexNode[6];
+    public HexNode[] neightbours = new HexNode[6]; //0 up, 1 up right, 2 down right, 3 down, 4 down left, 5 up left e.g clockwise from top
+   
     public float _positionX = 0; //location in gridArray
     public float _positionZ = 0;
     public int _gridPositionX = 0;
@@ -20,6 +21,10 @@ public class HexNode : MonoBehaviour
         _gridPositionX = grid_x;
         _gridPositionZ = grid_z;   
 
+    }
+    public Vector3 Vec3Location()
+    {
+        return new Vector3(_positionX, 0, _gridPositionZ);
     }
     public bool RemoveNeightbour(int index)
     {

@@ -1,3 +1,4 @@
+using Palmmedia.ReportGenerator.Core.Reporting.Builders;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,23 +8,24 @@ using UnityEngine;
 public class GenerateTestMap : MonoBehaviour
 {
     public GameObject hexagon;
-
+    
     public GameObject[,] map;
-    public MapManager mapManager;
+    MapManager mapManager;
     public int x = 10;
     public int z = 10;
     // Start is called before the first frame update
     void Start()
     {
         map = new GameObject[x, z];
-        
+        mapManager = this.GetComponent<MapManager>();
         float Real_x = 0;
         float Real_z = 0;
         for(int i = 0; i < x; i++)
         {
-            for(int j = 0; j < z; j++) {
-                Debug.Log("i: " + i + " j: " + j + "real_x: " + Real_x + " real_z: " + Real_z );
+            for (int j = 0; j < z; j++) {
+
                 map[i, j] = Instantiate(hexagon);
+                map[i, j].name = "x: " + i + " z: " + j;
                 HexNode node = map[i, j].GetComponent<HexNode>();
                 node.initialize(Real_x, Real_z, i, j);
 
@@ -35,9 +37,7 @@ public class GenerateTestMap : MonoBehaviour
             else { Real_z = 1; }
             Real_x += 1.5f;
         }
-
-        mapManager = new MapManager(map);
-        Debug.Log("hello");
+        mapManager.initMap(map);
     }
 
 }
