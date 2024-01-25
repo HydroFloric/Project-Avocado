@@ -1,18 +1,43 @@
+using Palmmedia.ReportGenerator.Core.Reporting.Builders;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HexNode : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public HexNode[] neightbours = new HexNode[6];
+    public float _positionX = 0; //location in gridArray
+    public float _positionZ = 0;
+    public int _gridPositionX = 0;
+    public int _gridPositionZ = 0;
+
+    public int terrainDif = 0; //higher number increases edge cost of node
+    
+    public void initialize(float x, float z, int grid_x, int grid_z)
     {
-        
+        _positionX= x;
+        _positionZ= z;
+        _gridPositionX = grid_x;
+        _gridPositionZ = grid_z;   
+
+    }
+    public bool RemoveNeightbour(int index)
+    {
+        neightbours[index] = null;
+        return true;
+    }
+    public bool AddNeightbour(HexNode i, int index)
+    {
+        neightbours[index] = i;
+        return true;
+    }
+    public void SetNeightbours(HexNode[] n)
+    {
+        neightbours = n;
+    }
+    public HexNode[] getNeightbours()
+    {
+        return neightbours;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
