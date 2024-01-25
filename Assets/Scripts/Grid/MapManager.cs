@@ -26,6 +26,7 @@ public class MapManager : MonoBehaviour
         {
             item.SetNeightbours(findNeightbours(item));
         }
+        GenerateAll();
    }
    public HexNode[] findNeightbours(HexNode i)
     {
@@ -68,17 +69,31 @@ public class MapManager : MonoBehaviour
             }
         }
         DMaps.Add(goal, tempDict);
-        tempDict.Select(i => $"{i.Key}: {i.Value}").ToList().ForEach(Debug.Log);
         return true;
     }
     public HexNode nextNodeInPath(HexNode goal, HexNode cur)
     {
-        if(!DMaps.ContainsKey(goal)) GenerateFlowField(goal);
+        if (!DMaps.ContainsKey(goal)){
+            GenerateFlowField(goal);
+        }
+         var dict = DMaps[goal];
+         HexNode nextNode = null;
+         dict.TryGetValue(cur, out nextNode);
+         return nextNode;
+     
 
-        var dict = DMaps[goal];
-        HexNode nextNode = null;
-        dict.TryGetValue(cur, out nextNode);
-        return nextNode;
+    }
+    public HexNode findClosetNode(Vector3 v)
+    {
+        float dist = -1;
+        HexNode closet = null;
+        foreach(var node in map)
+        {
+            var temp = Vector3.Distance(node.transform.position,v);
+            if(temp < dist || dist == -1) {dist = temp; closet = node;}
+            Debug.Log(dist);
+        }
+        return closet;
     }
     public void GenerateAll()
     {

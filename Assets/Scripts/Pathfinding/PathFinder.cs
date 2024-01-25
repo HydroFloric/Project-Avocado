@@ -16,21 +16,19 @@ public class PathFinder : MonoBehaviour
     private void Start()
     {
         mapManager = MapManagerGO.GetComponent<MapManager>();
+
     }
     void FixedUpdate()
     {
-        if (goalNode == null || goal.GetComponent<TempGoal>().hasChanged)
+        if (currentNode == null) { currentNode = mapManager.findClosetNode(transform.position); }
+        if (goalNode == null || goal.GetComponent<TempGoal>().currentNode != goalNode) {goalNode = goal.GetComponent<TempGoal>().currentNode;}
+        if (pathingTo == null) { pathingTo = mapManager.nextNodeInPath(goalNode, currentNode); }
+
+        if(currentNode != mapManager.findClosetNode(transform.position))
         {
-            goalNode = goal.GetComponent<TempGoal>().currentNode;
+            currentNode = mapManager.findClosetNode(transform.position);
+            pathingTo = null;
         }
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.GetComponent<HexNode>() != null)
-        {
-            currentNode = collision.gameObject.GetComponent<HexNode>();
-            pathingTo = mapManager.nextNodeInPath(goalNode, currentNode);
-        }
-        
-    }
+    
 }

@@ -24,7 +24,7 @@ public class HexNode : MonoBehaviour
     }
     public Vector3 Vec3Location()
     {
-        return new Vector3(_positionX, 0, _gridPositionZ);
+        return new Vector3(_positionX, 0, _positionZ);
     }
     public bool RemoveNeightbour(int index)
     {

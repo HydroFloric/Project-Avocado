@@ -22,10 +22,10 @@ public class BasicMovement : MonoBehaviour
     void Update()
     {
         Debug.DrawRay(transform.position, (pathingTo - new Vector3(transform.position.x, 0, transform.position.z)).normalized);
-        pathingTo = pathFinder.pathingTo.Vec3Location();
-        if (pathingTo != null)
+        
+        if (pathFinder.pathingTo != null)
         {
-            
+            pathingTo = pathFinder.pathingTo.Vec3Location();
             transform.Translate((pathingTo - new Vector3(transform.position.x,0,transform.position.z)).normalized * speed * Time.deltaTime);
         }
 
