@@ -27,7 +27,7 @@ public class MapManager : MonoBehaviour
             item.SetNeightbours(findNeightbours(item));
         }
         GenerateAll();
-   }
+    }
    public HexNode[] findNeightbours(HexNode i)
     {
         HexNode[] neighbours = new HexNode[6];
@@ -73,25 +73,31 @@ public class MapManager : MonoBehaviour
     }
     public HexNode nextNodeInPath(HexNode goal, HexNode cur)
     {
-        if (!DMaps.ContainsKey(goal)){
-            GenerateFlowField(goal);
+        if (DMaps.ContainsKey(goal))
+        {
+            HexNode nextNode = null;
+            DMaps[goal].TryGetValue(cur, out nextNode);
+            return nextNode;
         }
-         var dict = DMaps[goal];
-         HexNode nextNode = null;
-         dict.TryGetValue(cur, out nextNode);
-         return nextNode;
-     
-
+        else
+        {
+            GenerateFlowField(goal);
+            HexNode nextNode = null;
+            DMaps[goal].TryGetValue(cur, out nextNode);
+            return nextNode;
+        }
     }
     public HexNode findClosetNode(Vector3 v)
     {
         float dist = -1;
         HexNode closet = null;
-        foreach(var node in map)
+        for(int i = 0; i < map.GetLength(0); i++)
         {
-            var temp = Vector3.Distance(node.transform.position,v);
-            if(temp < dist || dist == -1) {dist = temp; closet = node;}
-            Debug.Log(dist);
+            for (int j = 0; j < map.GetLength(1); j++)
+            {
+                var temp = Vector3.Distance(map[i, j].transform.position, v);
+                if (temp < dist || dist == -1) { dist = temp; closet = map[i, j]; }
+            }
         }
         return closet;
     }
