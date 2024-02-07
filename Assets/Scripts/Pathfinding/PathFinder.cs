@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+//this whole thing is getting scrapped. we are gonna use a queue!
 public class PathFinder : MonoBehaviour
 {
     public GameObject goal;
@@ -15,6 +16,7 @@ public class PathFinder : MonoBehaviour
     public HexNode goalNode;
     public HexNode pathingTo;
 
+    public bool debug = false;
 
     
 
@@ -27,18 +29,27 @@ public class PathFinder : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if(profileUtility != null) profileUtility.startTimer();
-        if (currentNode == null) { currentNode = mapManager.findClosetNode(transform.position); }
-        if (goalNode == null || tp.currentNode != goalNode) {goalNode = tp.currentNode;}
+      
+        if (currentNode == null) { currentNode = mapManager.findClosetNode(transform.position); } //dont call this often it takes almost 2000 ticks
+        if (goalNode == null || tp.currentNode != goalNode) { goalNode = tp.currentNode; }
         if (pathingTo == null) {
             pathingTo = mapManager.nextNodeInPath(goalNode, currentNode);
         }
-        if (Vector3.Distance(pathingTo.transform.position, this.transform.position) < 1)
+        if (Vector3.Distance(pathingTo.Vec3Location(), this.transform.position) < 1)
         {
             currentNode = pathingTo;
             pathingTo = null;
         }
-        if (profileUtility != null) profileUtility.stopTimer();
+        if (profileUtility != null) {profileUtility.stopTimer();
+            HexNode temp = pathingTo;
+            HexNode cur = currentNode;
+            while(temp != null) { 
+                temp = mapManager.nextNodeInPath(goalNode, temp);
+                profileUtility.path(cur, temp);
+                cur = temp;
+            }
+            
+        }
        
     }
 }

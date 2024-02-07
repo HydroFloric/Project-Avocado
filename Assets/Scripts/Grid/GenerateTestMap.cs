@@ -4,10 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GenerateTestMap : MonoBehaviour
 {
-    public GameObject hexagon;
+    public GameObject hexagon; //the map system will need to alot more clever than this. A game object takes up too much memory to be used as a map tile efficiently.
+                                //the map data will need to be stored as an reference array then we will need to somehow construct polygons where all the meshes are 
     
     public GameObject[,] map;
     MapManager mapManager;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class profileUtility : MonoBehaviour 
@@ -31,5 +32,10 @@ public class profileUtility : MonoBehaviour
             startTime = 0;
             endTime = 0;
         }
+    }
+    public void path(HexNode cur, HexNode next)
+    {
+        if (next == null) return;
+        Debug.DrawLine(cur.Vec3Location(), next.Vec3Location(), Color.red);
     }
 }

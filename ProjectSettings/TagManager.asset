@@ -3,12 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - HexagonTerrain
+  - goal
+  - swarm
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - HexagonTerrain
   - Water
   - UI
   - 
