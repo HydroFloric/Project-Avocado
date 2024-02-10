@@ -6,7 +6,6 @@ using UnityEngine;
 public class BasicMovement : MonoBehaviour
 {
     public Vector3 currentDir;
-    public HexNode goal;
     EntityBase entityBase;
     public float speed = 1f;
 
@@ -14,7 +13,6 @@ public class BasicMovement : MonoBehaviour
    
     void Start()
     {
-        goal = GameObject.FindWithTag("goal").GetComponent<HexNode>();
         entityBase = GetComponent<EntityBase>();
     }
 
@@ -30,16 +28,17 @@ public class BasicMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-       
-
+    
         Debug.DrawRay(transform.position, currentDir * 2, Color.magenta);
         FindPath();
         
-
-
     }
     void FindPath()
     {
+        if(entityBase.pathingTo == null)
+        {
+            currentDir = Vector3.zero;
+        }
         if (entityBase.pathingTo != null)
         {
             Vector3 temp;

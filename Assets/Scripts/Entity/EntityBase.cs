@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class EntityBase : MonoBehaviour
 {
+    //Storing this since transformer my not be in existance...
     public float x, y, z;
 
     public HexNode currentLocation;

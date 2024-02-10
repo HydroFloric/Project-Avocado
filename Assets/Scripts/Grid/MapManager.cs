@@ -5,6 +5,10 @@ using System;
 using Utils;
 using Unity.Properties;
 
+/* Don't reference map nodes by their transform position in world space, always use reference.Vec3Location(). transform may not exist in future implementations.
+ * 
+ * 
+ */
 public struct mapItem
 {
     public mapItem(HexNode n, int dist) //this exists so i dont need to store two seperate dictionary holding distance and connected nodes
@@ -42,7 +46,9 @@ public class MapManager : MonoBehaviour
         }
  
     }
-   public HexNode[] findNeightbours(HexNode i) //this will create references for each connected node, we could add extra parameters for impassable objects but i dont like that! better to look up even if slower
+    //this will create references for each connected node, we could add extra parameters for impassable objects but i dont like that! better to look up even if slower.
+    //Doesn't matter anymore the new algo implements it automatically. 
+    public HexNode[] findNeightbours(HexNode i) 
     {
         HexNode[] neighbours = new HexNode[6];
         var x = i._gridPositionX;
@@ -84,8 +90,8 @@ public class MapManager : MonoBehaviour
                 var cost = obj.terrainDif + tempDict[cur].distance;
 
                 mapItem temp = new mapItem(null, -1);
-                tempDict.TryGetValue(obj, out temp); //I prefer python dictionaries even if they are much slower. Look at this bs!
-                if (!tempDict.ContainsKey(obj) || ( cost < temp.distance && temp.distance != -1)){
+                tempDict.TryGetValue(obj, out temp); 
+                if (!tempDict.ContainsKey(obj) || ( cost < temp.distance && temp.distance != -1)){ //i know this is redundent but "structs cannot be initilized to null in this version of .net"
                     tempDict.Add(obj, new mapItem(cur, cost));
                     queue.Enqueue(obj, cost);
                 }
@@ -99,20 +105,11 @@ public class MapManager : MonoBehaviour
     {
         if(goal == null ) return null;
         if(cur == null ) return null;
-        if (PathfindingGraphs.ContainsKey(goal))
-        {
-            mapItem nextNode;
-            PathfindingGraphs[goal].TryGetValue(cur, out nextNode);
-            HexNode val = nextNode.node;
-            return val;
-        }
-        else
-        {
-            GenerateFlowField(goal);
-            mapItem nextNode;
-            PathfindingGraphs[goal].TryGetValue(cur, out nextNode);
-            return nextNode.node;
-        }
+
+        GenerateFlowField(goal);
+        mapItem nextNode;
+        PathfindingGraphs[goal].TryGetValue(cur, out nextNode);
+        return nextNode.node;
     }
     public HexNode findClosetNode(Vector3 v) //I need to find a better way to do this besides looping over the entire map, Shouldn't be called too often!
     {
@@ -122,7 +119,7 @@ public class MapManager : MonoBehaviour
         {
             for (int j = 0; j < map.GetLength(1); j++)
             {
-                var temp = Vector3.Distance(map[i, j].transform.position, v);
+                var temp = Vector3.Distance(map[i, j].Vec3Location(), v);
                 if (temp < dist || dist == -1) { dist = temp; closet = map[i, j]; }
             }
         }
