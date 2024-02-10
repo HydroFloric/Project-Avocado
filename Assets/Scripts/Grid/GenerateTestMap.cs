@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -9,8 +10,9 @@ using UnityEngine.UIElements;
 public class GenerateTestMap : MonoBehaviour
 {
     public GameObject hexagon; //the map system will need to alot more clever than this. A game object takes up too much memory to be used as a map tile efficiently.
-                                //the map data will need to be stored as an reference array then we will need to somehow construct polygons where all the meshes are 
-    
+                               //the map data will need to be stored as an reference array then we will need to somehow construct polygons where all the meshes are.
+
+    System.Random random = new System.Random();
     public GameObject[,] map;
     MapManager mapManager;
     public int x = 10;
@@ -29,8 +31,17 @@ public class GenerateTestMap : MonoBehaviour
                 map[i, j] = Instantiate(hexagon);
                 map[i, j].name = "x: " + i + " z: " + j;
                 HexNode node = map[i, j].GetComponent<HexNode>();
-                node.initialize(Real_x, Real_z, i, j);
+               
 
+                if (random.Next(0, 11) > 9)
+                {
+                    node.initialize(Real_x, Real_z, i, j, 100);
+                    node.transform.localScale = new Vector3(node.transform.localScale.x, 10, node.transform.localScale.z);
+                }
+                else
+                {
+                    node.initialize(Real_x, Real_z, i, j);
+                }
                 map[i, j].transform.position = new Vector3(Real_x, 0, Real_z);
                 
                 Real_z += 2f;

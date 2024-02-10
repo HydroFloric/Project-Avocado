@@ -28,6 +28,15 @@ public class HexNode : MonoBehaviour
         terrainDif = 1;
 
     }
+    public void initialize(float x, float z, int grid_x, int grid_z, int tdiff)
+    {
+        _positionX = x;
+        _positionZ = z;
+        _gridPositionX = grid_x;
+        _gridPositionZ = grid_z;
+        terrainDif = tdiff;
+
+    }
     public Vector3 Vec3Location()
     {
         return new Vector3(_positionX, 0, _positionZ);
