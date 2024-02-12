@@ -7,6 +7,7 @@ public class BasicMovement : MonoBehaviour
 {
     public Vector3 currentDir;
     EntityBase entityBase;
+    //true oop would have me extending the entity base class with this but that sounds like alot of work for no performance!
     public float speed = 1f;
 
     public float timeSincelastPositionUpdate = 0f;
@@ -31,6 +32,7 @@ public class BasicMovement : MonoBehaviour
     
         Debug.DrawRay(transform.position, currentDir * 2, Color.magenta);
         FindPath();
+        ObjectAvoidance();
         
     }
     void FindPath()
@@ -48,5 +50,24 @@ public class BasicMovement : MonoBehaviour
             tempTransform.y = 0;
             currentDir = (temp - tempTransform).normalized;
         }
+    }
+    void ObjectAvoidance()
+    {
+        float close_dx = 0;
+        float close_dz = 0;
+        Collider[] hits = Physics.OverlapSphere(entityBase.toVec3(), speed * 2.0f, LayerMask.GetMask("Swarm"));
+       
+        for(int i = 0; i < hits.Length; i++)
+        {
+            EntityBase temp;
+            hits[i].gameObject.TryGetComponent<EntityBase>(out temp);  
+            if(temp == null) continue;
+
+            close_dx += entityBase.x - temp.x;
+            close_dx += entityBase.z - temp.z;
+            
+        }
+        currentDir.x += close_dx * 1.0f;
+        currentDir.z += close_dz * 1.0f;
     }
 }

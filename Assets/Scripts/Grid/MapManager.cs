@@ -120,7 +120,7 @@ public class MapManager : MonoBehaviour
             for (int j = 0; j < map.GetLength(1); j++)
             {
                 var temp = Vector3.Distance(map[i, j].Vec3Location(), v);
-                if (temp < dist || dist == -1) { dist = temp; closet = map[i, j]; }
+                if ((temp < dist || dist == -1) && map[i,j].terrainDif != 100) { dist = temp; closet = map[i, j]; }
             }
         }
         return closet;

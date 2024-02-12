@@ -10,7 +10,13 @@ public class EntityBase : MonoBehaviour
 {
     //Storing this since transformer my not be in existance...
     public float x, y, z;
-
+    public enum State
+    {
+        idle,
+        attacking,
+        moving
+    }
+    public State state = State.idle;
     public HexNode currentLocation;
     public HexNode pathingTo;
     

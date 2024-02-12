@@ -24,15 +24,11 @@ public class EntityManager : MonoBehaviour
             temp.transform.position = new Vector3(0, 1, 0);
             entities.Add(temp.GetComponent<EntityBase>());
             selectedUnits = entities.CloneViaSerialization(); //this looks dumb for right now but in the future it will be nice to already have the code ready for selecting individual unit groups
-            foreach(var entity in entities)
-            {
-                goals[entity] = entity.currentLocation;
-            }
         }
     }
     private void FixedUpdate()
     {
-        move(selectedUnits.ToArray());
+        move();
     }
     //Function Select, wont be implemented for now but will need a function that allows user to select portion of swarm to issue commands
     //Given two 2d cords determins if an object is within that boundary. 
@@ -62,23 +58,31 @@ public class EntityManager : MonoBehaviour
     }
     public void setGoal(Vector2 a)
     {
-        Vector3 origin = Camera.main.ScreenToWorldPoint(a);
+        Vector3 origin = Camera.main.ScreenToWorldPoint(new Vector3(a.x,a.y, Camera.main.transform.position.z));
         
         HexNode node = mapManager.findClosetNode(origin);
 
         for(int i = 0; i < selectedUnits.Count; i++) {
+            Debug.Log("Obj: " + selectedUnits[i].name + "goal node set: " + node.name);
             goals[selectedUnits[i]] = node;
+            selectedUnits[i].state = EntityBase.State.moving;
+            Debug.Log("Obj State"+ selectedUnits[i].name +": " + selectedUnits[i].state);
         }
     }
     //Function Move queues pathfindingjob for each entity
-    public void move(EntityBase[] selected)
+    public void move()
     {
         for(int i = 0; i < entities.Count; i++)
         {  
             var entity = entities[i];
-            if (entity != null)
+            if (!goals.ContainsKey(entity) || entity.currentLocation == goals[entity])
+            {
+                entity.state = EntityBase.State.idle;
+            }
+            if (entity != null && entity.state == EntityBase.State.moving)
             {
                 pathFinder.ScheduleJob(entity, goals[entity]);
+                Debug.DrawLine(entity.currentLocation.Vec3Location(), goals[entity].Vec3Location(), Color.green);
             }
         }
         
