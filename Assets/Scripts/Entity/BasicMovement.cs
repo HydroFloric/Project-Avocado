@@ -55,7 +55,7 @@ public class BasicMovement : MonoBehaviour
     {
         float close_dx = 0;
         float close_dz = 0;
-        Collider[] hits = Physics.OverlapSphere(entityBase.toVec3(), speed * 2.0f, LayerMask.GetMask("Swarm"));
+       Collider[] hits = Physics.OverlapSphere(entityBase.toVec3(), speed * 3.0f, LayerMask.GetMask("Swarm"));
        
         for(int i = 0; i < hits.Length; i++)
         {

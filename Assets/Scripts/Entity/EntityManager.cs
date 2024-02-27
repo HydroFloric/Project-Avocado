@@ -26,9 +26,11 @@ public class EntityManager : MonoBehaviour
         }
         if (types != null)
         {
-            var temp = Instantiate(types[0]);
-            temp.transform.position = new Vector3(0, 1, 0);
-            entities.Add(temp.GetComponent<EntityBase>());
+            for(int i = 0; i < types.Length; i++) {
+                var temp = Instantiate(types[i]);
+                temp.transform.position = new Vector3(i, 1, 0);
+                entities.Add(temp.GetComponent<EntityBase>());
+            }
             selectedUnits = entities.CloneViaSerialization(); //this looks dumb for right now but in the future it will be nice to already have the code ready for selecting individual unit groups
         }
     }

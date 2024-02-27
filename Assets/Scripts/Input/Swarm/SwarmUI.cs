@@ -27,14 +27,10 @@ public class SwarmUI : MonoBehaviour
     private int _hItems = 4;
     private List<gridItem> _items;
 
-    private void Start()
-    {
-        _miniMap = new miniMap(GetComponent<MapManager>());
-
-    }
 
     void Awake()
     {
+        _miniMap = new miniMap(GetComponent<MapManager>());
         _items = new List<gridItem>();
         _map = _uiDocument.rootVisualElement.Query("Map");
         _gridIcon = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/Templates/GridIcon.uxml");
@@ -61,7 +57,7 @@ public class SwarmUI : MonoBehaviour
     {
         for(int i = 0; i < 100; i++)
         {
-            _items.Add(new gridItem("", icons[Random.Range(0, icons.Length)], 10, 10)); 
+            _items.Add(new gridItem(0, icons[Random.Range(0, icons.Length)], 10, 10)); 
         }
         UpdateSelectedUnitsLabel();
         CreateUnitGrid();
@@ -96,6 +92,7 @@ public class SwarmUI : MonoBehaviour
                 if ((i + j) < _items.Count)
                 {
                     var unitElement = _gridIcon.Instantiate();
+                    
                     unitElement.Q<VisualElement>("Icon").style.backgroundImage = (StyleBackground)_items[i + j].spriteImage;
                     unitElement.Q<Label>("Info").text = _items[i + j].health.ToString() + "/" + _items[i + j].maxHealth.ToString();
                     row.Add(unitElement);
@@ -130,7 +127,7 @@ public class SwarmUI : MonoBehaviour
         _items.Clear();
         foreach (var item in e)
         {
-            _items.Add(new gridItem("", icons[item.type], (int)item.health, (int)item.maxHealth));
+            _items.Add(new gridItem(item.type, icons[item.type], (int)item.health, (int)item.maxHealth));
         }
         UpdateSelectedUnitsLabel();
         CreateUnitGrid();
@@ -169,7 +166,7 @@ class miniMap
                 }
                 else
                 {
-                    color = Color.red;
+                    color = Color.grey;
                 }
                 var tile = maptile.Instantiate();
                 tile.style.backgroundColor = color;
@@ -186,17 +183,22 @@ class miniMap
 class gridItem
 {
     
-    public string type;
+    public int type;
     public Texture spriteImage;
     public int health;
     public int maxHealth;
+    public Color color;
 
-    public gridItem(string type, Texture spriteImage, int health, int maxHealth)
+    public gridItem(int type, Texture spriteImage, int health, int maxHealth)
     {
         this.type = type;
         this.spriteImage = spriteImage;
         this.health = health;
         this.maxHealth = maxHealth;
+        if(type == 0)
+        {
+            color = Color.green;
+        }
     }
 }
 
