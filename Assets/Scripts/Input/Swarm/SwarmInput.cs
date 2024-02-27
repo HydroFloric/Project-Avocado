@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SwarmInput : MonoBehaviour
 {
     EntityManager entityManager;
-
+    SwarmUI ui;
     Vector2 set_mouse = Vector2.negativeInfinity;
     Vector2 cur_mouse;
     Rect rect;
     private void Start()
     {
         entityManager = GetComponent<EntityManager>();
+        ui = GetComponent<SwarmUI>();
     }
     // Update is called once per frame
     void Update()

@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    
+    SwarmUI ui;
+
+    private void Start()
+    {
+        ui = GetComponentInParent<SwarmUI>();
+    }
     void Update()
     {
         Vector3 movement = Vector3.zero;
@@ -33,5 +38,7 @@ public class CameraMovement : MonoBehaviour
             movement += new Vector3(0, 0, -1);
         }
         transform.Translate(movement);
+        ui.UpdateCameraPosition(new Vector2(movement.x, movement.y));
+        
     }
 }

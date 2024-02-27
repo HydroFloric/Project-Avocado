@@ -6,18 +6,24 @@ using UnityEngine;
 
 public class EntityManager : MonoBehaviour
 {
-    PathFinderManager pathFinder;
+    JobManager pathFinder;
     MapManager mapManager;
+    //I really shouldn't reference swarmUI here and shunt it into a player class! player classes dont exist so we do it here for now
+    SwarmUI ui;
     Dictionary<EntityBase, HexNode> goals = new Dictionary<EntityBase, HexNode>();
 
-    List<EntityBase> entities = new List<EntityBase>();
+    public List<EntityBase> entities = new List<EntityBase>();
     List<EntityBase> selectedUnits = new List<EntityBase>();
     public string tag = "swarm"; //if tower player needs pathing can be reused in future
     public GameObject[] types = null; //can add different prefabs/models 
     private void Start()
     {
-        pathFinder = GetComponent<PathFinderManager>();
+        pathFinder = GetComponent<JobManager>();
         mapManager= GetComponent<MapManager>();
+        if(tag == "swarm")
+        {
+            ui = GetComponent<SwarmUI>();
+        }
         if (types != null)
         {
             var temp = Instantiate(types[0]);
@@ -30,7 +36,7 @@ public class EntityManager : MonoBehaviour
     {
         move();
     }
-    //Function Select, wont be implemented for now but will need a function that allows user to select portion of swarm to issue commands
+    //Function Select
     //Given two 2d cords determins if an object is within that boundary. 
     //forums said this was faster than relying on the physics system...
     public void select(Vector2 a, Vector2 c)
@@ -55,6 +61,7 @@ public class EntityManager : MonoBehaviour
                 Debug.Log("entity selected!");
             }
         }
+        ui.UpdateUI(selectedUnits.ToArray());
     }
     public void setGoal(Vector2 a)
     {
@@ -81,7 +88,12 @@ public class EntityManager : MonoBehaviour
             }
             if (entity != null && entity.state == EntityBase.State.moving)
             {
-                pathFinder.ScheduleJob(entity, goals[entity]);
+                if (entity.currentLocation == null)
+                {
+                    entity.currentLocation = mapManager.findClosetNode(new Vector3(entity.x, entity.y, entity.z)); //jus making sure the object knows where it is in map space I really wish i could think of a way to generalize the closetNode instead of looping
+                }
+
+                pathFinder.ScheduleJob(new jobPathfinding(entity, goals[entity], mapManager));
                 Debug.DrawLine(entity.currentLocation.Vec3Location(), goals[entity].Vec3Location(), Color.green);
             }
         }

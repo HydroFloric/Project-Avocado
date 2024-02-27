@@ -15,6 +15,7 @@ public struct mapItem
     {
         node = n;
         distance = dist;
+        //heuristic = h;
     }
     public HexNode node;
     public int distance;
@@ -24,7 +25,7 @@ public class MapManager : MonoBehaviour
     private int[,] OddOffset = { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 }, { -1, 1 } };
     private int[,] EvenOffset = { { 0, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, -1 }, { -1, 0 } };
 
-    public Dictionary<HexNode, Dictionary<HexNode, mapItem>> PathfindingGraphs = new Dictionary<HexNode, Dictionary<HexNode, mapItem>>(); 
+    public Dictionary<HexNode, Dictionary<HexNode, mapItem>> PathfindingGraphs = new Dictionary<HexNode, Dictionary<HexNode, mapItem>>();
 
 
     HexNode[,] map;
@@ -128,6 +129,11 @@ public class MapManager : MonoBehaviour
     public HexNode getNode(int x, int z)
     {
         return map[x, z];
+    }
+    public HexNode[,] getMap() { return map; }
+    public int[] getMapSize()
+    {
+        return new int[] { map_x, map_z };
     }
     public void GenerateAll()
     {
