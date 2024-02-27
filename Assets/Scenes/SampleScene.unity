@@ -304,7 +304,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 39, y: 60, z: 40.06}
+  m_LocalPosition: {x: 39, y: 60, z: 42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -322,54 +322,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21aca3f4a2b2e214094d82d6015dc1ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1021335755
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1021335757}
-  - component: {fileID: 1021335756}
-  m_Layer: 5
-  m_Name: UIDocument
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1021335756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1021335755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PanelSettings: {fileID: 11400000, guid: 4fa5eeed58903bd47b162460fd864d0f, type: 2}
-  m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 356e2c1d782dce9439ca926ed2f214de, type: 3}
-  m_SortingOrder: 0
---- !u!4 &1021335757
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1021335755}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1856195016
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,9 +336,8 @@ GameObject:
   - component: {fileID: 1856195021}
   - component: {fileID: 1856195022}
   - component: {fileID: 1856195023}
-  - component: {fileID: 1856195024}
   m_Layer: 0
-  m_Name: SwarmManager
+  m_Name: Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -459,7 +410,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e06bff30612254ca0d124584bbf4eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entities: []
   tag: swarm
   types:
   - {fileID: 1305580809256723370, guid: 2c80219c85e0c6549854fd106a0f4164, type: 3}
@@ -475,21 +425,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb948f1a9227e274f9e0d1b41b469280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1856195024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1856195016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d99d6e02b48ca1e4bb43bf860606ca22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  icons:
-  - {fileID: 2800000, guid: e11766d7e25089a438daf580399fd4e0, type: 3}
-  _uiDocument: {fileID: 1021335756}
 --- !u!1 &1984939671
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,4 +552,3 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 1856195019}
   - {fileID: 1984939676}
-  - {fileID: 1021335757}
