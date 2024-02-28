@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -15,13 +16,17 @@ public class SwarmUI : MonoBehaviour
 {
 
     public Texture2D[] icons;
+    public string[] dmgTypes = { "Magic", "Physical", "Explosive" };
     public UIDocument _uiDocument;
 
-    
+
     private GameObject activeCam;
+    private GameObject selectedObj;
+    private VisualElement _close;
     private VisualElement _camView;
     private Label _id;
-    private GroupBox _attributes;
+    private ListView _attributes;
+    private List<string> items;
     private RenderTexture renderCam;
 
 
@@ -42,22 +47,25 @@ public class SwarmUI : MonoBehaviour
 
     void Awake()
     {
+        items = new List<string>();
         activeCam = new GameObject("cam");
         _miniMap = new miniMap(GetComponent<MapManager>());
         _items = new List<gridItem>();
         _map = _uiDocument.rootVisualElement.Query("Map");
         _camView = _uiDocument.rootVisualElement.Q("cameraView");
+        _close = _uiDocument.rootVisualElement.Q("close");
         _id = _uiDocument.rootVisualElement.Q<Label>("Identifier");
-        _attributes = _uiDocument.rootVisualElement.Q<GroupBox>("Attributes");
+        _attributes = _uiDocument.rootVisualElement.Q<ListView>("Attributes");
         _infoPanel = _uiDocument.rootVisualElement.Query("InformationPanel");
         _gridIcon = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/Templates/GridIcon.uxml");
         _selectedUnitsLabel = (Label)_uiDocument.rootVisualElement.Query("SelectNum");
         _cameraPosition = _uiDocument.rootVisualElement.Q("cameraPosition");
         Debug.Log(_uiDocument.rootVisualElement.Query<Label>("SelectedNum"));
         _scrollView = _uiDocument.rootVisualElement.Query<ScrollView>("GridView");
-        
+
         _infoPanel.visible = false;
-        for(int i = 0; i < icons.Length; i++)
+        _close.visible = false;
+        for (int i = 0; i < icons.Length; i++)
         {
             RenderTexture temp = new RenderTexture(32, 32, 24);
             RenderTexture.active = temp;
@@ -68,14 +76,23 @@ public class SwarmUI : MonoBehaviour
             icons[i] = output;
         }
 
+        _close.RegisterCallback<MouseDownEvent>(Hide);
 
+        _attributes.makeItem = () => new Label { style = { color = Color.white, backgroundColor = Color.gray, borderBottomLeftRadius = 5, borderBottomRightRadius = 5, borderTopLeftRadius = 5, borderTopRightRadius = 5, paddingLeft = 5, paddingTop = 5 } };
+
+        _attributes.bindItem = (e, i) => (e as Label).text = items[i];
+        _attributes.itemsSource = items;
     }
     private void Update()
     {
-        if (activeCam != null)
+        if (_infoPanel.visible)
         {
             UpdateCamView();
+            UpdateInfoText();
+
         }
+
+
     }
 
     void UpdateSelectedUnitsLabel()
@@ -87,7 +104,7 @@ public class SwarmUI : MonoBehaviour
         if (!_miniMap.generated)
         {
             _miniMap.generate();
-           
+
         }
         _map.Add(_miniMap.getMiniMap());
         //UpdateCameraPosition(new Vector2(_map.resolvedStyle.left, _map.resolvedStyle.top));
@@ -120,42 +137,38 @@ public class SwarmUI : MonoBehaviour
     }
     public void intilizeMinimapIcon()
     {
-        
+
         _cameraPosition.style.left = 0;
         _cameraPosition.style.top = 0;
-        cam = new camera(0,0);
+        cam = new camera(0, 0);
     }
     public void UpdateCameraPosition(Vector2 movement)
     {
-        if(cam.init != true)
+        if (cam.init != true)
         {
             intilizeMinimapIcon();
         }
-        cam.updatePos(movement.x,movement.y);
+        cam.updatePos(movement.x, movement.y);
         _cameraPosition.style.top = cam.current_y;
         _cameraPosition.style.left = cam.current_x;
-       
 
+
+    }
+
+    public void Hide(MouseDownEvent evt)
+    {
+        _close.visible = false;
+        _infoPanel.visible = false;
+        activeCam.SetActive(false);
     }
     public void DisplayInfo(MouseDownEvent evt)
     {
-
+        _infoPanel.visible = true;
+        _close.visible = true;
         VisualElement i = (VisualElement)evt.currentTarget;
         EntityBase info = _items[int.Parse(i.name)].reference;
-         
-        
-        var selectedObject = info.gameObject;
+        selectedObj = info.gameObject;
 
-        _id.text = info.gameObject.name;
-
-        _attributes.Clear();
-        _attributes.Add(new Label { text =  ("Position: " + "x: " + (int)info.x + " y: " + (int)info.y + " z: " + (int)info.z), style = { color = Color.white, backgroundColor = Color.gray} }) ;
-        _attributes.Add(new Label { text = ("Health: " + info.health + "/" + info.maxHealth), style = { color = Color.white, backgroundColor = Color.gray } });
-        _attributes.Add(new Label { text = ("Speed: " + info.speed), style = { color = Color.white , backgroundColor = Color.gray } });
-        _attributes.Add(new Label { text = ("State: " + info.state), style = { color = Color.white , backgroundColor = Color.gray } });
-        _attributes.Add(new Label { text = ("Pathing to: " + info.pathingTo.Vec3Location()), style = { color = Color.white , backgroundColor = Color.gray } });
-
-        //now for the fun part!
         activeCam.transform.parent = info.gameObject.transform;
         activeCam.transform.localPosition = new Vector3(0, 1, 5);
         activeCam.transform.localRotation = Quaternion.Euler(90, 0, 0);
@@ -163,10 +176,34 @@ public class SwarmUI : MonoBehaviour
 
         renderCam = new RenderTexture(256, 180, 16);
         activeCam.GetComponent<Camera>().targetTexture = renderCam;
-        UpdateCamView();
 
-        _infoPanel.visible = true;
-       
+        UpdateCamView();
+        UpdateInfoText();
+        _id.text = info.gameObject.name;
+
+        activeCam.SetActive(true);
+        //now for the fun part!
+
+
+
+    }
+    void UpdateInfoText()
+    {
+        var info = selectedObj.GetComponent<EntityBase>();
+        items.Clear();
+        items.Add("Position: " + "x: " + (int)info.x + " y: " + (int)info.y + " z: " + (int)info.z);
+        items.Add("Health: " + info.health + "/" + info.maxHealth);
+        items.Add("Dmg Type: " + dmgTypes[info.damageType - 1]);
+        items.Add("Dmg Res: " + dmgTypes[info.damageResist - 1]);
+        items.Add("Speed: " + info.speed);
+        items.Add("State: " + info.state);
+        var pathing = info.currentLocation;
+        if(info.pathingTo != null)
+        {
+            pathing = info.pathingTo;
+        }
+        items.Add("Pathing to: " + pathing.Vec3Location());
+        _attributes.RefreshItems();
     }
     void UpdateCamView()
     {
@@ -182,7 +219,7 @@ public class SwarmUI : MonoBehaviour
         _items.Clear();
         foreach (var item in e)
         {
-            _items.Add(new gridItem(item.damageType, icons[item.damageType-1], (int)item.health, (int)item.maxHealth, item));
+            _items.Add(new gridItem(item.damageType, icons[item.damageType - 1], (int)item.health, (int)item.maxHealth, item));
         }
         UpdateSelectedUnitsLabel();
         CreateUnitGrid();
@@ -191,7 +228,7 @@ public class SwarmUI : MonoBehaviour
 class miniMap
 {
     MapManager _mapManager;
-    VisualTreeAsset maptile; 
+    VisualTreeAsset maptile;
     public VisualElement grid;
     public bool generated;
 
@@ -207,7 +244,7 @@ class miniMap
     {
         var temp = _mapManager.getMap();
         if (temp == null) { generated = false; return; }
-        if (temp != null) generated = true; 
+        if (temp != null) generated = true;
 
         for (int i = 0; i < temp.GetLength(0); i++)
         {
@@ -237,7 +274,7 @@ class miniMap
 }
 class gridItem
 {
-    
+
     public int type;
     public Texture spriteImage;
     public int health;
@@ -251,7 +288,7 @@ class gridItem
         this.health = health;
         this.maxHealth = maxHealth;
         this.reference = reference;
-        if(type == 0)
+        if (type == 0)
         {
             color = Color.green;
         }
@@ -268,8 +305,8 @@ class gridItem
 
 struct camera
 {
-    
-    float max_x; 
+
+    float max_x;
     float max_y;
 
     public float current_x;
