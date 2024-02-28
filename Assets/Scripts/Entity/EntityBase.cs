@@ -18,7 +18,7 @@ public class EntityBase : MonoBehaviour
 
     public State state = State.idle;
 
-    public float maxhealth = 100;
+    public float maxHealth = 100;
     public float health = 100.0f;
     public float speed = 1.0f;
     public int damageResist = DamageSystem.NO_ELEMENT;
