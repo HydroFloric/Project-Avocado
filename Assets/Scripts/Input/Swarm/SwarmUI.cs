@@ -19,7 +19,7 @@ public class SwarmUI : MonoBehaviour
     public string[] dmgTypes = { "Magic", "Physical", "Explosive" };
     public UIDocument _uiDocument;
 
-    
+
     private GameObject activeCam;
     private GameObject selectedObj;
     private VisualElement _close;
@@ -62,10 +62,10 @@ public class SwarmUI : MonoBehaviour
         _cameraPosition = _uiDocument.rootVisualElement.Q("cameraPosition");
         Debug.Log(_uiDocument.rootVisualElement.Query<Label>("SelectedNum"));
         _scrollView = _uiDocument.rootVisualElement.Query<ScrollView>("GridView");
-        
+
         _infoPanel.visible = false;
         _close.visible = false;
-        for(int i = 0; i < icons.Length; i++)
+        for (int i = 0; i < icons.Length; i++)
         {
             RenderTexture temp = new RenderTexture(32, 32, 24);
             RenderTexture.active = temp;
@@ -85,14 +85,14 @@ public class SwarmUI : MonoBehaviour
     }
     private void Update()
     {
-        if (activeCam != null)
+        if (_infoPanel.visible)
         {
             UpdateCamView();
             UpdateInfoText();
 
         }
 
-     
+
     }
 
     void UpdateSelectedUnitsLabel()
@@ -104,7 +104,7 @@ public class SwarmUI : MonoBehaviour
         if (!_miniMap.generated)
         {
             _miniMap.generate();
-           
+
         }
         _map.Add(_miniMap.getMiniMap());
         //UpdateCameraPosition(new Vector2(_map.resolvedStyle.left, _map.resolvedStyle.top));
@@ -137,28 +137,29 @@ public class SwarmUI : MonoBehaviour
     }
     public void intilizeMinimapIcon()
     {
-        
+
         _cameraPosition.style.left = 0;
         _cameraPosition.style.top = 0;
-        cam = new camera(0,0);
+        cam = new camera(0, 0);
     }
     public void UpdateCameraPosition(Vector2 movement)
     {
-        if(cam.init != true)
+        if (cam.init != true)
         {
             intilizeMinimapIcon();
         }
-        cam.updatePos(movement.x,movement.y);
+        cam.updatePos(movement.x, movement.y);
         _cameraPosition.style.top = cam.current_y;
         _cameraPosition.style.left = cam.current_x;
-       
+
 
     }
-    
+
     public void Hide(MouseDownEvent evt)
     {
         _close.visible = false;
         _infoPanel.visible = false;
+        activeCam.SetActive(false);
     }
     public void DisplayInfo(MouseDownEvent evt)
     {
@@ -179,8 +180,8 @@ public class SwarmUI : MonoBehaviour
         UpdateCamView();
         UpdateInfoText();
         _id.text = info.gameObject.name;
-        
- 
+
+        activeCam.SetActive(true);
         //now for the fun part!
 
 
@@ -196,7 +197,12 @@ public class SwarmUI : MonoBehaviour
         items.Add("Dmg Res: " + dmgTypes[info.damageResist - 1]);
         items.Add("Speed: " + info.speed);
         items.Add("State: " + info.state);
-        items.Add("Pathing to: " + info.pathingTo.Vec3Location());
+        var pathing = info.currentLocation;
+        if(info.pathingTo != null)
+        {
+            pathing = info.pathingTo;
+        }
+        items.Add("Pathing to: " + pathing.Vec3Location());
         _attributes.RefreshItems();
     }
     void UpdateCamView()
@@ -213,7 +219,7 @@ public class SwarmUI : MonoBehaviour
         _items.Clear();
         foreach (var item in e)
         {
-            _items.Add(new gridItem(item.damageType, icons[item.damageType-1], (int)item.health, (int)item.maxHealth, item));
+            _items.Add(new gridItem(item.damageType, icons[item.damageType - 1], (int)item.health, (int)item.maxHealth, item));
         }
         UpdateSelectedUnitsLabel();
         CreateUnitGrid();
@@ -222,7 +228,7 @@ public class SwarmUI : MonoBehaviour
 class miniMap
 {
     MapManager _mapManager;
-    VisualTreeAsset maptile; 
+    VisualTreeAsset maptile;
     public VisualElement grid;
     public bool generated;
 
@@ -238,7 +244,7 @@ class miniMap
     {
         var temp = _mapManager.getMap();
         if (temp == null) { generated = false; return; }
-        if (temp != null) generated = true; 
+        if (temp != null) generated = true;
 
         for (int i = 0; i < temp.GetLength(0); i++)
         {
@@ -268,7 +274,7 @@ class miniMap
 }
 class gridItem
 {
-    
+
     public int type;
     public Texture spriteImage;
     public int health;
@@ -282,7 +288,7 @@ class gridItem
         this.health = health;
         this.maxHealth = maxHealth;
         this.reference = reference;
-        if(type == 0)
+        if (type == 0)
         {
             color = Color.green;
         }
@@ -299,8 +305,8 @@ class gridItem
 
 struct camera
 {
-    
-    float max_x; 
+
+    float max_x;
     float max_y;
 
     public float current_x;

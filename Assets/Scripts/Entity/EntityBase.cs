@@ -55,6 +55,7 @@ public class EntityBase : MonoBehaviour
 
     public Vector3 toVec3()
     {
+        
         return new Vector3(x, y, z);
     }
     public void SetVec3(Vector3 v)
