@@ -182,7 +182,7 @@ public class SwarmUI : MonoBehaviour
         _items.Clear();
         foreach (var item in e)
         {
-            _items.Add(new gridItem(item.type, icons[item.type], (int)item.health, (int)item.maxHealth, item));
+            _items.Add(new gridItem(item.damageType, icons[item.damageType-1], (int)item.health, (int)item.maxHealth, item));
         }
         UpdateSelectedUnitsLabel();
         CreateUnitGrid();

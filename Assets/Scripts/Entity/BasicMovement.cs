@@ -35,11 +35,11 @@ public class BasicMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if(entityBase.state == EntityBase.State.idle)
+        if(entityBase.state == State.idle)
         {
             currentDir = Vector3.zero;
         }
-        if (entityBase.state == EntityBase.State.moving)
+        if (entityBase.state == State.moving)
         {
             Debug.DrawRay(transform.position, currentDir * 2, Color.magenta);
             FindPath();

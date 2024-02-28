@@ -462,7 +462,9 @@ MonoBehaviour:
   entities: []
   tag: swarm
   types:
-  - {fileID: 1305580809256723370, guid: 2c80219c85e0c6549854fd106a0f4164, type: 3}
+  - {fileID: 755912937281231841, guid: 8c2f8c019810d5749b57a9762bac2858, type: 3}
+  - {fileID: 755912937281231841, guid: 8c2f8c019810d5749b57a9762bac2858, type: 3}
+  - {fileID: 7606491364999213043, guid: b769af05b68dbf24e85b50f81b955a4c, type: 3}
 --- !u!114 &1856195023
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -74,7 +74,7 @@ public class EntityManager : MonoBehaviour
         for(int i = 0; i < selectedUnits.Count; i++) {
             Debug.Log("Obj: " + selectedUnits[i].name + "goal node set: " + node.name);
             goals[selectedUnits[i]] = node;
-            selectedUnits[i].state = EntityBase.State.moving;
+            selectedUnits[i].state = State.moving;
             Debug.Log("Obj State"+ selectedUnits[i].name +": " + selectedUnits[i].state);
         }
     }
@@ -87,9 +87,9 @@ public class EntityManager : MonoBehaviour
             var entity = entities[i];
             if (!goals.ContainsKey(entity) || entity.currentLocation == goals[entity])
             {
-                entity.state = EntityBase.State.idle;
+                entity.state = State.idle;
             }
-            if (entity != null && entity.state == EntityBase.State.moving)
+            if (entity != null && entity.state == State.moving)
             {
                 if (entity.currentLocation == null)
                 {

@@ -143,11 +143,12 @@ MonoBehaviour:
   x: 0
   y: 0
   z: 0
-  type: 2
   health: 10
   maxHealth: 10
-  speed: 2
   state: 0
+  speed: 2
+  damageType: 3
+  damageResist: 2
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
 --- !u!65 &5291034078706026856
