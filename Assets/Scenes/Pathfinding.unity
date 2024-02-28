@@ -491,6 +491,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icons:
   - {fileID: 2800000, guid: e11766d7e25089a438daf580399fd4e0, type: 3}
+  - {fileID: 2800000, guid: 32df665f0105fd8449b8170d0e1ead90, type: 3}
+  - {fileID: 2800000, guid: 42519ff8427eede4c8c1ec5fa210e1c3, type: 3}
   _uiDocument: {fileID: 1021335756}
 --- !u!1 &1984939671
 GameObject:
