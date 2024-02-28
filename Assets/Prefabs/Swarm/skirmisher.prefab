@@ -175,7 +175,7 @@ PrefabInstance:
       addedObject: {fileID: 725761493499026859}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9d73b04c4842b6f498dfc12707911902, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2364667536514517981}
+      addedObject: {fileID: -9191440431558316962}
     - targetCorrespondingSourceObject: {fileID: -7248615891850366806, guid: 9d73b04c4842b6f498dfc12707911902, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1348805468718135774}
@@ -1529,9 +1529,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentDir: {x: 0, y: 0, z: 0}
-  speed: 1
   timeSincelastPositionUpdate: 0
---- !u!114 &2364667536514517981
+--- !u!114 &-9191440431558316962
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1540,19 +1539,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 8765607685517884764}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da968d9b8cbda7545ba04529b4636e6d, type: 3}
+  m_Script: {fileID: 11500000, guid: 00140d7b5ccccb242a39fd920a42c572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   x: 0
   y: 0
   z: 0
-  type: 1
-  health: 100
-  maxHealth: 100
-  speed: 1
   state: 0
+  maxHealth: 100
+  health: 75
+  speed: 1.25
+  damageResist: 3
+  damageType: 2
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
+  maxRange: 1
+  attackDamage: 15
 --- !u!1 &8867998591454986194 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8181442015764824097, guid: 9d73b04c4842b6f498dfc12707911902, type: 3}

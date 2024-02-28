@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 1437925063812620454}
   - component: {fileID: 4259152146464953237}
   - component: {fileID: 1866779681514359345}
-  - component: {fileID: 2957209471065824919}
   - component: {fileID: 5291034078706026856}
+  - component: {fileID: -4666899796959744538}
   m_Layer: 0
   m_Name: suicideBug 1
   m_TagString: Untagged
@@ -128,29 +128,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentDir: {x: 0, y: 0, z: 0}
   timeSincelastPositionUpdate: 0
---- !u!114 &2957209471065824919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7606491364999213043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da968d9b8cbda7545ba04529b4636e6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  x: 0
-  y: 0
-  z: 0
-  health: 10
-  maxHealth: 10
-  state: 0
-  speed: 2
-  damageType: 3
-  damageResist: 2
-  currentLocation: {fileID: 0}
-  pathingTo: {fileID: 0}
 --- !u!65 &5291034078706026856
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -172,3 +149,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10.909185, y: 15.860207, z: 7.90031}
   m_Center: {x: -3.0670173, y: 0.6287207, z: 3.167595}
+--- !u!114 &-4666899796959744538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7606491364999213043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76dbdc6e9a7c57d4088a9aed604dbc95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x: 0
+  y: 0
+  z: 0
+  state: 0
+  maxHealth: 100
+  health: 50
+  speed: 0.75
+  damageResist: 2
+  damageType: 3
+  currentLocation: {fileID: 0}
+  pathingTo: {fileID: 0}
+  maxRange: 1
+  attackDamage: 100
