@@ -75,6 +75,10 @@ public class HexagonMapGenerator : MonoBehaviour
                 }
                 node.initialize(hexCoords.x, hexCoords.z, x, z, 1);
                 map[x, z] = instantiatedTile;
+                if (tilePrefab == waterPrefab)
+                {
+                    node.terrainDif = 100;
+                }
                 // Check for special cases
                 if (tilePrefab == desertPrefab && Random.value < _palmTreeSpawnChance)
                 {
