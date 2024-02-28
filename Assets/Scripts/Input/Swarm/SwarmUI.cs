@@ -4,6 +4,7 @@ using System.Reflection.Emit;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Build;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,10 +13,21 @@ using Label = UnityEngine.UIElements.Label;
 
 public class SwarmUI : MonoBehaviour
 {
+
     public Texture2D[] icons;
     public UIDocument _uiDocument;
+
+    
+    private GameObject activeCam;
+    private VisualElement _camView;
+    private Label _id;
+    private GroupBox _attributes;
+    private RenderTexture renderCam;
+
+
     private miniMap _miniMap;
     private VisualTreeAsset _gridIcon;
+    private VisualElement _infoPanel;
     private VisualElement _map;
     private VisualElement _mapHolder;
 
@@ -30,16 +42,21 @@ public class SwarmUI : MonoBehaviour
 
     void Awake()
     {
+        activeCam = new GameObject("cam");
         _miniMap = new miniMap(GetComponent<MapManager>());
         _items = new List<gridItem>();
         _map = _uiDocument.rootVisualElement.Query("Map");
+        _camView = _uiDocument.rootVisualElement.Q("cameraView");
+        _id = _uiDocument.rootVisualElement.Q<Label>("Identifier");
+        _attributes = _uiDocument.rootVisualElement.Q<GroupBox>("Attributes");
+        _infoPanel = _uiDocument.rootVisualElement.Query("InformationPanel");
         _gridIcon = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/Templates/GridIcon.uxml");
         _selectedUnitsLabel = (Label)_uiDocument.rootVisualElement.Query("SelectNum");
         _cameraPosition = _uiDocument.rootVisualElement.Q("cameraPosition");
         Debug.Log(_uiDocument.rootVisualElement.Query<Label>("SelectedNum"));
         _scrollView = _uiDocument.rootVisualElement.Query<ScrollView>("GridView");
         
-
+        _infoPanel.visible = false;
         for(int i = 0; i < icons.Length; i++)
         {
             RenderTexture temp = new RenderTexture(32, 32, 24);
@@ -53,15 +70,12 @@ public class SwarmUI : MonoBehaviour
 
 
     }
-    void test()
+    private void Update()
     {
-        for(int i = 0; i < 100; i++)
+        if (activeCam != null)
         {
-            _items.Add(new gridItem(0, icons[Random.Range(0, icons.Length)], 10, 10)); 
+            UpdateCamView();
         }
-        UpdateSelectedUnitsLabel();
-        CreateUnitGrid();
-        ShowMap();
     }
 
     void UpdateSelectedUnitsLabel()
@@ -92,7 +106,9 @@ public class SwarmUI : MonoBehaviour
                 if ((i + j) < _items.Count)
                 {
                     var unitElement = _gridIcon.Instantiate();
-                    
+                    unitElement.name = (i + j).ToString();
+                    unitElement.RegisterCallback<MouseDownEvent>(DisplayInfo);
+                    unitElement.style.backgroundColor = _items[i + j].color;
                     unitElement.Q<VisualElement>("Icon").style.backgroundImage = (StyleBackground)_items[i + j].spriteImage;
                     unitElement.Q<Label>("Info").text = _items[i + j].health.ToString() + "/" + _items[i + j].maxHealth.ToString();
                     row.Add(unitElement);
@@ -102,7 +118,7 @@ public class SwarmUI : MonoBehaviour
             _scrollView.contentContainer.Add(row);
         }
     }
-    public void intilizeCam()
+    public void intilizeMinimapIcon()
     {
         
         _cameraPosition.style.left = 0;
@@ -113,7 +129,7 @@ public class SwarmUI : MonoBehaviour
     {
         if(cam.init != true)
         {
-            intilizeCam();
+            intilizeMinimapIcon();
         }
         cam.updatePos(movement.x,movement.y);
         _cameraPosition.style.top = cam.current_y;
@@ -121,13 +137,52 @@ public class SwarmUI : MonoBehaviour
        
 
     }
+    public void DisplayInfo(MouseDownEvent evt)
+    {
+
+        VisualElement i = (VisualElement)evt.currentTarget;
+        EntityBase info = _items[int.Parse(i.name)].reference;
+         
+        
+        var selectedObject = info.gameObject;
+
+        _id.text = info.gameObject.name;
+
+        _attributes.Clear();
+        _attributes.Add(new Label { text =  ("Position: " + "x: " + (int)info.x + " y: " + (int)info.y + " z: " + (int)info.z), style = { color = Color.white, backgroundColor = Color.gray} }) ;
+        _attributes.Add(new Label { text = ("Health: " + info.health + "/" + info.maxHealth), style = { color = Color.white, backgroundColor = Color.gray } });
+        _attributes.Add(new Label { text = ("Speed: " + info.speed), style = { color = Color.white , backgroundColor = Color.gray } });
+        _attributes.Add(new Label { text = ("State: " + info.state), style = { color = Color.white , backgroundColor = Color.gray } });
+        _attributes.Add(new Label { text = ("Pathing to: " + info.pathingTo.Vec3Location()), style = { color = Color.white , backgroundColor = Color.gray } });
+
+        //now for the fun part!
+        activeCam.transform.parent = info.gameObject.transform;
+        activeCam.transform.localPosition = new Vector3(0, 1, 5);
+        activeCam.transform.localRotation = Quaternion.Euler(90, 0, 0);
+        activeCam.AddComponent<Camera>();
+
+        renderCam = new RenderTexture(256, 180, 16);
+        activeCam.GetComponent<Camera>().targetTexture = renderCam;
+        UpdateCamView();
+
+        _infoPanel.visible = true;
+       
+    }
+    void UpdateCamView()
+    {
+        RenderTexture.active = renderCam;
+        Texture2D output = new Texture2D(256, 180);
+        output.ReadPixels(new Rect(0, 0, 256, 180), 0, 0);
+        output.Apply();
+        _camView.style.backgroundImage = output;
+    }
 
     public void UpdateUI(EntityBase[] e)
     {
         _items.Clear();
         foreach (var item in e)
         {
-            _items.Add(new gridItem(item.type, icons[item.type], (int)item.health, (int)item.maxHealth));
+            _items.Add(new gridItem(item.type, icons[item.type], (int)item.health, (int)item.maxHealth, item));
         }
         UpdateSelectedUnitsLabel();
         CreateUnitGrid();
@@ -188,16 +243,25 @@ class gridItem
     public int health;
     public int maxHealth;
     public Color color;
-
-    public gridItem(int type, Texture spriteImage, int health, int maxHealth)
+    public EntityBase reference;
+    public gridItem(int type, Texture spriteImage, int health, int maxHealth, EntityBase reference)
     {
         this.type = type;
         this.spriteImage = spriteImage;
         this.health = health;
         this.maxHealth = maxHealth;
+        this.reference = reference;
         if(type == 0)
         {
             color = Color.green;
+        }
+        if (type == 1)
+        {
+            color = Color.blue;
+        }
+        if (type == 2)
+        {
+            color = Color.red;
         }
     }
 }
@@ -214,10 +278,10 @@ struct camera
     public camera(float _x, float _y)
     {
         init = true;
-        max_x = 220;
-        max_y = 140;
-        current_x = 220;
-        current_y = 140;
+        max_x = 160;
+        max_y = 80;
+        current_x = 160;
+        current_y = 80;
     }
     public void updatePos(float _x, float _y)
     {

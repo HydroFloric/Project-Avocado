@@ -6,9 +6,13 @@ public class CameraMovement : MonoBehaviour
 {
     SwarmUI ui;
 
+    float map_x;
+    float map_y;
+
     private void Start()
     {
         ui = GetComponentInParent<SwarmUI>();
+       
     }
     void Update()
     {

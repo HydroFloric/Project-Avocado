@@ -10,23 +10,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 43c6a14ac8dc9d743b17104e80c42150, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 43c6a14ac8dc9d743b17104e80c42150, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 43c6a14ac8dc9d743b17104e80c42150, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 43c6a14ac8dc9d743b17104e80c42150, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.38
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 43c6a14ac8dc9d743b17104e80c42150, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 43c6a14ac8dc9d743b17104e80c42150, type: 3}
       propertyPath: m_LocalPosition.z
@@ -84,9 +84,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 43c6a14ac8dc9d743b17104e80c42150, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6185882442972962281}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 43c6a14ac8dc9d743b17104e80c42150, type: 3}
+    - targetCorrespondingSourceObject: {fileID: -1149126684785067734, guid: 43c6a14ac8dc9d743b17104e80c42150, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -2708063386797681447}
+      addedObject: {fileID: 7315138074451645575}
+    - targetCorrespondingSourceObject: {fileID: -1149126684785067734, guid: 43c6a14ac8dc9d743b17104e80c42150, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5402964738674894479}
   m_SourcePrefab: {fileID: 100100000, guid: 43c6a14ac8dc9d743b17104e80c42150, type: 3}
 --- !u!1 &3739622714930822258 stripped
 GameObject:
@@ -109,9 +112,9 @@ MonoBehaviour:
   y: 0
   z: 0
   type: 0
-  health: 0
-  maxHealth: 0
-  speed: 0
+  health: 50
+  maxHealth: 50
+  speed: 1.5
   state: 0
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
@@ -128,15 +131,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentDir: {x: 0, y: 0, z: 0}
-  speed: 1
+  speed: 1.5
   timeSincelastPositionUpdate: 0
---- !u!65 &-2708063386797681447
+--- !u!1 &5704333962283153417 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -1149126684785067734, guid: 43c6a14ac8dc9d743b17104e80c42150, type: 3}
+  m_PrefabInstance: {fileID: 4549944980283834659}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &7315138074451645575
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3739622714930822258}
+  m_GameObject: {fileID: 5704333962283153417}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -149,5 +157,32 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 804.04407, y: 1886.7797, z: 1808.5166}
+  m_Center: {x: 141.76802, y: -57.66152, z: 913.4833}
+--- !u!54 &5402964738674894479
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5704333962283153417}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
