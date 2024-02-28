@@ -19,6 +19,7 @@ public class SwarmUI : MonoBehaviour
 
     
     private GameObject activeCam;
+    private VisualElement _close;
     private VisualElement _camView;
     private Label _id;
     private GroupBox _attributes;
@@ -47,6 +48,7 @@ public class SwarmUI : MonoBehaviour
         _items = new List<gridItem>();
         _map = _uiDocument.rootVisualElement.Query("Map");
         _camView = _uiDocument.rootVisualElement.Q("cameraView");
+        _close = _uiDocument.rootVisualElement.Q("close");
         _id = _uiDocument.rootVisualElement.Q<Label>("Identifier");
         _attributes = _uiDocument.rootVisualElement.Q<GroupBox>("Attributes");
         _infoPanel = _uiDocument.rootVisualElement.Query("InformationPanel");
@@ -57,6 +59,7 @@ public class SwarmUI : MonoBehaviour
         _scrollView = _uiDocument.rootVisualElement.Query<ScrollView>("GridView");
         
         _infoPanel.visible = false;
+        _close.visible = false;
         for(int i = 0; i < icons.Length; i++)
         {
             RenderTexture temp = new RenderTexture(32, 32, 24);
@@ -68,6 +71,7 @@ public class SwarmUI : MonoBehaviour
             icons[i] = output;
         }
 
+        _close.RegisterCallback<MouseDownEvent>(Hide);
 
     }
     private void Update()
@@ -137,6 +141,12 @@ public class SwarmUI : MonoBehaviour
        
 
     }
+    
+    public void Hide(MouseDownEvent evt)
+    {
+        _close.visible = false;
+        _infoPanel.visible = false;
+    }
     public void DisplayInfo(MouseDownEvent evt)
     {
 
@@ -166,6 +176,7 @@ public class SwarmUI : MonoBehaviour
         UpdateCamView();
 
         _infoPanel.visible = true;
+        _close.visible = true;
        
     }
     void UpdateCamView()

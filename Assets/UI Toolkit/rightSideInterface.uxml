@@ -10,6 +10,7 @@
         </ui:GroupBox>
     </ui:VisualElement>
     <ui:VisualElement name="holder" style="top: auto; height: 417px; width: 273px; align-items: stretch; align-self: flex-start; bottom: 143px; opacity: 0.86; visibility: visible; display: flex; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px;">
+        <ui:VisualElement name="close" style="flex-grow: 1; height: -3px; width: 26px; background-image: url(&apos;project://database/Assets/Texture/image.jpg?fileID=2800000&amp;guid=48cdde0bf9b35e946897a08b8256c974&amp;type=3#image&apos;); visibility: visible; top: 0;" />
         <ui:VisualElement name="InformationPanel" style="flex-grow: 1; width: 269px; height: 392px; background-image: url(&apos;project://database/Assets/Texture/image.jpg?fileID=2800000&amp;guid=48cdde0bf9b35e946897a08b8256c974&amp;type=3#image&apos;); -unity-background-image-tint-color: rgb(63, 62, 62); display: flex; visibility: visible;">
             <ui:GroupBox style="height: 229px; width: 259px;">
                 <ui:Label tabindex="-1" text="ENTITYNAME" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Identifier" style="background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); background-image: url(&apos;project://database/Assets/Texture/image.jpg?fileID=2800000&amp;guid=48cdde0bf9b35e946897a08b8256c974&amp;type=3#image&apos;); height: 26px; width: 248px; -unity-text-align: upper-center;" />
