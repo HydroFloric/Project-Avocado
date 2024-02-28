@@ -52,6 +52,13 @@ public class EntityBase : MonoBehaviour
         health = hp;
         speed = spd;
     }
+    public void FixedUpdate()
+    {
+        if (health < 0)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     public Vector3 toVec3()
     {

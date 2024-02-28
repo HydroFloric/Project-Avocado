@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1866779681514359345}
   - component: {fileID: 5291034078706026856}
   - component: {fileID: -4666899796959744538}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: suicideBug 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ MonoBehaviour:
   z: 0
   state: 0
   maxHealth: 100
-  health: 50
+  health: 100
   speed: 0.75
   damageResist: 2
   damageType: 3
