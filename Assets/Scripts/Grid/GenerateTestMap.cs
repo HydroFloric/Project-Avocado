@@ -33,7 +33,7 @@ public class GenerateTestMap : MonoBehaviour
                 HexNode node = map[i, j].GetComponent<HexNode>();
                
 
-                if (random.Next(0, 11) > 9)
+                if (random.Next(0, 11) > 8 && (j != 0 && i != 0))
                 {
                     node.initialize(Real_x, Real_z, i, j, 100);
                     node.transform.localScale = new Vector3(node.transform.localScale.x, 10, node.transform.localScale.z);
@@ -51,6 +51,9 @@ public class GenerateTestMap : MonoBehaviour
             Real_x += 1.5f;
         }
         mapManager.initMap(map);
+
+        GetComponent<SwarmUI>().ShowMap();
+
     }
 
 }

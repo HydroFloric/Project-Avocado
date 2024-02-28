@@ -6,35 +6,39 @@ using UnityEngine;
 
 public class EntityManager : MonoBehaviour
 {
-    PathFinderManager pathFinder;
+    JobManager pathFinder;
     MapManager mapManager;
+    //I really shouldn't reference swarmUI here and shunt it into a player class! player classes dont exist so we do it here for now
+    SwarmUI ui;
     Dictionary<EntityBase, HexNode> goals = new Dictionary<EntityBase, HexNode>();
 
-    List<EntityBase> entities = new List<EntityBase>();
+    public List<EntityBase> entities = new List<EntityBase>();
     List<EntityBase> selectedUnits = new List<EntityBase>();
     public string tag = "swarm"; //if tower player needs pathing can be reused in future
     public GameObject[] types = null; //can add different prefabs/models 
     private void Start()
     {
-        pathFinder = GetComponent<PathFinderManager>();
+        pathFinder = GetComponent<JobManager>();
         mapManager= GetComponent<MapManager>();
+        if(tag == "swarm")
+        {
+            ui = GetComponent<SwarmUI>();
+        }
         if (types != null)
         {
-            var temp = Instantiate(types[0]);
-            temp.transform.position = new Vector3(0, 1, 0);
-            entities.Add(temp.GetComponent<EntityBase>());
-            selectedUnits = entities.CloneViaSerialization(); //this looks dumb for right now but in the future it will be nice to already have the code ready for selecting individual unit groups
-            foreach(var entity in entities)
-            {
-                goals[entity] = entity.currentLocation;
+            for(int i = 0; i < types.Length; i++) {
+                var temp = Instantiate(types[i]);
+                temp.transform.position = new Vector3(i, 1, 0);
+                entities.Add(temp.GetComponent<EntityBase>());
             }
+            selectedUnits = entities.CloneViaSerialization(); //this looks dumb for right now but in the future it will be nice to already have the code ready for selecting individual unit groups
         }
     }
     private void FixedUpdate()
     {
-        move(selectedUnits.ToArray());
+        move();
     }
-    //Function Select, wont be implemented for now but will need a function that allows user to select portion of swarm to issue commands
+    //Function Select
     //Given two 2d cords determins if an object is within that boundary. 
     //forums said this was faster than relying on the physics system...
     public void select(Vector2 a, Vector2 c)
@@ -59,29 +63,52 @@ public class EntityManager : MonoBehaviour
                 Debug.Log("entity selected!");
             }
         }
+        ui.UpdateUI(selectedUnits.ToArray());
     }
     public void setGoal(Vector2 a)
     {
-        Vector3 origin = Camera.main.ScreenToWorldPoint(a);
+        Vector3 origin = Camera.main.ScreenToWorldPoint(new Vector3(a.x,a.y, Camera.main.transform.position.z));
         
         HexNode node = mapManager.findClosetNode(origin);
 
         for(int i = 0; i < selectedUnits.Count; i++) {
+            Debug.Log("Obj: " + selectedUnits[i].name + "goal node set: " + node.name);
             goals[selectedUnits[i]] = node;
+            selectedUnits[i].state = State.moving;
+            Debug.Log("Obj State"+ selectedUnits[i].name +": " + selectedUnits[i].state);
         }
     }
+
     //Function Move queues pathfindingjob for each entity
-    public void move(EntityBase[] selected)
+    public void move()
     {
         for(int i = 0; i < entities.Count; i++)
         {  
             var entity = entities[i];
-            if (entity != null)
+            if (!goals.ContainsKey(entity) || entity.currentLocation == goals[entity])
             {
-                pathFinder.ScheduleJob(entity, goals[entity]);
+                entity.state = State.idle;
+            }
+            if (entity != null && entity.state == State.moving)
+            {
+                if (entity.currentLocation == null)
+                {
+                    entity.currentLocation = mapManager.findClosetNode(new Vector3(entity.x, entity.y, entity.z)); //jus making sure the object knows where it is in map space I really wish i could think of a way to generalize the closetNode instead of looping
+                }
+
+                pathFinder.ScheduleJob(new jobPathfinding(entity, goals[entity], mapManager));
+                Debug.DrawLine(entity.currentLocation.Vec3Location(), goals[entity].Vec3Location(), Color.green);
             }
         }
         
+    }
+    public void spawn(Vector3 WorldCords, int type)
+    {
+        var temp = Instantiate(types[type]);
+        temp.transform.position = WorldCords;
+        var bas = temp.GetComponent<EntityBase>();
+        bas.SetVec3(WorldCords);
+        entities.Add(bas);
     }
 
 }

@@ -5,17 +5,25 @@ using UnityEngine;
 /* Try not to actually do any work in this class just add attributes that entities have
  * (spd, resistances, damage)
  */
-
+public enum State
+{
+    idle,
+    attacking,
+    moving
+}
 public class EntityBase : MonoBehaviour
 {
     //Storing this since transformer my not be in existance...
     public float x, y, z;
 
     public float health;
-    public float speed;
+    public float maxHealth = 100;
+    public State state = State.idle;
 
+    public float speed;
     public int damageType;
     public int damageResist;
+
 
     public HexNode currentLocation;
     public HexNode pathingTo;

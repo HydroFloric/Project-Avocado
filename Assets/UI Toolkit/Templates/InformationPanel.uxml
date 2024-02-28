@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="InformationPanel" style="flex-grow: 1; width: 240px; height: 580px; background-image: url(&apos;project://database/Assets/Texture/image.jpg?fileID=2800000&amp;guid=48cdde0bf9b35e946897a08b8256c974&amp;type=3#image&apos;); -unity-background-image-tint-color: rgb(63, 62, 62);">
+        <ui:GroupBox style="height: 656px; width: 230px;">
+            <ui:Label tabindex="-1" text="ENTITYNAME" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Identifier" style="background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); background-image: url(&apos;project://database/Assets/Texture/image.jpg?fileID=2800000&amp;guid=48cdde0bf9b35e946897a08b8256c974&amp;type=3#image&apos;);" />
+            <ui:VisualElement name="CameraView" style="flex-grow: 1; height: 198px; width: 226px;" />
+            <ui:ListView focusable="true" name="Attributes" style="height: 610px; width: 226px; background-image: url(&apos;project://database/Assets/Texture/image.jpg?fileID=2800000&amp;guid=48cdde0bf9b35e946897a08b8256c974&amp;type=3#image&apos;);" />
+        </ui:GroupBox>
+    </ui:VisualElement>
+</ui:UXML>
