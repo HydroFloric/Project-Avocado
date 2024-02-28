@@ -169,8 +169,10 @@ public class SwarmUI : MonoBehaviour
         EntityBase info = _items[int.Parse(i.name)].reference;
         selectedObj = info.gameObject;
 
+        activeCam.transform.position = info.gameObject.transform.position;
+        activeCam.transform.position += Vector3.up;
         activeCam.transform.parent = info.gameObject.transform;
-        activeCam.transform.localPosition = new Vector3(0, 1, 5);
+        activeCam.transform.localPosition = new Vector3(0, 2.5f, 7.5f);
         activeCam.transform.localRotation = Quaternion.Euler(90, 0, 0);
         activeCam.AddComponent<Camera>();
 
@@ -197,12 +199,12 @@ public class SwarmUI : MonoBehaviour
         items.Add("Dmg Res: " + dmgTypes[info.damageResist - 1]);
         items.Add("Speed: " + info.speed);
         items.Add("State: " + info.state);
-        var pathing = info.currentLocation;
+        var pathing = info.toVec3();
         if(info.pathingTo != null)
         {
-            pathing = info.pathingTo;
+            pathing = info.pathingTo.Vec3Location();
         }
-        items.Add("Pathing to: " + pathing.Vec3Location());
+        items.Add("Pathing to: " + pathing);
         _attributes.RefreshItems();
     }
     void UpdateCamView()
@@ -230,7 +232,7 @@ class miniMap
     MapManager _mapManager;
     VisualTreeAsset maptile;
     public VisualElement grid;
-    public bool generated;
+    public bool generated = true;
 
     public miniMap(MapManager reference)
     {
@@ -239,6 +241,7 @@ class miniMap
         grid = new VisualElement { style = { flexDirection = FlexDirection.Row } };
         var temp = _mapManager.getMap();
         if (temp == null) generated = false;
+        if (generated) generate();
     }
     public void generate()
     {
@@ -246,20 +249,33 @@ class miniMap
         if (temp == null) { generated = false; return; }
         if (temp != null) generated = true;
 
-        for (int i = 0; i < temp.GetLength(0); i++)
+        for (int i = temp.GetLength(0)-1; i > 0; i--)
         {
             var column = new VisualElement { style = { flexDirection = FlexDirection.Column } };
-            for (int j = 0; j < temp.GetLength(1); j++)
+            for (int j = temp.GetLength(1)-1; j > 0; j--)
             {
-                Color color;
-                if (temp[i, j].terrainDif < 100)
+                Color color = Color.grey;
+                if (temp[i,j].terrainDif == 115)
+                {
+                    color = Color.white;
+                }
+                if (temp[i, j].terrainDif == 1)
                 {
                     color = Color.green;
                 }
-                else
+                if (temp[i,j].terrainDif == 2)
                 {
-                    color = Color.grey;
+                    color = Color.yellow;
                 }
+                if (temp[i, j].terrainDif == 3)
+                {
+                    color = Color.green;
+                }
+                if (temp[i,j].terrainDif == 110)
+                {
+                    color = Color.blue;
+                }
+                
                 var tile = maptile.Instantiate();
                 tile.style.backgroundColor = color;
                 column.Add(tile);

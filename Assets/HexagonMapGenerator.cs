@@ -37,8 +37,13 @@ public class HexagonMapGenerator : MonoBehaviour
         GenerateHexagonGrid();
         GenerateCrystals();
         GetComponent<MapManager>().initMap(map);
-    }
 
+
+    }
+    private void Start()
+    {
+        GetComponent<SwarmUI>().ShowMap();
+    }
     private Vector3 GetHexCoords(int x, int z)
     {
         float xPos = x * _tileSize * Mathf.Cos(Mathf.Deg2Rad * 30);
@@ -73,18 +78,18 @@ public class HexagonMapGenerator : MonoBehaviour
                 {
                     node = instantiatedTile.AddComponent<HexNode>();
                 }
-                node.initialize(hexCoords.x, hexCoords.z, x, z, 1);
+                node.initialize(hexCoords.x, hexCoords.z, x, z);
                 map[x, z] = instantiatedTile;
                 if (tilePrefab == waterPrefab)
                 {
-                    node.terrainDif = 100;
+                    node.terrainDif = 110;
                 }
                 // Check for special cases
                 if (tilePrefab == desertPrefab && Random.value < _palmTreeSpawnChance)
                 {
                     // Spawn palm tree on a desert
                     Instantiate(palmTreePrefab, hexCoords, Quaternion.Euler(0, rotationAngle, 0), instantiatedTile.transform);
-                    node.terrainDif = 100;
+                    node.terrainDif = 115;
                 }
                 else if (tilePrefab == grasslandPrefab)
                 {
@@ -109,7 +114,7 @@ public class HexagonMapGenerator : MonoBehaviour
                     if (selectedTreePrefab != null)
                     {
                         Instantiate(selectedTreePrefab, hexCoords, Quaternion.Euler(0, rotationAngle, 0), instantiatedTile.transform);
-                        node.terrainDif = 100;
+                        node.terrainDif = 115;
                     }
                 }
                 else if (tilePrefab == mountainPrefab && Random.value < _mountainExtraSpawnChance)

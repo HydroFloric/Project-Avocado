@@ -25,8 +25,6 @@ public class HexNode : MonoBehaviour
         _positionZ= z;
         _gridPositionX = grid_x;
         _gridPositionZ = grid_z;
-        terrainDif = 1;
-
     }
     public void initialize(float x, float z, int grid_x, int grid_z, int tdiff)
     {
