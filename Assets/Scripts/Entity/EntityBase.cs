@@ -16,13 +16,13 @@ public class EntityBase : MonoBehaviour
     //Storing this since transformer my not be in existance...
     public float x, y, z;
 
-    public float health;
-    public float maxHealth = 100;
     public State state = State.idle;
 
-    public float speed;
-    public int damageType;
-    public int damageResist;
+    public float maxhealth = 100;
+    public float health = 100.0f;
+    public float speed = 1.0f;
+    public int damageResist = DamageSystem.NO_ELEMENT;
+    public int damageType = DamageSystem.NO_ELEMENT;
 
 
     public HexNode currentLocation;
@@ -33,22 +33,12 @@ public class EntityBase : MonoBehaviour
         x = 0;
         y = 0;
         z = 0;
-
-        damageResist = DamageSystem.NO_ELEMENT;
-        damageType = DamageSystem.NO_ELEMENT;
-        health = 100;
-        speed = 1;
     }
     public EntityBase(float _x, float _y, float _z)
     {
         x = _x;
         y = _y;
         z = _z;
-
-        damageResist = DamageSystem.NO_ELEMENT;
-        damageType = DamageSystem.NO_ELEMENT;
-        health = 100;
-        speed = 1.0f;
     }
 
     public EntityBase(float _x, float _y, float _z, int dmgResist, int dmgType, int hp, float spd)
