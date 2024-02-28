@@ -11,14 +11,48 @@ public class EntityBase : MonoBehaviour
     //Storing this since transformer my not be in existance...
     public float x, y, z;
 
+    public float health;
+    public float speed;
+
+    public int damageType;
+    public int damageResist;
+
     public HexNode currentLocation;
     public HexNode pathingTo;
     
-    EntityBase(float _x, float _y, float _z)
+    public EntityBase() 
+    {
+        x = 0;
+        y = 0;
+        z = 0;
+
+        damageResist = DamageSystem.NO_ELEMENT;
+        damageType = DamageSystem.NO_ELEMENT;
+        health = 100;
+        speed = 1;
+    }
+    public EntityBase(float _x, float _y, float _z)
     {
         x = _x;
         y = _y;
         z = _z;
+
+        damageResist = DamageSystem.NO_ELEMENT;
+        damageType = DamageSystem.NO_ELEMENT;
+        health = 100;
+        speed = 1.0f;
+    }
+
+    public EntityBase(float _x, float _y, float _z, int dmgResist, int dmgType, int hp, float spd)
+    {
+        x = _x;
+        y = _y;
+        z = _z;
+
+        damageResist = dmgResist;
+        damageType = dmgType;
+        health = hp;
+        speed = spd;
     }
 
     public Vector3 toVec3()
