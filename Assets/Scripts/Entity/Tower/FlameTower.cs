@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseTower : EntityBase
+public class FlameTower : BaseTower
 
 {
-    public float RateOfFire = 1.0f;
-    public float maxRange = 1.0f;
-    public float attackDamage = 1.0f;
+    FlameTower()
+    {
+        health = 150.0f;
+        maxRange = 5.0f;
+        RateOfFire = 5.0f;
+        attackDamage = 2.0f;
+        damageType = DamageSystem.MAGIC_ELEMENT;
+        damageResist = DamageSystem.MAGIC_ELEMENT;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        speed = 0.0f; //Towers *probably* shouldn't have a move speed.
+        
     }
 
     // Update is called once per frame

@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseTower : EntityBase
+public class MissileTower : BaseTower
 
 {
-    public float RateOfFire = 1.0f;
-    public float maxRange = 1.0f;
-    public float attackDamage = 1.0f;
+    MissileTower()
+    {
+        health = 150.0f;
+        maxRange = 10.0f;
+        RateOfFire = 1.0f;
+        attackDamage = 30.0f;
+        damageType = DamageSystem.EXPOSIVE_ELEMENT;
+        damageResist = DamageSystem.EXPOSIVE_ELEMENT;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        speed = 0.0f; //Towers *probably* shouldn't have a move speed.
+        
     }
 
     // Update is called once per frame
