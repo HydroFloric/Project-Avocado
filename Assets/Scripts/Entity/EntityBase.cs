@@ -26,12 +26,6 @@ public class EntityBase : MonoBehaviour
     public HexNode currentLocation;
     public HexNode pathingTo;
     
-    EntityBase(float _x, float _y, float _z)
-    {
-        x = _x;
-        y = _y;
-        z = _z;
-    }
 
     public Vector3 toVec3()
     {

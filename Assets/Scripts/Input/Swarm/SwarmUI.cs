@@ -171,8 +171,8 @@ public class SwarmUI : MonoBehaviour
     void UpdateCamView()
     {
         RenderTexture.active = renderCam;
-        Texture2D output = new Texture2D(256, 180);
-        output.ReadPixels(new Rect(0, 0, 256, 180), 0, 0);
+        Texture2D output = new Texture2D(253, 180);
+        output.ReadPixels(new Rect(0, 0, 253, 180), 0, 0);
         output.Apply();
         _camView.style.backgroundImage = output;
     }

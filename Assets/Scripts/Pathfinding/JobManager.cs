@@ -11,7 +11,7 @@ using UnityEngine;
 public class JobManager : MonoBehaviour
 {
     public Queue<job> jobs = new Queue<job>();
-    float maxTime = 5.0f; //5 ms max 
+    float maxTime = 1.0f; //5 ms max 
 
 
     public void ScheduleJob(job j)

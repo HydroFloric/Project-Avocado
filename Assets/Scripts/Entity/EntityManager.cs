@@ -78,6 +78,7 @@ public class EntityManager : MonoBehaviour
             Debug.Log("Obj State"+ selectedUnits[i].name +": " + selectedUnits[i].state);
         }
     }
+
     //Function Move queues pathfindingjob for each entity
     public void move()
     {
@@ -100,6 +101,14 @@ public class EntityManager : MonoBehaviour
             }
         }
         
+    }
+    public void spawn(Vector3 WorldCords, int type)
+    {
+        var temp = Instantiate(types[type]);
+        temp.transform.position = WorldCords;
+        var bas = temp.GetComponent<EntityBase>();
+        bas.SetVec3(WorldCords);
+        entities.Add(bas);
     }
 
 }
