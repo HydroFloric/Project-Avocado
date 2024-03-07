@@ -29,7 +29,7 @@ public class BasicMovement : MonoBehaviour
         //lerp this eventually!
         var temp = currentDir.normalized;
         float angle = Mathf.Atan2(temp.x, temp.z) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(-90,angle, 0);
+        transform.rotation = Quaternion.Euler(entityBase.baseRotation,angle, 0);
         
         
     }
