@@ -15,6 +15,7 @@ public class EntityBase : MonoBehaviour
 {
     //Storing this since transformer my not be in existance...
     public float x, y, z;
+    public float baseRotation; //degree that a model is rotated on the x axis to appear correct.
 
     public State state = State.idle;
 

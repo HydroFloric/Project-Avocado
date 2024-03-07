@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -3754039039733303783}
   - component: {fileID: -8167554967242944766}
   m_Layer: 6
-  m_Name: SuicideBug
+  m_Name: suicideBug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,6 +102,7 @@ MonoBehaviour:
   x: 0
   y: 0
   z: 0
+  baseRotation: -90
   state: 0
   maxHealth: 100
   health: 50

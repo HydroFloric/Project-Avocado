@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -7992918044206088572}
   - component: {fileID: -6919875705043838316}
   m_Layer: 6
-  m_Name: AcidBug
+  m_Name: acidbug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,6 +102,7 @@ MonoBehaviour:
   x: 0
   y: 0
   z: 0
+  baseRotation: -90
   state: 0
   maxHealth: 100
   health: 25
