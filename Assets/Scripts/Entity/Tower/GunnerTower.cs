@@ -47,7 +47,7 @@ public class GunnerTower : BaseTower
     {
         float damageMultiplier = DamageSystem.DamageFactor(target, this.damageType);
         target.health -= dmg * damageMultiplier;
-        Debug.DrawRay(gameObject.transform.position, target.transform.position - gameObject.transform.position , Color.yellow, 1f);
+        Debug.DrawRay(gameObject.transform.position, target.transform.position - gameObject.transform.position , Color.red, 0.2f);
 
         /*
         if (Vector3.Distance(this.toVec3(), target.toVec3()) < range && target != null) //if target is within range of attacker.
