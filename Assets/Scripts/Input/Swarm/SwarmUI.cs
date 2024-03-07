@@ -1,12 +1,8 @@
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using System.Reflection.Emit;
-using Unity.VisualScripting;
+
 using UnityEditor;
-using UnityEditor.Build;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.Overlays;
+
 using UnityEngine;
 using UnityEngine.UIElements;
 using Label = UnityEngine.UIElements.Label;
@@ -18,8 +14,8 @@ public class SwarmUI : MonoBehaviour
     public Texture2D[] icons;
     public string[] dmgTypes = { "Magic", "Physical", "Explosive" };
     public UIDocument _uiDocument;
-
-
+    public VisualTreeAsset _gridIcon;
+    public VisualTreeAsset _maptile;
     private GameObject activeCam;
     private GameObject selectedObj;
     private VisualElement _close;
@@ -31,7 +27,7 @@ public class SwarmUI : MonoBehaviour
 
 
     private miniMap _miniMap;
-    private VisualTreeAsset _gridIcon;
+
     private VisualElement _infoPanel;
     private VisualElement _map;
     private VisualElement _mapHolder;
@@ -49,7 +45,7 @@ public class SwarmUI : MonoBehaviour
     {
         items = new List<string>();
         activeCam = new GameObject("cam");
-        _miniMap = new miniMap(GetComponent<MapManager>());
+        _miniMap = new miniMap(GetComponent<MapManager>(), _maptile);
         _items = new List<gridItem>();
         _map = _uiDocument.rootVisualElement.Query("Map");
         _camView = _uiDocument.rootVisualElement.Q("cameraView");
@@ -57,7 +53,7 @@ public class SwarmUI : MonoBehaviour
         _id = _uiDocument.rootVisualElement.Q<Label>("Identifier");
         _attributes = _uiDocument.rootVisualElement.Q<ListView>("Attributes");
         _infoPanel = _uiDocument.rootVisualElement.Query("InformationPanel");
-        _gridIcon = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/Templates/GridIcon.uxml");
+
         _selectedUnitsLabel = (Label)_uiDocument.rootVisualElement.Query("SelectNum");
         _cameraPosition = _uiDocument.rootVisualElement.Q("cameraPosition");
         Debug.Log(_uiDocument.rootVisualElement.Query<Label>("SelectedNum"));
@@ -196,7 +192,7 @@ public class SwarmUI : MonoBehaviour
         items.Add("Position: " + "x: " + (int)info.x + " y: " + (int)info.y + " z: " + (int)info.z);
         items.Add("Health: " + info.health + "/" + info.maxHealth);
         items.Add("Dmg Type: " + dmgTypes[info.damageType - 1]);
-        items.Add("Dmg Res: " + dmgTypes[info.damageResist - 1]);
+        //items.Add("Dmg Res: " + dmgTypes[info.damageResist - 1]);
         items.Add("Speed: " + info.speed);
         items.Add("State: " + info.state);
         var pathing = info.toVec3();
@@ -234,10 +230,10 @@ class miniMap
     public VisualElement grid;
     public bool generated = true;
 
-    public miniMap(MapManager reference)
+    public miniMap(MapManager reference, VisualTreeAsset _maptile)
     {
         _mapManager = reference;
-        maptile = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/Templates/miniMaptile.uxml");
+        maptile = _maptile;
         grid = new VisualElement { style = { flexDirection = FlexDirection.Row } };
         var temp = _mapManager.getMap();
         if (temp == null) generated = false;
@@ -255,6 +251,7 @@ class miniMap
             for (int j = temp.GetLength(1)-1; j > 0; j--)
             {
                 Color color = Color.grey;
+                //DO better //this is gross
                 if (temp[i,j].terrainDif == 115)
                 {
                     color = Color.white;
@@ -304,15 +301,15 @@ class gridItem
         this.health = health;
         this.maxHealth = maxHealth;
         this.reference = reference;
-        if (type == 0)
+        if (type == 1)
         {
             color = Color.green;
         }
-        if (type == 1)
+        if (type == 2)
         {
             color = Color.blue;
         }
-        if (type == 2)
+        if (type == 3)
         {
             color = Color.red;
         }

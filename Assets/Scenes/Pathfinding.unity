@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -447,9 +447,9 @@ MonoBehaviour:
   entities: []
   tag: swarm
   types:
-  - {fileID: 3739622714930822258, guid: 2e96245c0046f684b9e54cd5ab9fa136, type: 3}
-  - {fileID: 8765607685517884764, guid: 48e756c370f834a4fbfb070ea39322d0, type: 3}
-  - {fileID: 2551273159363027344, guid: b7398e322fea724499c961542e8332d1, type: 3}
+  - {fileID: 251435823809893643, guid: 5e50ec23033b19b4ab7ca5854e856e56, type: 3}
+  - {fileID: 3531261816396147804, guid: a58496516754ea948877510b3bd9e63a, type: 3}
+  - {fileID: 5556003781584179906, guid: 0d38db6edbaab7640822bf3fd8d7b785, type: 3}
 --- !u!114 &1856195023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,6 +483,8 @@ MonoBehaviour:
   - Physical
   - Explosive
   _uiDocument: {fileID: 1021335756}
+  _gridIcon: {fileID: 9197481963319205126, guid: f5c28f4f07e2a6749a298806422e8975, type: 3}
+  _maptile: {fileID: 9197481963319205126, guid: 8d09e6e01d14e5b4d885af86da8d5daa, type: 3}
 --- !u!114 &1856195025
 MonoBehaviour:
   m_ObjectHideFlags: 0
