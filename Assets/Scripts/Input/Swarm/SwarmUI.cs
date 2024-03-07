@@ -14,8 +14,8 @@ public class SwarmUI : MonoBehaviour
     public Texture2D[] icons;
     public string[] dmgTypes = { "Magic", "Physical", "Explosive" };
     public UIDocument _uiDocument;
-
-
+    public VisualTreeAsset _gridIcon;
+    public VisualTreeAsset _maptile;
     private GameObject activeCam;
     private GameObject selectedObj;
     private VisualElement _close;
@@ -27,7 +27,7 @@ public class SwarmUI : MonoBehaviour
 
 
     private miniMap _miniMap;
-    private VisualTreeAsset _gridIcon;
+
     private VisualElement _infoPanel;
     private VisualElement _map;
     private VisualElement _mapHolder;
@@ -45,7 +45,7 @@ public class SwarmUI : MonoBehaviour
     {
         items = new List<string>();
         activeCam = new GameObject("cam");
-        _miniMap = new miniMap(GetComponent<MapManager>());
+        _miniMap = new miniMap(GetComponent<MapManager>(), _maptile);
         _items = new List<gridItem>();
         _map = _uiDocument.rootVisualElement.Query("Map");
         _camView = _uiDocument.rootVisualElement.Q("cameraView");
@@ -53,7 +53,11 @@ public class SwarmUI : MonoBehaviour
         _id = _uiDocument.rootVisualElement.Q<Label>("Identifier");
         _attributes = _uiDocument.rootVisualElement.Q<ListView>("Attributes");
         _infoPanel = _uiDocument.rootVisualElement.Query("InformationPanel");
+<<<<<<< HEAD
         _gridIcon = Resources.Load< VisualTreeAsset >("Assets/UI Toolkit/Templates/GridIcon.uxml");
+=======
+
+>>>>>>> f670a5b28aecae26397c6c0c8d6b6bbbde1a37c6
         _selectedUnitsLabel = (Label)_uiDocument.rootVisualElement.Query("SelectNum");
         _cameraPosition = _uiDocument.rootVisualElement.Q("cameraPosition");
         Debug.Log(_uiDocument.rootVisualElement.Query<Label>("SelectedNum"));
@@ -230,10 +234,14 @@ class miniMap
     public VisualElement grid;
     public bool generated = true;
 
-    public miniMap(MapManager reference)
+    public miniMap(MapManager reference, VisualTreeAsset _maptile)
     {
         _mapManager = reference;
+<<<<<<< HEAD
         maptile = Resources.Load<VisualTreeAsset>("Assets/UI Toolkit/Templates/miniMaptile.uxml");
+=======
+        maptile = _maptile;
+>>>>>>> f670a5b28aecae26397c6c0c8d6b6bbbde1a37c6
         grid = new VisualElement { style = { flexDirection = FlexDirection.Row } };
         var temp = _mapManager.getMap();
         if (temp == null) generated = false;
