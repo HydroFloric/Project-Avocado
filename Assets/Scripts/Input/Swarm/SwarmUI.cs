@@ -45,7 +45,7 @@ public class SwarmUI : MonoBehaviour
     {
         items = new List<string>();
         activeCam = new GameObject("cam");
-        _miniMap = new miniMap(GetComponent<MapManager>(), _maptile);
+        _miniMap = new miniMap(GetComponentInParent<MapManager>());
         _items = new List<gridItem>();
         _map = _uiDocument.rootVisualElement.Query("Map");
         _camView = _uiDocument.rootVisualElement.Q("cameraView");
@@ -53,11 +53,7 @@ public class SwarmUI : MonoBehaviour
         _id = _uiDocument.rootVisualElement.Q<Label>("Identifier");
         _attributes = _uiDocument.rootVisualElement.Q<ListView>("Attributes");
         _infoPanel = _uiDocument.rootVisualElement.Query("InformationPanel");
-<<<<<<< HEAD
-        _gridIcon = Resources.Load< VisualTreeAsset >("Assets/UI Toolkit/Templates/GridIcon.uxml");
-=======
-
->>>>>>> f670a5b28aecae26397c6c0c8d6b6bbbde1a37c6
+        _gridIcon = Resources.Load< VisualTreeAsset >("Templates/GridIcon");
         _selectedUnitsLabel = (Label)_uiDocument.rootVisualElement.Query("SelectNum");
         _cameraPosition = _uiDocument.rootVisualElement.Q("cameraPosition");
         Debug.Log(_uiDocument.rootVisualElement.Query<Label>("SelectedNum"));
@@ -234,14 +230,10 @@ class miniMap
     public VisualElement grid;
     public bool generated = true;
 
-    public miniMap(MapManager reference, VisualTreeAsset _maptile)
+    public miniMap(MapManager reference)
     {
         _mapManager = reference;
-<<<<<<< HEAD
-        maptile = Resources.Load<VisualTreeAsset>("Assets/UI Toolkit/Templates/miniMaptile.uxml");
-=======
-        maptile = _maptile;
->>>>>>> f670a5b28aecae26397c6c0c8d6b6bbbde1a37c6
+        maptile = Resources.Load<VisualTreeAsset>("Templates/miniMaptile");
         grid = new VisualElement { style = { flexDirection = FlexDirection.Row } };
         var temp = _mapManager.getMap();
         if (temp == null) generated = false;

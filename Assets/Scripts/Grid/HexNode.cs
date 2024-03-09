@@ -18,7 +18,7 @@ public class HexNode : MonoBehaviour
     public int _gridPositionZ = 0;
     
     public int terrainDif = 1; //higher number increases edge cost of node
-    
+    public string type;
     public void initialize(float x, float z, int grid_x, int grid_z)
     {
         _positionX= x;
@@ -33,7 +33,6 @@ public class HexNode : MonoBehaviour
         _gridPositionX = grid_x;
         _gridPositionZ = grid_z;
         terrainDif = tdiff;
-
     }
     public Vector3 Vec3Location()
     {

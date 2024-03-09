@@ -19,7 +19,7 @@ public class EntityManager : MonoBehaviour
     private void Start()
     {
         pathFinder = GetComponent<JobManager>();
-        mapManager= GetComponent<MapManager>();
+        mapManager= GetComponentInParent<MapManager>();
         if(tag == "swarm")
         {
             ui = GetComponent<SwarmUI>();
@@ -66,11 +66,11 @@ public class EntityManager : MonoBehaviour
     }
     public void setGoal(Vector2 a)
     {
-        Vector3 origin = Camera.main.ScreenToWorldPoint(new Vector3(a.x,a.y, Camera.main.transform.position.z));
-        
+        Vector3 origin = Camera.main.ScreenToWorldPoint(new Vector3(a.x, a.y, Camera.main.transform.position.z));
+
         HexNode node = mapManager.findClosetNode(origin);
 
-        for(int i = 0; i < selectedUnits.Count; i++) {
+        for (int i = 0; i < selectedUnits.Count; i++) {
             Debug.Log("Obj: " + selectedUnits[i].name + "goal node set: " + node.name);
             goals[selectedUnits[i]] = node;
             selectedUnits[i].state = State.moving;

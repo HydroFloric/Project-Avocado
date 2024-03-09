@@ -121,7 +121,7 @@ public class MapManager : MonoBehaviour
             for (int j = 0; j < map.GetLength(1); j++)
             {
                 var temp = Vector3.Distance(map[i, j].Vec3Location(), v);
-                if ((temp < dist || dist == -1) && map[i,j].terrainDif != 100) { dist = temp; closet = map[i, j]; }
+                if ((temp < dist || dist == -1) && map[i,j].terrainDif >= 100) { dist = temp; closet = map[i, j]; }
             }
         }
         return closet;
@@ -141,5 +141,29 @@ public class MapManager : MonoBehaviour
         {
             GenerateFlowField(node);
         }
+    }
+    public void setCrystal(int x, int z)
+    {
+        map[x, z].type = "Hex27";
+        map[x, z].terrainDif = 100;
+        return;
+    }
+    public HexNode findNearestCrystal(Vector3 v)
+    {
+        float dist = -1;
+        HexNode closet = null;
+        for (int i = 0; i < map.GetLength(0); i++)
+        {
+            for (int j = 0; j < map.GetLength(1); j++)
+            {
+                var node = map[i, j];
+                if (node.type == "Hex27")
+                {
+                    var temp = Vector3.Distance(node.Vec3Location(), v);
+                    if ((temp < dist || dist == -1)) { dist = temp; closet = node; }
+                }
+            }
+        }
+        return closet;
     }
 }
