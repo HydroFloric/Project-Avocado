@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Texture/image.jpg?fileID=2800000&amp;guid=48cdde0bf9b35e946897a08b8256c974&amp;type=3#image&apos;); -unity-background-image-tint-color: rgb(105, 104, 104);">
+        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="TowerName" />
+        <ui:VisualElement name="TowerIcon" style="flex-grow: 1; height: 180px; width: 350px;" />
+        <ui:ListView focusable="true" name="Info" style="height: 238px; width: 349px;" />
+    </ui:VisualElement>
+</ui:UXML>

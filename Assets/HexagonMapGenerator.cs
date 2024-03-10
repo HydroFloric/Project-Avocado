@@ -31,18 +31,22 @@ public class HexagonMapGenerator : MonoBehaviour
     private float _palmTreeSpawnChance = 0.05f; // 5% chance
     private float _mountainExtraSpawnChance = 0.1f; // 10% chance
     private GameObject[,] map;
+
+    private MapManager mapManager;
     void Awake()
     {
+        mapManager = GetComponent<MapManager>();
         map = new GameObject[_MapWidth,_MapHeight];
         GenerateHexagonGrid();
+        mapManager.initMap(map);
         GenerateCrystals();
-        GetComponent<MapManager>().initMap(map);
+
 
 
     }
     private void Start()
     {
-        GetComponent<SwarmUI>().ShowMap();
+        GetComponentInChildren<SwarmUI>().ShowMap();
     }
     private Vector3 GetHexCoords(int x, int z)
     {
@@ -73,12 +77,15 @@ public class HexagonMapGenerator : MonoBehaviour
                 GameObject instantiatedTile = Instantiate(tilePrefab, hexCoords, Quaternion.Euler(0, rotationAngle, 0));
 
                 HexNode node = null;
+               
                 instantiatedTile.TryGetComponent<HexNode>(out node);
-                if(node == null)
+               
+                if (node == null)
                 {
                     node = instantiatedTile.AddComponent<HexNode>();
                 }
                 node.initialize(hexCoords.x, hexCoords.z, x, z);
+                node.type = tilePrefab.name;
                 map[x, z] = instantiatedTile;
                 if (tilePrefab == waterPrefab)
                 {
@@ -138,7 +145,7 @@ public class HexagonMapGenerator : MonoBehaviour
             if (IsCrystalTile(x, z) && !IsMountainTile(x, z))
             {
                 Vector3 crystalCoords = GetHexCoords(x, z);
-
+                mapManager.setCrystal(x, z);
                 for (int j = 0; j < 3; j++)
                 {
                     float yOffset = j * 0.2f;  // Adjust yOffset to the tile height

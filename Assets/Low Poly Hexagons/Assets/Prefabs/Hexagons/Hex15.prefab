@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 23928998329070702}
   - component: {fileID: 64466802474819132}
   - component: {fileID: 8562226171266460089}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Hex15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,3 +132,4 @@ MonoBehaviour:
   _gridPositionX: 0
   _gridPositionZ: 0
   terrainDif: 100
+  type: 

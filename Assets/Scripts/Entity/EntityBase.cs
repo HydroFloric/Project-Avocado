@@ -20,9 +20,14 @@ public class EntityBase : MonoBehaviour
     public float maxHealth = 100;
     public float health = 100.0f;
     public float speed = 1.0f;
+    public float cost = 100;
     public float attackDamage = 1.0f;
+<<<<<<< HEAD
     public float attackSpeed = 1.0f;
     public float attackRange = 1.0f;
+=======
+
+>>>>>>> origin/pathfinding
     public int damageResist = DamageSystem.NO_ELEMENT;
     public int damageType = DamageSystem.NO_ELEMENT;
 
@@ -30,6 +35,7 @@ public class EntityBase : MonoBehaviour
     public HexNode currentLocation;
     public HexNode pathingTo;
     
+    //these are alledgely bad practice, I wont remove em just incase they are being used!
     public EntityBase() 
     {
         x = 0;
@@ -55,6 +61,10 @@ public class EntityBase : MonoBehaviour
         speed = spd;
     }
 
+    public void init(HexNode l)
+    {
+        currentLocation = l;
+    }
     public Vector3 toVec3()
     {
         
@@ -66,5 +76,4 @@ public class EntityBase : MonoBehaviour
         y = v.y;
         z = v.z;
     }
-
 }

@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
     public string playerName = "xXJon_DoXx"; //Placeholder
     public int points = 0; //Kills for the swarm, crystals for the towers.
+    public HexNode BaseLocation;
+    public List<HexNode> ControlledCrystals = new List<HexNode>();
 
     // Start is called before the first frame update
     void Start()

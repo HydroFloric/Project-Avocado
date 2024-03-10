@@ -5,6 +5,8 @@ using static UnityEngine.GraphicsBuffer;
 
 public abstract class BaseTower : EntityBase
 {
+    public bool active = false;
+    public Pipe connectionToBase;
     private EntityBase currentTarget;
     private float TimeSinceLastShot;
 
@@ -14,14 +16,36 @@ public abstract class BaseTower : EntityBase
         speed = 0.0f; //Towers *probably* shouldn't have a move speed.
     }
 
-    // Update is called once per frame
-    void Update()
+    public void init(Pipe p, HexNode l)
     {
-        
+        base.init(l);
+        connectionToBase = p;
+        active = p.active;
     }
 
     private void FixedUpdate()
     {
+        if (connectionToBase != null)
+        {
+            active = connectionToBase.active;
+            if (active == true)
+            {
+                foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>())
+                {
+                    r.material.color = new Color(0.7f, 0.7f, 0.7f, 1f);
+                }
+            }
+            if (active == false)
+            {
+                foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>())
+                {
+                    r.material.color = new Color(0,0,0,0.5f);
+                }
+            }
+        }
+       
+
+
         TimeSinceLastShot += Time.deltaTime;
         float targetDistance = float.MaxValue;
         if (currentTarget != null)
@@ -56,12 +80,16 @@ public abstract class BaseTower : EntityBase
             Attack(currentTarget, attackDamage, attackRange);
             TimeSinceLastShot = 0;
         }
+ 
+
     }
 
     private void Attack(EntityBase target, float dmg, float range)
     {
+        if(active){
         DamageSystem.DealDamage(target, this);
         Debug.DrawRay(gameObject.transform.Find("GunPos").position, target.transform.position - gameObject.transform.Find("GunPos").position, Color.red, 0.2f);
+        }
     }
 
     private void OnDrawGizmos()
