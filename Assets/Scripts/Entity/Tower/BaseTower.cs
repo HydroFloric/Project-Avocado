@@ -59,7 +59,7 @@ public abstract class BaseTower : EntityBase
             Attack(currentTarget, (int)attackDamage, maxRange);
             TimeSinceLastShot = 0;
         }
-        }
+ 
 
     }
 
