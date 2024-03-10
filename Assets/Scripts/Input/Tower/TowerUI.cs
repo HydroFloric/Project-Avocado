@@ -8,14 +8,17 @@ using UnityEngine.UIElements;
 using Label = UnityEngine.UIElements.Label;
 
 
-public class SwarmUI : MonoBehaviour
+public class TowerUI : MonoBehaviour
 {
+    public GameObject[] Towers;
+
 
     public Texture2D[] icons;
     public string[] dmgTypes = { "Magic", "Physical", "Explosive" };
     public UIDocument _uiDocument;
     public VisualTreeAsset _gridIcon;
     public VisualTreeAsset _maptile;
+    /*
     private GameObject activeCam;
     private GameObject selectedObj;
     private VisualElement _close;
@@ -24,7 +27,7 @@ public class SwarmUI : MonoBehaviour
     private ListView _attributes;
     private List<string> items;
     private RenderTexture renderCam;
-
+    */
 
     private miniMap _miniMap;
 
@@ -37,21 +40,25 @@ public class SwarmUI : MonoBehaviour
     private Label _selectedUnitsLabel;
     private ScrollView _scrollView;
 
-    private int _hItems = 4;
-    private List<gridItem> _items;
+    private int _hItems = 3;
+    private List<horizontalItem> _items;
 
 
     void Awake()
     {
+        /*
         items = new List<string>();
         activeCam = new GameObject("cam");
-        _miniMap = new miniMap(GetComponentInParent<MapManager>());
-        _items = new List<gridItem>();
-        _map = _uiDocument.rootVisualElement.Query("Map");
         _camView = _uiDocument.rootVisualElement.Q("cameraView");
         _close = _uiDocument.rootVisualElement.Q("close");
         _id = _uiDocument.rootVisualElement.Q<Label>("Identifier");
         _attributes = _uiDocument.rootVisualElement.Q<ListView>("Attributes");
+        */
+
+        _miniMap = new miniMap(GetComponentInParent<MapManager>());
+        _items = new List<horizontalItem>();
+        _map = _uiDocument.rootVisualElement.Query("Map");
+       
         _infoPanel = _uiDocument.rootVisualElement.Query("InformationPanel");
         _gridIcon = Resources.Load< VisualTreeAsset >("Templates/GridIcon");
         _selectedUnitsLabel = (Label)_uiDocument.rootVisualElement.Query("SelectNum");
@@ -60,7 +67,10 @@ public class SwarmUI : MonoBehaviour
         _scrollView = _uiDocument.rootVisualElement.Query<ScrollView>("GridView");
 
         _infoPanel.visible = false;
-        _close.visible = false;
+
+        //_close.visible = false;
+
+
         for (int i = 0; i < icons.Length; i++)
         {
             RenderTexture temp = new RenderTexture(32, 32, 24);
@@ -72,29 +82,32 @@ public class SwarmUI : MonoBehaviour
             icons[i] = output;
         }
 
-        _close.RegisterCallback<MouseDownEvent>(Hide);
+        /*_close.RegisterCallback<MouseDownEvent>(Hide);
 
         _attributes.makeItem = () => new Label { style = { color = Color.white, backgroundColor = Color.gray, borderBottomLeftRadius = 5, borderBottomRightRadius = 5, borderTopLeftRadius = 5, borderTopRightRadius = 5, paddingLeft = 5, paddingTop = 5 } };
 
         _attributes.bindItem = (e, i) => (e as Label).text = items[i];
         _attributes.itemsSource = items;
+        */
+        foreach(var t in Towers)
+        {
+            var temp = t.GetComponent<EntityBase>();
+
+            _items.Add(new horizontalItem(temp.damageType-1, icons[temp.damageType - 1], (int)temp.cost, Towers[temp.damageType - 1]));
+        }
+        CreateUnitGrid();
     }
     private void Update()
     {
-        if (_infoPanel.visible)
+        /*if (_infoPanel.visible)
         {
             UpdateCamView();
             UpdateInfoText();
 
-        }
-
+        }*/
 
     }
 
-    void UpdateSelectedUnitsLabel()
-    {
-        _selectedUnitsLabel.text = "Selected Units: " + _items.Count.ToString();
-    }
     public void ShowMap()
     {
         if (!_miniMap.generated)
@@ -112,7 +125,7 @@ public class SwarmUI : MonoBehaviour
 
         for (int i = 0; i < _items.Count; i = i + _hItems)
         {
-            var row = new VisualElement { style = { flexDirection = FlexDirection.Row, marginLeft = 5, marginRight = 5, marginTop = 5 } };
+            var row = new VisualElement { style = { flexDirection = FlexDirection.Column, marginLeft = 5, marginRight = 5, marginTop = 5 } };
             row.style.flexGrow = 1;
             for (int j = 0; j < _hItems; j++)
             {
@@ -120,16 +133,21 @@ public class SwarmUI : MonoBehaviour
                 {
                     var unitElement = _gridIcon.Instantiate();
                     unitElement.name = (i + j).ToString();
-                    unitElement.RegisterCallback<MouseDownEvent>(DisplayInfo);
+                    unitElement.RegisterCallback<MouseDownEvent>(onClick);
                     unitElement.style.backgroundColor = _items[i + j].color;
                     unitElement.Q<VisualElement>("Icon").style.backgroundImage = (StyleBackground)_items[i + j].spriteImage;
-                    unitElement.Q<Label>("Info").text = _items[i + j].health.ToString() + "/" + _items[i + j].maxHealth.ToString();
+                    unitElement.Q<Label>("Info").text = "100$";
                     row.Add(unitElement);
                 }
             }
 
             _scrollView.contentContainer.Add(row);
         }
+    }
+    public void onClick(MouseDownEvent evt)
+    {
+        var i = (VisualElement)evt.currentTarget;
+        GetComponent<TowerInput>().setPointer(Towers[int.Parse(i.name)]);
     }
     public void intilizeMinimapIcon()
     {
@@ -138,7 +156,9 @@ public class SwarmUI : MonoBehaviour
         _cameraPosition.style.top = 0;
         cam = new camera(0, 0);
     }
-    public void UpdateCameraPosition(Vector2 movement)
+
+
+    /*  public void UpdateCameraPosition(Vector2 movement)
     {
         if (cam.init != true)
         {
@@ -211,15 +231,15 @@ public class SwarmUI : MonoBehaviour
         output.Apply();
         _camView.style.backgroundImage = output;
     }
-
-    public void UpdateUI(EntityBase[] e)
+*/
+    /*public void UpdateUI(EntityBase[] e)
     {
         _items.Clear();
         foreach (var item in e)
         {
             _items.Add(new gridItem(item.damageType, icons[item.damageType - 1], (int)item.health, (int)item.maxHealth, item));
         }
-        UpdateSelectedUnitsLabel();
+        //UpdateSelectedUnitsLabel();
         CreateUnitGrid();
-    }
+    }*/
 }

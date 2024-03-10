@@ -60,9 +60,77 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6763858364670572316, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6733177361254619370, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6380604692493606481, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -5824510187379060028, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -2949448700097162899, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -2449511481806133901, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -2420636449889235716, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -1164672077418303845, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -466329591000292508, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -391268320553695201, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -242165637326713887, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -208595431880416365, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 281855664364225751, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e15be17fb88cde438a255a296157393, type: 3}
       propertyPath: m_Name
       value: GunnerTower
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3701164128993309593, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4276379147385579055, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8513859187771203891, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -73,6 +141,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5e15be17fb88cde438a255a296157393, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2505680134387570787}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5e15be17fb88cde438a255a296157393, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -411283000771243225}
   m_SourcePrefab: {fileID: 100100000, guid: 5e15be17fb88cde438a255a296157393, type: 3}
 --- !u!1 &3982783068456333081 stripped
 GameObject:
@@ -94,10 +165,12 @@ MonoBehaviour:
   x: 0
   y: 0
   z: 0
+  baseRotation: 0
   state: 0
   maxHealth: 100
   health: 150
   speed: 1
+  cost: 100
   damageResist: 2
   damageType: 2
   currentLocation: {fileID: 0}
@@ -105,3 +178,45 @@ MonoBehaviour:
   RateOfFire: 10
   maxRange: 7.5
   attackDamage: 1
+--- !u!23 &-411283000771243225
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3982783068456333081}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
