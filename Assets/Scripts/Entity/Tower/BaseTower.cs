@@ -1,16 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public abstract class BaseTower : EntityBase
 {
-    public bool active = false;
-    public Pipe connectionToBase;
-
-    public float RateOfFire = 1.0f;
-    public float maxRange = 1.0f;
-
     private EntityBase currentTarget;
     private float TimeSinceLastShot;
 
@@ -20,75 +14,58 @@ public abstract class BaseTower : EntityBase
         speed = 0.0f; //Towers *probably* shouldn't have a move speed.
     }
 
-    public void init(Pipe p, HexNode l)
+    // Update is called once per frame
+    void Update()
     {
-        base.init(l);
-        connectionToBase = p;
-        active = p.active;
+        
     }
 
     private void FixedUpdate()
     {
-        if (connectionToBase != null)
-        {
-            active = connectionToBase.active;
-            if (active == true)
-            {
-                foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>())
-                {
-                    r.material.color = new Color(0.7f, 0.7f, 0.7f, 1f);
-                }
-            }
-            if (active == false)
-            {
-                foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>())
-                {
-                    r.material.color = new Color(0,0,0,0.5f);
-                }
-            }
-        }
-       
-
-
         TimeSinceLastShot += Time.deltaTime;
-        float distance = float.MaxValue;
+        float targetDistance = float.MaxValue;
         if (currentTarget != null)
         {
-            distance = Vector3.Distance(gameObject.transform.position, currentTarget.transform.position);
+            targetDistance = Vector3.Distance(gameObject.transform.position, currentTarget.transform.position);
+            if (targetDistance > attackRange)
+            {
+                currentTarget = null;
+            }
         }
-        Collider[] colliderHits = Physics.OverlapSphere(gameObject.transform.position, maxRange, LayerMask.GetMask("Swarm"));
+        else
+        {
+            targetDistance = float.MaxValue;
+        }
+        Collider[] colliderHits = Physics.OverlapSphere(gameObject.transform.position, attackRange, LayerMask.GetMask("Swarm"));
 
         foreach (Collider hits in colliderHits)
         {
-            if (Vector3.Distance(hits.gameObject.transform.position, gameObject.transform.position) < distance)
+            if (Vector3.Distance(hits.gameObject.transform.position, gameObject.transform.position) <= attackRange)
             {
                 RaycastHit hitState;
-                if (hits.Raycast(new Ray(gameObject.transform.Find("GunPos").position, hits.gameObject.transform.position - gameObject.transform.Find("GunPos").position), out hitState, maxRange))
+                Ray ray = new Ray(gameObject.transform.Find("GunPos").position, Vector3.Normalize(hits.gameObject.transform.position - gameObject.transform.Find("GunPos").position));
+                if (hits.Raycast(ray, out hitState, attackRange))
                     //If there is a direct path from the tower to the target.
                 {
                     currentTarget = hits.gameObject.GetComponent<EntityBase>();
                 }
             }
         }
-        if (TimeSinceLastShot >= 1 / RateOfFire && currentTarget != null)
+        if (TimeSinceLastShot >= 1 / attackSpeed && currentTarget != null)
         {
-            Attack(currentTarget, (int)attackDamage, maxRange);
+            Attack(currentTarget, attackDamage, attackRange);
             TimeSinceLastShot = 0;
         }
- 
-
     }
 
-    private void Attack(EntityBase target, int dmg, float range)
+    private void Attack(EntityBase target, float dmg, float range)
     {
-        if(active){
         DamageSystem.DealDamage(target, this);
         Debug.DrawRay(gameObject.transform.Find("GunPos").position, target.transform.position - gameObject.transform.Find("GunPos").position, Color.red, 0.2f);
-        }
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(gameObject.transform.position, maxRange);
+        Gizmos.DrawWireSphere(gameObject.transform.position, attackRange);
     }
 }

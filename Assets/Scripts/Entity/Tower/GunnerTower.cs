@@ -7,8 +7,8 @@ public class GunnerTower : BaseTower
     GunnerTower()
     {
         health = 150.0f;
-        maxRange = 7.5f;
-        RateOfFire = 10.0f;
+        attackRange = 7.5f;
+        attackSpeed = 10.0f;
         attackDamage = 1.0f;
         damageType = DamageSystem.KINETIC_ELEMENT;
         damageResist = DamageSystem.KINETIC_ELEMENT;
@@ -23,10 +23,5 @@ public class GunnerTower : BaseTower
     void Update()
     {
 
-    }
-
-    private void Attack(EntityBase target, int dmg, float range)
-    {
-        
     }
 }

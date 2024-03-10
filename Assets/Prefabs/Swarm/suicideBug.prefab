@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -8167554967242944766}
   m_Layer: 6
   m_Name: suicideBug
-  m_TagString: Untagged
+  m_TagString: swarm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107,12 +107,12 @@ MonoBehaviour:
   maxHealth: 100
   health: 50
   speed: 0.75
+  attackDamage: 100
   damageResist: 2
   damageType: 3
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
   maxRange: 1
-  attackDamage: 100
 --- !u!114 &6965741392047613574
 MonoBehaviour:
   m_ObjectHideFlags: 0

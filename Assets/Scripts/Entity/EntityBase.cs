@@ -22,7 +22,8 @@ public class EntityBase : MonoBehaviour
     public float speed = 1.0f;
     public float cost = 100;
     public float attackDamage = 1.0f;
-
+    public float attackSpeed = 1.0f;
+    public float attackRange = 1.0f;
     public int damageResist = DamageSystem.NO_ELEMENT;
     public int damageType = DamageSystem.NO_ELEMENT;
 
