@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -6919875705043838316}
   m_Layer: 6
   m_Name: acidbug
-  m_TagString: Untagged
+  m_TagString: swarm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107,12 +107,12 @@ MonoBehaviour:
   maxHealth: 100
   health: 25
   speed: 0.5
+  attackDamage: 5
   damageResist: 1
   damageType: 1
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
   maxRange: 5
-  attackDamage: 5
 --- !u!114 &5960219106520208765
 MonoBehaviour:
   m_ObjectHideFlags: 0

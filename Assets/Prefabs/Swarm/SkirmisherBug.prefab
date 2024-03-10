@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 148680772048236014}
   m_Layer: 6
   m_Name: SkirmisherBug
-  m_TagString: Untagged
+  m_TagString: swarm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157,12 +157,12 @@ MonoBehaviour:
   maxHealth: 100
   health: 75
   speed: 1.25
+  attackDamage: 15
   damageResist: 3
   damageType: 2
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
   maxRange: 1
-  attackDamage: 15
 --- !u!114 &148680772048236014
 MonoBehaviour:
   m_ObjectHideFlags: 0

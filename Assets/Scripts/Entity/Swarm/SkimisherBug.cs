@@ -8,7 +8,8 @@ public class SkimisherBug : BaseBug
     {
         health = 75.0f;
         speed = 1.25f;
-        maxRange = 1.0f;
+        attackRange = 1.5f;
+        attackSpeed = 1.0f;
         attackDamage = 15.0f;
         damageType = DamageSystem.KINETIC_ELEMENT;
         damageResist = DamageSystem.EXPOSIVE_ELEMENT;
@@ -22,11 +23,6 @@ public class SkimisherBug : BaseBug
 
     // Update is called once per frame
     void Update()
-    {
-        
-    }
-
-    private void Attack(EntityBase target, int dmg, float range)
     {
         
     }

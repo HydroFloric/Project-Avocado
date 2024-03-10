@@ -8,7 +8,8 @@ public class AcidBug : BaseBug
     {
         health = 25.0f;
         speed = 0.5f;
-        maxRange = 5.0f;
+        attackRange = 5.0f;
+        attackSpeed = 1.0f;
         attackDamage = 5.0f;
         damageType = DamageSystem.MAGIC_ELEMENT;
         damageResist = DamageSystem.MAGIC_ELEMENT;
@@ -22,11 +23,6 @@ public class AcidBug : BaseBug
 
     // Update is called once per frame
     void Update()
-    {
-        
-    }
-
-    private void Attack(EntityBase target, int dmg, float range)
     {
         
     }
