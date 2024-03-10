@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /* Try not to actually do any work in this class just add attributes that entities have
@@ -22,6 +20,7 @@ public class EntityBase : MonoBehaviour
     public float maxHealth = 100;
     public float health = 100.0f;
     public float speed = 1.0f;
+    public float attackDamage = 1.0f;
     public int damageResist = DamageSystem.NO_ELEMENT;
     public int damageType = DamageSystem.NO_ELEMENT;
 
@@ -52,13 +51,6 @@ public class EntityBase : MonoBehaviour
         damageType = dmgType;
         health = hp;
         speed = spd;
-    }
-    public void FixedUpdate()
-    {
-        if (health < 0)
-        {
-            Destroy(gameObject);
-        }
     }
 
     public Vector3 toVec3()

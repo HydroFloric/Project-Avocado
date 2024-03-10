@@ -10,6 +10,7 @@ public class DamageSystem : MonoBehaviour
     public const int KINETIC_ELEMENT = 2;
     public const int EXPOSIVE_ELEMENT = 3;
 
+    EntityBase[] entityInitializer;
     List<EntityBase> entities = new List<EntityBase>();
 
     // Start is called before the first frame update
@@ -17,7 +18,7 @@ public class DamageSystem : MonoBehaviour
     {
         //Initialize entities list with all current entities loaded.
         //But only if they're not already present.
-        EntityBase[] entityInitializer = FindObjectsByType<EntityBase>(FindObjectsSortMode.InstanceID);
+        entityInitializer = FindObjectsByType<EntityBase>(FindObjectsSortMode.InstanceID);
         foreach (EntityBase entity in entityInitializer)
         {
             AddEntity(entity);
@@ -27,12 +28,22 @@ public class DamageSystem : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        entityInitializer = FindObjectsByType<EntityBase>(FindObjectsSortMode.InstanceID);
+        foreach (EntityBase entity in entityInitializer)
+        {
+            AddEntity(entity);
+            if (entity == null)
+            {
+                entities.Remove(entity);
+            }
+        }
+
         //Check through the entities list and do what must be done.
         foreach (EntityBase entity in entities)
         {
-            if(entity.health <= 0)
+            if(entity.health <= 0 && entity != null)
             {
-                Destroy(entity);
+                Destroy(entity.gameObject);
             }
         }
     }
@@ -72,5 +83,12 @@ public class DamageSystem : MonoBehaviour
                 return 0;
         }
         return 0;
+    }
+
+    public static float DealDamage(EntityBase target, EntityBase attacker)
+    {
+        float damageMult = DamageFactor(target, attacker.damageType); //Get damage resistance or weakness factor
+        target.health -= attacker.attackDamage * damageMult;
+        return damageMult * attacker.attackDamage; //Return damage dealt because we'll probably need this later.
     }
 }

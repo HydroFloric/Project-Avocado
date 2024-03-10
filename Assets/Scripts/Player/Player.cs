@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public string playerName = "xXJon_DoXx"; //Placeholder
+    public int points = 0; //Kills for the swarm, crystals for the towers.
+
     // Start is called before the first frame update
     void Start()
     {
