@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /* Try not to actually do any work in this class just add attributes that entities have
@@ -23,6 +21,8 @@ public class EntityBase : MonoBehaviour
     public float health = 100.0f;
     public float speed = 1.0f;
     public float cost = 100;
+    public float attackDamage = 1.0f;
+
     public int damageResist = DamageSystem.NO_ELEMENT;
     public int damageType = DamageSystem.NO_ELEMENT;
 
@@ -55,6 +55,7 @@ public class EntityBase : MonoBehaviour
         health = hp;
         speed = spd;
     }
+
     public void FixedUpdate()
     {
         if (health < 0)

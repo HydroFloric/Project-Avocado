@@ -4,14 +4,15 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class BaseTower : EntityBase
-
 {
     public bool active = true;
     public Pipe connectionToBase;
 
     public float RateOfFire = 1.0f;
     public float maxRange = 1.0f;
-    public float attackDamage = 1.0f;
+
+    private EntityBase currentTarget;
+    private float TimeSinceLastShot;
 
     // Start is called before the first frame update
     void Start()
@@ -30,16 +31,48 @@ public abstract class BaseTower : EntityBase
         connectionToBase = p;
         active = p.active;
     }
-    private void Attack(EntityBase target, int dmg, float range)
+
+    private void FixedUpdate()
     {
-        if (active)
+        TimeSinceLastShot += Time.deltaTime;
+        float distance = float.MaxValue;
+        if (currentTarget != null)
         {
-            if (Vector3.Distance(this.toVec3(), target.toVec3()) < range && target != null) //if target is within range of attacker.
+            distance = Vector3.Distance(gameObject.transform.position, currentTarget.transform.position);
+        }
+        Collider[] colliderHits = Physics.OverlapSphere(gameObject.transform.position, maxRange, LayerMask.GetMask("Swarm"));
+
+        foreach (Collider hits in colliderHits)
+        {
+            if (Vector3.Distance(hits.gameObject.transform.position, gameObject.transform.position) < distance)
             {
-                float damageMultiplier = DamageSystem.DamageFactor(target, this.damageType);
-                target.health -= dmg * damageMultiplier;
+                RaycastHit hitState;
+                if (hits.Raycast(new Ray(gameObject.transform.Find("GunPos").position, hits.gameObject.transform.position - gameObject.transform.Find("GunPos").position), out hitState, maxRange))
+                    //If there is a direct path from the tower to the target.
+                {
+                    currentTarget = hits.gameObject.GetComponent<EntityBase>();
+                }
             }
+        }
+        if (TimeSinceLastShot >= 1 / RateOfFire && currentTarget != null)
+        {
+            Attack(currentTarget, (int)attackDamage, maxRange);
+            TimeSinceLastShot = 0;
         }
         }
 
     }
+
+    private void Attack(EntityBase target, int dmg, float range)
+    {
+        if(active){
+        DamageSystem.DealDamage(target, this);
+        Debug.DrawRay(gameObject.transform.Find("GunPos").position, target.transform.position - gameObject.transform.Find("GunPos").position, Color.red, 0.2f);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(gameObject.transform.position, maxRange);
+    }
+}

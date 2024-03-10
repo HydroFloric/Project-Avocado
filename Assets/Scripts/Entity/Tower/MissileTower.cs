@@ -29,10 +29,6 @@ public class MissileTower : BaseTower
 
     private void Attack(EntityBase target, int dmg, float range)
     {
-        if(Vector3.Distance(this.toVec3(), target.toVec3()) < range && target != null) //if target is within range of attacker.
-        {
-            float damageMultiplier = DamageSystem.DamageFactor(target, this.damageType);
-            target.health -= dmg * damageMultiplier;
-        }
+        
     }
 }
