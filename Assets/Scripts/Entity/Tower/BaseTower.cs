@@ -5,9 +5,12 @@ using static UnityEngine.GraphicsBuffer;
 
 public abstract class BaseTower : EntityBase
 {
+
     private EntityBase currentTarget;
     private float TimeSinceLastShot;
 
+    public bool active = false;
+    public Pipe connectionToBase;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +25,25 @@ public abstract class BaseTower : EntityBase
 
     private void FixedUpdate()
     {
+        if (connectionToBase != null)
+        {
+            active = connectionToBase.active;
+            if (active == true)
+            {
+                foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>())
+                {
+                    r.material.color = new Color(0.7f, 0.7f, 0.7f, 1f);
+                }
+            }
+            if (active == false)
+            {
+                foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>())
+                {
+                    r.material.color = new Color(0, 0, 0, 0.5f);
+                }
+            }
+        }
+
         TimeSinceLastShot += Time.deltaTime;
         float targetDistance = float.MaxValue;
         if (currentTarget != null)
@@ -57,7 +79,11 @@ public abstract class BaseTower : EntityBase
             TimeSinceLastShot = 0;
         }
     }
-
+    public void init(Pipe p, HexNode l)
+    {
+        connectionToBase = p;
+        base.init(l);
+    }
     private void Attack(EntityBase target, float dmg, float range)
     {
         DamageSystem.DealDamage(target, this);
