@@ -14,17 +14,17 @@ public class TowerPlayer : MonoBehaviour
         BaseLocation = GetComponentInParent<MapManager>().getNode(5, 5);
     }
 
-    public bool AddTower(GameObject e, HexNode Location)
+    public bool AddTower(GameObject e, HexNode Location, Pipe Connection)
     {
         var test1 = Physics.OverlapSphere(Location.Vec3Location(), 0.1f, LayerMask.GetMask("Tower"));
-        var test2 = Physics.OverlapSphere(Location.Vec3Location(), 0.1f, LayerMask.GetMask("MapObjects"));
+        var test2 = Physics.OverlapSphere(Location.Vec3Location(), 0.5f, LayerMask.GetMask("MapObjects"));
         if (test1.Length > 0 || test2.Length > 0) return false;
 
         if(towers.Count < TowerLimit)
         {
             var temp = Instantiate(e);
-
-            temp.GetComponent<BaseTower>().currentLocation = Location;
+           
+            temp.GetComponent<BaseTower>().init(Connection, Location);
             temp.transform.position = Location.Vec3Location();
             towers.Add(temp.GetComponent<BaseTower>());
             return true;

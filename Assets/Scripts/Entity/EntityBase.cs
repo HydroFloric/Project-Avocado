@@ -62,7 +62,10 @@ public class EntityBase : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    public void init(HexNode l)
+    {
+        currentLocation = l;
+    }
     public Vector3 toVec3()
     {
         

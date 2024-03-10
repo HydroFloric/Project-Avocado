@@ -22,6 +22,10 @@ public struct mapItem
 }
 public class MapManager : MonoBehaviour
 {
+    private Vector3 debug = Vector3.zero;
+    private float debug_rad = 0f;
+
+
     private int[,] OddOffset = { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 }, { -1, 1 } };
     private int[,] EvenOffset = { { 0, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, -1 }, { -1, 0 } };
 
@@ -114,16 +118,32 @@ public class MapManager : MonoBehaviour
     }
     public HexNode findClosetNode(Vector3 v) //I need to find a better way to do this besides looping over the entire map, Shouldn't be called too often!
     {
+        Collider[] c = new Collider[0];
+        var i = 1f;
+        while (c.Length <= 0)
+        {
+            c = Physics.OverlapBox(v,new Vector3(i,i,i),Quaternion.identity,LayerMask.GetMask("HexagonTerrain"));
+            i = i + i;
+            if (i >= 50) return null;
+        }
+        debug_rad = i;
+        debug = v;
+        List<HexNode> list = new List<HexNode>();
+        for(int j = 0; j < c.Length; j++)
+        {
+            HexNode n = null;
+            c[j].gameObject.TryGetComponent<HexNode>(out n);
+            if(n != null) { list.Add(n); }
+        }
         float dist = -1;
         HexNode closet = null;
-        for(int i = 0; i < map.GetLength(0); i++)
-        {
-            for (int j = 0; j < map.GetLength(1); j++)
+
+        for (int j = 0; j < list.Count; j++)
             {
-                var temp = Vector3.Distance(map[i, j].Vec3Location(), v);
-                if ((temp < dist || dist == -1) && map[i,j].terrainDif >= 100) { dist = temp; closet = map[i, j]; }
+                var temp = Vector3.Distance(list[j].Vec3Location(), v);
+                if ((temp < dist || dist == -1) && list[j].terrainDif <= 100) { dist = temp; closet = list[j]; }
             }
-        }
+        
         return closet;
     }
     public HexNode getNode(int x, int z)
@@ -165,5 +185,10 @@ public class MapManager : MonoBehaviour
             }
         }
         return closet;
+    }
+    private void OnDrawGizmos()
+    {
+        
+        Gizmos.DrawWireSphere(debug, debug_rad);
     }
 }

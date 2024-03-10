@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.FilePathAttribute;
 
 public class TowerInput : MonoBehaviour
 {
@@ -39,7 +40,8 @@ public class TowerInput : MonoBehaviour
         {
             getPointerColor();
             if(Input.GetMouseButtonDown(0) && canPlace) {
-                player.AddTower(selectedTower, mapManager.findClosetNode(cur_pointer.transform.position));
+                player.AddTower(selectedTower, mapManager.findClosetNode(cur_pointer.transform.position), pipeLineManager.GetPipe(cur_pointer.transform.position, 1f));
+                Debug.Break();
             }
             if(Input.GetMouseButtonDown(1))
             {
@@ -84,6 +86,9 @@ public class TowerInput : MonoBehaviour
     {
         Color c;
         canPlace = pipeLineManager.contains(cur_pointer.transform.position);
+        var test1 = Physics.OverlapSphere(cur_pointer.transform.position, 0.4f, LayerMask.GetMask("Tower"));
+        var test2 = Physics.OverlapSphere(cur_pointer.transform.position, 0.4f, LayerMask.GetMask("MapObjects"));
+        if (test1.Length > 0 || test2.Length > 0) canPlace = false;
         if (canPlace)
         {
             c = new Color(0, 1, 0, 0.5f);

@@ -116,9 +116,24 @@ public class PipeLineManager : MonoBehaviour
         if (hits.Length == 0) return false;
         else return true;
     }
+    public Pipe GetPipe(Vector3 v, float i)
+    {
+        var col = Physics.OverlapSphere(v, i, LayerMask.GetMask("Pipe"));
+        if (col.Length <= 0) return null;
+        if (col.Length == 1) return col[0].gameObject.GetComponent<Pipe>();
+        float dist = -1;
+        Pipe closet = null;
+
+        for (int j = 0; j < col.Length; j++)
+        {
+            var temp = Vector3.Distance(col[j].gameObject.GetComponent<Pipe>().location.Vec3Location(), v);
+            if ((temp < dist || dist == -1)) { dist = temp; closet = col[j].gameObject.GetComponent<Pipe>(); }
+        }
+        return closet;
+    }
 }
 
-class Pipe : MonoBehaviour
+public class Pipe : MonoBehaviour
 {
     Pipe Parent;
     public List<Pipe> Children = new List<Pipe>();

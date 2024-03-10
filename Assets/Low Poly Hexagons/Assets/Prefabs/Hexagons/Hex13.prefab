@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 23806632591804510}
   - component: {fileID: 64948271280799566}
   - component: {fileID: 6736811097740490621}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Hex13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,3 +132,4 @@ MonoBehaviour:
   _gridPositionX: 0
   _gridPositionZ: 0
   terrainDif: 3
+  type: 

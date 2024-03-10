@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 3516355503949813712}
   - component: {fileID: 2097299170310462875}
   - component: {fileID: 5406935179314602612}
-  m_Layer: 0
+  - component: {fileID: -1294127647011413703}
+  m_Layer: 3
   m_Name: Hex11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,3 +110,26 @@ MonoBehaviour:
   _gridPositionX: 0
   _gridPositionZ: 0
   terrainDif: 1
+  type: 
+--- !u!64 &-1294127647011413703
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8384946503310752487}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: ec55075d188c17f409c030e2fa6d4ebf, type: 3}
