@@ -56,13 +56,6 @@ public class EntityBase : MonoBehaviour
         speed = spd;
     }
 
-    public void FixedUpdate()
-    {
-        if (health < 0)
-        {
-            Destroy(gameObject);
-        }
-    }
     public void init(HexNode l)
     {
         currentLocation = l;
@@ -78,5 +71,4 @@ public class EntityBase : MonoBehaviour
         y = v.y;
         z = v.z;
     }
-
 }

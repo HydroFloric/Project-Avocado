@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 172114503698878730}
   - component: {fileID: 5549057689015112104}
   - component: {fileID: 9139596702637433430}
-  - component: {fileID: 6873383741319170125}
   - component: {fileID: 6785267281778413221}
   - component: {fileID: 5119925361026881251}
+  - component: {fileID: 7857133928865244662}
   m_Layer: 0
   m_Name: Cube
   m_TagString: swarm
@@ -86,23 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6873383741319170125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1305580809256723370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da968d9b8cbda7545ba04529b4636e6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  x: 0
-  y: 0
-  z: 0
-  currentLocation: {fileID: 0}
-  pathingTo: {fileID: 0}
 --- !u!114 &6785267281778413221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,7 +99,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentDir: {x: 0, y: 0, z: 0}
-  speed: 1
   timeSincelastPositionUpdate: 0
 --- !u!65 &5119925361026881251
 BoxCollider:
@@ -139,3 +121,29 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7857133928865244662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305580809256723370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3a0c82ca7f5df045a40fc5d340c6e09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x: 0
+  y: 0
+  z: 0
+  baseRotation: 0
+  state: 0
+  maxHealth: 100
+  health: 100
+  speed: 0
+  cost: 100
+  attackDamage: 0
+  damageResist: -1
+  damageType: -1
+  currentLocation: {fileID: 0}
+  pathingTo: {fileID: 0}

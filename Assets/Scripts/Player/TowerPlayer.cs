@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TowerPlayer : MonoBehaviour
+public class TowerPlayer : Player
 {
-   public HexNode BaseLocation;
    public List<BaseTower> towers = new List<BaseTower>();
-   public List<HexNode> ControlledCrystals = new List<HexNode>();
 
    public int TowerLimit = 5; //some multiple of crystals controlled or smth;
     private void Start()

@@ -21,10 +21,14 @@ public class PipeLineManager : MonoBehaviour
     float timeSinceLast = 0f;
     public GameObject pipeGO;
 
+    private void Awake()
+    {
+    }
     private void Start()
     {
         mapManager = GetComponentInParent<MapManager>();
         player = GetComponent<TowerPlayer>();
+        
     }
     //I might need to grab my data structures textbook if i do anymore of this wacky shit!
     public void setGoal(Vector2 a)
@@ -51,7 +55,7 @@ public class PipeLineManager : MonoBehaviour
             foreach (var p in pipes)
             {
                 var temp = Vector3.Distance(p.location.Vec3Location(), goal.Vec3Location());
-                if ((temp < dist || dist == -1)) { dist = temp; curPipe = p; }
+                if ((temp < dist || dist == -1) && p.active) { dist = temp; curPipe = p; }
             }
 
 
@@ -93,9 +97,21 @@ public class PipeLineManager : MonoBehaviour
     {
         timeSinceLast = 0f;
         var node = mapManager.nextNodeInPath(currentGoal, curPipe.location);
+        foreach(var p in pipes)
+        {
+            if(p.location == node)
+            {
+                p.Parent = curPipe;
+                p.active = true;
+            }
+        }
+
         if (currentGoal == node)
         {
             curPipe.connectedToCrystal = true;
+            player.ControlledCrystals.Add(currentGoal);
+            curPipe.crystal = currentGoal;
+
             currentGoal = null;
             curPipe = null;
 
@@ -103,8 +119,10 @@ public class PipeLineManager : MonoBehaviour
         }
         var child = Instantiate(pipeGO);
         child.transform.position = node.Vec3Location();
+
         var tempPipe = child.AddComponent<Pipe>();
         tempPipe.initPipe(curPipe, node);
+        //pipeGO.GetComponent<PipeEnity>().p = tempPipe;
         pipes.Add(tempPipe);
         curPipe.addChild(tempPipe);
         curPipe = tempPipe;
@@ -135,12 +153,13 @@ public class PipeLineManager : MonoBehaviour
 
 public class Pipe : MonoBehaviour
 {
-    Pipe Parent;
+    public Pipe Parent;
     public List<Pipe> Children = new List<Pipe>();
     public HexNode location;
-    public bool active = false;
+    public bool active = true;
 
     public bool connectedToCrystal = false;
+    public HexNode crystal = null;
 
     public void initPipe(Pipe parent, HexNode location)
     {
@@ -153,7 +172,17 @@ public class Pipe : MonoBehaviour
     //when a pipe is destoryed all the children pipes are effected
     public void setActive(bool a)
     {
+        if (active == a) return;
+
         active = a;
+        if(active == true)
+        {
+            gameObject.GetComponent<MeshRenderer>().material.color = new Color(224,224,224,255);
+        }
+        if (active == false)
+        {
+            gameObject.GetComponent<MeshRenderer>().material.color = new Color(0, 0, 0, 0.5f);
+        }
         if (Children.Count > 0)
         {
             foreach (var child in Children)

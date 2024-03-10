@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class BaseTower : EntityBase
 {
-    public bool active = true;
+    public bool active = false;
     public Pipe connectionToBase;
 
     public float RateOfFire = 1.0f;
@@ -20,11 +20,6 @@ public abstract class BaseTower : EntityBase
         speed = 0.0f; //Towers *probably* shouldn't have a move speed.
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        active = connectionToBase.active;
-    }
     public void init(Pipe p, HexNode l)
     {
         base.init(l);
@@ -34,6 +29,27 @@ public abstract class BaseTower : EntityBase
 
     private void FixedUpdate()
     {
+        if (connectionToBase != null)
+        {
+            active = connectionToBase.active;
+            if (active == true)
+            {
+                foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>())
+                {
+                    r.material.color = new Color(0.7f, 0.7f, 0.7f, 1f);
+                }
+            }
+            if (active == false)
+            {
+                foreach (Renderer r in gameObject.GetComponentsInChildren<Renderer>())
+                {
+                    r.material.color = new Color(0,0,0,0.5f);
+                }
+            }
+        }
+       
+
+
         TimeSinceLastShot += Time.deltaTime;
         float distance = float.MaxValue;
         if (currentTarget != null)

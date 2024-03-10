@@ -2,20 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class PipeEnity : EntityBase
 {
-    public string playerName = "xXJon_DoXx"; //Placeholder
-    public int points = 0; //Kills for the swarm, crystals for the towers.
-
-    // Start is called before the first frame update
-    void Start()
+    Pipe p;
+    private void Start()
     {
-        
+        p = GetComponent<Pipe>();
     }
-
-    // Update is called once per frame
-    void Update()
+    private void OnDestroy()
     {
-        
+        p.setActive(false);
+        foreach (var c in p.Children)
+        {
+            c.Parent = null;
+        }
     }
 }

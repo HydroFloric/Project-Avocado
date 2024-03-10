@@ -41,7 +41,10 @@ public class TowerInput : MonoBehaviour
             getPointerColor();
             if(Input.GetMouseButtonDown(0) && canPlace) {
                 player.AddTower(selectedTower, mapManager.findClosetNode(cur_pointer.transform.position), pipeLineManager.GetPipe(cur_pointer.transform.position, 1f));
-                Debug.Break();
+                pointer.transform.position = cur_pointer.transform.position;
+                Destroy(cur_pointer);
+                pointer.SetActive(true);
+                cur_pointer = pointer;
             }
             if(Input.GetMouseButtonDown(1))
             {
