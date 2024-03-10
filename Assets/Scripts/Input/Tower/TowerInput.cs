@@ -38,7 +38,7 @@ public class TowerInput : MonoBehaviour
         if (pointer != cur_pointer)
         {
             getPointerColor();
-            if(Input.GetMouseButtonDown(0)) {
+            if(Input.GetMouseButtonDown(0) && canPlace) {
                 player.AddTower(selectedTower, mapManager.findClosetNode(cur_pointer.transform.position));
             }
             if(Input.GetMouseButtonDown(1))

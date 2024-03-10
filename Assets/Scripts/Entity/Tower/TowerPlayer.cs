@@ -16,8 +16,11 @@ public class TowerPlayer : MonoBehaviour
 
     public bool AddTower(GameObject e, HexNode Location)
     {
+        var test1 = Physics.OverlapSphere(Location.Vec3Location(), 0.1f, LayerMask.GetMask("Tower"));
+        var test2 = Physics.OverlapSphere(Location.Vec3Location(), 0.1f, LayerMask.GetMask("MapObjects"));
+        if (test1.Length > 0 || test2.Length > 0) return false;
 
-        if(towers.Count < TowerLimit && Physics.OverlapSphere(Location.Vec3Location(), 0.5f, LayerMask.GetMask("Tower")).Length <= 0)
+        if(towers.Count < TowerLimit)
         {
             var temp = Instantiate(e);
 
