@@ -170,10 +170,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c4476dd5ef9fdda409937d17bce8a311, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3140237665162361613}
+      addedObject: {fileID: 344175319903121328}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c4476dd5ef9fdda409937d17bce8a311, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 344175319903121328}
+      addedObject: {fileID: -3468486077440894786}
   m_SourcePrefab: {fileID: 100100000, guid: c4476dd5ef9fdda409937d17bce8a311, type: 3}
 --- !u!4 &8222825345812865568 stripped
 Transform:
@@ -185,33 +185,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c4476dd5ef9fdda409937d17bce8a311, type: 3}
   m_PrefabInstance: {fileID: 8473489063230064075}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3140237665162361613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8743326056648374426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9502382829f001449924cbabb1455149, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  x: 0
-  y: 0
-  z: 0
-  baseRotation: 0
-  state: 0
-  maxHealth: 100
-  health: 150
-  speed: 1
-  attackDamage: 2
-  damageResist: 2
-  damageType: 2
-  currentLocation: {fileID: 0}
-  pathingTo: {fileID: 0}
-  RateOfFire: 5
-  maxRange: 5
 --- !u!65 &344175319903121328
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -233,3 +206,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.301558, y: 4.539741, z: 2.8071475}
   m_Center: {x: 0.011268377, y: 2.6727135, z: 0.0012657642}
+--- !u!114 &-3468486077440894786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8743326056648374426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a252848fecd2d594bad65a5cfd14c404, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x: 0
+  y: 0
+  z: 0
+  baseRotation: 0
+  state: 0
+  maxHealth: 100
+  health: 150
+  speed: 1
+  cost: 100
+  attackDamage: 2
+  attackSpeed: 5
+  attackRange: 5
+  damageResist: 1
+  damageType: 1
+  currentLocation: {fileID: 0}
+  pathingTo: {fileID: 0}
+  active: 0
+  connectionToBase: {fileID: 0}

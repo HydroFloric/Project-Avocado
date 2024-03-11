@@ -44,7 +44,7 @@ public class TowerUI : MonoBehaviour
     private List<horizontalItem> _items;
 
 
-    void Awake()
+    void OnEnable()
     {
         /*
         items = new List<string>();

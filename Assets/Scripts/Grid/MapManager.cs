@@ -124,7 +124,7 @@ public class MapManager : MonoBehaviour
         {
             c = Physics.OverlapBox(v,new Vector3(i,i,i),Quaternion.identity,LayerMask.GetMask("HexagonTerrain"));
             i = i + i;
-            if (i >= 50) return null;
+            if (i >= 100) return null;
         }
         debug_rad = i;
         debug = v;

@@ -34,7 +34,7 @@ public abstract class BaseBug : EntityBase
         {
             targetDistance = float.MaxValue;
         }
-        Collider[] colliderHits = Physics.OverlapSphere(gameObject.transform.position, attackRange, LayerMask.GetMask("Tower"));
+        Collider[] colliderHits = Physics.OverlapSphere(gameObject.transform.position, attackRange, LayerMask.GetMask("Pipe"));
 
         foreach (Collider hits in colliderHits)
         {

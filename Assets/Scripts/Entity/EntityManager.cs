@@ -62,14 +62,14 @@ public class EntityManager : MonoBehaviour
                 Debug.Log("entity selected!");
             }
         }
-        ui.UpdateUI(selectedUnits.ToArray());
+        ui.UpdateUI(selectedUnits);
     }
     public void setGoal(Vector2 a)
     {
         Vector3 origin = Camera.main.ScreenToWorldPoint(new Vector3(a.x, a.y, Camera.main.transform.position.z));
 
         HexNode node = mapManager.findClosetNode(origin);
-
+        selectedUnits.RemoveAll(a=> a == null);
         for (int i = 0; i < selectedUnits.Count; i++) {
             Debug.Log("Obj: " + selectedUnits[i].name + "goal node set: " + node.name);
             goals[selectedUnits[i]] = node;

@@ -41,7 +41,7 @@ public class SwarmUI : MonoBehaviour
     private List<gridItem> _items;
 
 
-    void Awake()
+    void OnEnable()
     {
         items = new List<string>();
         activeCam = new GameObject("cam");
@@ -78,6 +78,7 @@ public class SwarmUI : MonoBehaviour
 
         _attributes.bindItem = (e, i) => (e as Label).text = items[i];
         _attributes.itemsSource = items;
+        UpdateUI(new List<EntityBase>());
     }
     private void Update()
     {
@@ -212,10 +213,10 @@ public class SwarmUI : MonoBehaviour
         _camView.style.backgroundImage = output;
     }
 
-    public void UpdateUI(EntityBase[] e)
+    public void UpdateUI(List<EntityBase> e)
     {
         _items.Clear();
-        foreach (var item in e)
+        foreach (var item in e.FindAll(item => item != null))
         {
             _items.Add(new gridItem(item.damageType, icons[item.damageType - 1], (int)item.health, (int)item.maxHealth, item));
         }

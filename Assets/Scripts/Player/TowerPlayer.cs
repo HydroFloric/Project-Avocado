@@ -11,7 +11,21 @@ public class TowerPlayer : Player
     {
         BaseLocation = GetComponentInParent<MapManager>().getNode(5, 5);
     }
+    private void OnEnable()
+    {
+        GetComponent<TowerInput>().enabled = true;
+        GetComponent<TowerUI>().enabled = true;
+        GetComponentInChildren<Camera>().enabled = true;
+        GetComponentInChildren<CameraMovement>().enabled = true;
+    }
+    private void OnDisable()
+    {
 
+        GetComponent<TowerInput>().enabled = false;
+        GetComponent<TowerUI>().enabled = false;
+        GetComponentInChildren<Camera>().enabled = false;
+        GetComponentInChildren<CameraMovement>().enabled = false;
+    }
     public bool AddTower(GameObject e, HexNode Location, Pipe Connection)
     {
         var towerOverlapTest = Physics.OverlapSphere(Location.Vec3Location(), 0.1f, LayerMask.GetMask("Tower"));

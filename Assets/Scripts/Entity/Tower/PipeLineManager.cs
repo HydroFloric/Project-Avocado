@@ -159,6 +159,7 @@ public class Pipe : MonoBehaviour
     public Pipe Parent;
     public List<Pipe> Children = new List<Pipe>();
     public HexNode location;
+    private int prevTdiff;
     public bool active = true;
 
     public bool connectedToCrystal = false;
@@ -168,9 +169,14 @@ public class Pipe : MonoBehaviour
     {
         Parent = parent;
         this.location = location;
+        prevTdiff = location.terrainDif;
+        location.terrainDif = 100;
 
     }
-
+    private void OnDestroy()
+    {
+        location.terrainDif = prevTdiff;
+    }
     //You can imagine the network of pipes like a tree data structure, all pipes can only have one parent but can have any number of children.
     //when a pipe is destoryed all the children pipes are effected
     public void setActive(bool a)
