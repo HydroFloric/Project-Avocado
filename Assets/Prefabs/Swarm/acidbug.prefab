@@ -34,7 +34,8 @@ Transform:
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 0.00025, y: 0.00025, z: 0.00025}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3143072068486951307}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &225775080010719247
@@ -107,12 +108,14 @@ MonoBehaviour:
   maxHealth: 100
   health: 25
   speed: 0.5
+  cost: 100
   attackDamage: 5
+  attackSpeed: 1
+  attackRange: 5
   damageResist: 1
   damageType: 1
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
-  maxRange: 5
 --- !u!114 &5960219106520208765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,3 +178,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &9196876485713594633
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3143072068486951307}
+  m_Layer: 0
+  m_Name: GunPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3143072068486951307
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9196876485713594633}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 141.768, y: -36, z: 1633}
+  m_LocalScale: {x: 4000, y: 3999.9988, z: 3999.9988}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 855485299742212895}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

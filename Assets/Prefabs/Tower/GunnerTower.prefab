@@ -208,6 +208,7 @@ MonoBehaviour:
   maxHealth: 100
   health: 150
   speed: 1
+  cost: 100
   attackDamage: 1
   attackSpeed: 10
   attackRange: 7.5
@@ -215,6 +216,8 @@ MonoBehaviour:
   damageType: 2
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
+  active: 0
+  connectionToBase: {fileID: 0}
 --- !u!65 &1310065478766550615
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -234,8 +237,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.653402, y: 7.956881, z: 3.9059854}
-  m_Center: {x: -0.020923495, y: 3.6928365, z: 0.02026391}
+  m_Size: {x: 3.653402, y: 8.186475, z: 3.9059854}
+  m_Center: {x: -0.020923495, y: 3.5780396, z: 0.02026391}
 --- !u!4 &4327502625784722851 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5e15be17fb88cde438a255a296157393, type: 3}

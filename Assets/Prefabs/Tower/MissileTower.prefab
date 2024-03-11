@@ -417,13 +417,16 @@ MonoBehaviour:
   maxHealth: 100
   health: 150
   speed: 1
+  cost: 100
   attackDamage: 30
+  attackSpeed: 1
+  attackRange: 10
   damageResist: 3
   damageType: 3
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
-  RateOfFire: 1
-  maxRange: 10
+  active: 0
+  connectionToBase: {fileID: 0}
 --- !u!65 &588606107164794003
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -443,5 +446,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.400404, y: 6.287484, z: 2.5421834}
-  m_Center: {x: -0.023205042, y: 3.1284275, z: -0.022031546}
+  m_Size: {x: 2.400404, y: 6.560595, z: 2.5421834}
+  m_Center: {x: -0.023205042, y: 2.991872, z: -0.022031546}
