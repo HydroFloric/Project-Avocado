@@ -46,7 +46,7 @@ public class EntityBase : MonoBehaviour
     {
         x = _x;
         y = _y;
-        z = _z;
+        z = _z; 
     }
 
     public EntityBase(float _x, float _y, float _z, int dmgResist, int dmgType, int hp, float spd)
@@ -79,6 +79,10 @@ public class EntityBase : MonoBehaviour
 
     public void targetCheck(string exclusionLayer, string targetLayer, EntityBase callerID)
     {
+        attackDamage = callerID.attackDamage;
+        attackRange = callerID.attackRange;
+        attackSpeed = callerID.attackSpeed;
+
         TimeSinceLastAttack += Time.deltaTime;
         float targetDistance = float.MaxValue;
         if (currentTarget != null)
@@ -122,7 +126,7 @@ public class EntityBase : MonoBehaviour
         }
     }
 
-    public void Attack(EntityBase target, float dmg, float range)
+    public virtual void Attack(EntityBase target, float dmg, float range)
     {
         DamageSystem.DealDamage(target, this);
         Debug.DrawRay(gameObject.transform.Find("GunPos").position, target.transform.position - gameObject.transform.Find("GunPos").position, Color.red, 0.2f);
@@ -133,5 +137,10 @@ public class EntityBase : MonoBehaviour
         {
             Attack(target, damage, range);
         }
+    }
+
+    public virtual void OnDeath()
+    {
+        Destroy(gameObject);
     }
 }

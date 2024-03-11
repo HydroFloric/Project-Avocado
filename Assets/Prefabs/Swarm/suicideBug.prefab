@@ -136,6 +136,7 @@ MonoBehaviour:
   z: 0
   baseRotation: -90
   state: 0
+  active: 0
   maxHealth: 100
   health: 50
   speed: 0.75
@@ -147,6 +148,7 @@ MonoBehaviour:
   damageType: 3
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
+  explosionEffect: {fileID: 2780256490669445960, guid: 4b4f6708b9e072443867bee7d23cd26c, type: 3}
 --- !u!114 &6965741392047613574
 MonoBehaviour:
   m_ObjectHideFlags: 0

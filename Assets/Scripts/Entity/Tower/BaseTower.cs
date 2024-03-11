@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public abstract class BaseTower : EntityBase
+public class BaseTower : EntityBase
 {
     public Pipe connectionToBase;
-    private EntityBase currentTarget = null;
-    private float TimeSinceLastShot;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         speed = 0.0f; //Towers *probably* shouldn't have a move speed.
     }

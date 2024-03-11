@@ -105,6 +105,7 @@ MonoBehaviour:
   z: 0
   baseRotation: -90
   state: 0
+  active: 0
   maxHealth: 100
   health: 25
   speed: 0.5
@@ -116,6 +117,7 @@ MonoBehaviour:
   damageType: 1
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
+  acidEffect: {fileID: 8144923239335526559, guid: b924221384f7628459b4ba247fe6dc2b, type: 3}
 --- !u!114 &5960219106520208765
 MonoBehaviour:
   m_ObjectHideFlags: 0

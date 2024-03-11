@@ -322,6 +322,7 @@ MonoBehaviour:
   z: 0
   baseRotation: 0
   state: 0
+  active: 0
   maxHealth: 100
   health: 150
   speed: 1
@@ -333,8 +334,8 @@ MonoBehaviour:
   damageType: 1
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
-  active: 0
   connectionToBase: {fileID: 0}
+  flameEffect: {fileID: 5196490483826687445, guid: 3042a0733678cd14bb238c24617a5ce3, type: 3}
 --- !u!65 &344175319903121328
 BoxCollider:
   m_ObjectHideFlags: 0

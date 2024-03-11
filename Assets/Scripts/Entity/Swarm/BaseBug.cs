@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public abstract class BaseBug : EntityBase
+public class BaseBug : EntityBase
 {
     
 
