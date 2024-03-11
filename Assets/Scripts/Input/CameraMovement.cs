@@ -41,7 +41,7 @@ public class CameraMovement : MonoBehaviour
         {
             movement += new Vector3(0, 0, -1);
         }
-        //transform.Translate(movement);
+        transform.Translate(movement);
         //ui.UpdateCameraPosition(new Vector2(movement.x, movement.y));
         
     }

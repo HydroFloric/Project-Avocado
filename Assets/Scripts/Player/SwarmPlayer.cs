@@ -1,16 +1,22 @@
 
+using UnityEngine;
+
 public class SwarmPlayer : Player
 {
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
-        
+        GetComponent<SwarmInput>().enabled = true;
+        GetComponent<SwarmUI>().enabled = true;
+        GetComponentInChildren<Camera>().enabled = true;
+        GetComponentInChildren<CameraMovement>().enabled = true;
     }
-
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+
+        GetComponent<SwarmInput>().enabled = false;
+        GetComponent<SwarmUI>().enabled = false;
+        GetComponentInChildren<Camera>().enabled = false;
+        GetComponentInChildren<CameraMovement>().enabled = false;
     }
 }
