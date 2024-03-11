@@ -41,6 +41,7 @@ public class TowerInput : MonoBehaviour
             getPointerColor();
             if(Input.GetMouseButtonDown(0) && canPlace) {
                 player.AddTower(selectedTower, mapManager.findClosetNode(cur_pointer.transform.position), pipeLineManager.GetPipe(cur_pointer.transform.position, 1f));
+
                 pointer.transform.position = cur_pointer.transform.position;
                 Destroy(cur_pointer);
                 pointer.SetActive(true);
@@ -54,30 +55,34 @@ public class TowerInput : MonoBehaviour
                 cur_pointer = pointer;
             }
         }
-        if (Input.GetMouseButtonDown(0))
+        if (pointer == cur_pointer)
         {
-            set_mouse = Input.mousePosition;
-        }
-        if (Input.GetMouseButton(0) && set_mouse != Vector2.negativeInfinity)
-        {
-            cur_mouse = Input.mousePosition;
-            DrawSelectionBox();
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            Debug.Log(Input.mousePosition);
-            pipeLineManager.setGoal(Input.mousePosition);
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            set_mouse = Vector2.negativeInfinity; cur_mouse = Vector2.zero;
-            rect.Set(-1, -1, -1, -1);
+            if (Input.GetMouseButtonDown(0))
+            {
+                set_mouse = Input.mousePosition;
+            }
+            if (Input.GetMouseButton(0) && set_mouse != Vector2.negativeInfinity)
+            {
+                cur_mouse = Input.mousePosition;
+                DrawSelectionBox();
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                Debug.Log(Input.mousePosition);
+                pipeLineManager.setGoal(Input.mousePosition);
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                set_mouse = Vector2.negativeInfinity; cur_mouse = Vector2.zero;
+                rect.Set(-1, -1, -1, -1);
+            }
         }
     }
     public void setPointer(GameObject c)
     {
         selectedTower = c;
         cur_pointer = Instantiate(c);
+        cur_pointer.layer = LayerMask.GetMask("Default");
         pointer.SetActive(false);
         foreach(Renderer r in cur_pointer.GetComponentsInChildren<Renderer>())
         {
@@ -91,6 +96,7 @@ public class TowerInput : MonoBehaviour
         canPlace = pipeLineManager.contains(cur_pointer.transform.position);
         var test1 = Physics.OverlapSphere(cur_pointer.transform.position, 0.4f, LayerMask.GetMask("Tower"));
         var test2 = Physics.OverlapSphere(cur_pointer.transform.position, 0.4f, LayerMask.GetMask("MapObjects"));
+
         if (test1.Length > 0 || test2.Length > 0) canPlace = false;
         if (canPlace)
         {

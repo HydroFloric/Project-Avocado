@@ -14,9 +14,9 @@ public class TowerPlayer : Player
 
     public bool AddTower(GameObject e, HexNode Location, Pipe Connection)
     {
-        var test1 = Physics.OverlapSphere(Location.Vec3Location(), 0.1f, LayerMask.GetMask("Tower"));
-        var test2 = Physics.OverlapSphere(Location.Vec3Location(), 0.5f, LayerMask.GetMask("MapObjects"));
-        if (test1.Length > 0 || test2.Length > 0) return false;
+        var towerOverlapTest = Physics.OverlapSphere(Location.Vec3Location(), 0.1f, LayerMask.GetMask("Tower"));
+        var mapObjectOverlapTest = Physics.OverlapSphere(Location.Vec3Location(), 0.5f, LayerMask.GetMask("MapObjects"));
+        if (towerOverlapTest.Length > 0 || mapObjectOverlapTest.Length > 0) return false;
 
         if(towers.Count < TowerLimit)
         {

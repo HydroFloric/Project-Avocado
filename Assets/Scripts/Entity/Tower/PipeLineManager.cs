@@ -97,12 +97,15 @@ public class PipeLineManager : MonoBehaviour
     {
         timeSinceLast = 0f;
         var node = mapManager.nextNodeInPath(currentGoal, curPipe.location);
-        foreach(var p in pipes)
+        pipes.RemoveAll(p => p == null);
+        foreach(var p in pipes.FindAll(p => p.Parent == null))
         {
             if(p.location == node)
             {
                 p.Parent = curPipe;
-                p.active = true;
+                p.setActive(true);
+                currentGoal = null; 
+                return;
             }
         }
 
@@ -132,7 +135,7 @@ public class PipeLineManager : MonoBehaviour
     {
         Collider[] hits = Physics.OverlapSphere(v, 0.5f, LayerMask.GetMask("Pipe"));
         if (hits.Length == 0) return false;
-        else return true;
+        return true;
     }
     public Pipe GetPipe(Vector3 v, float i)
     {
@@ -177,7 +180,7 @@ public class Pipe : MonoBehaviour
         active = a;
         if(active == true)
         {
-            gameObject.GetComponent<MeshRenderer>().material.color = new Color(224,224,224,255);
+            gameObject.GetComponent<MeshRenderer>().material.color = new Color(1,1,1,1);
         }
         if (active == false)
         {
