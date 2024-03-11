@@ -16,7 +16,7 @@ public class BaseTower : EntityBase
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void FixedUpdate()
@@ -41,16 +41,12 @@ public class BaseTower : EntityBase
                 }
             }
         }
-        
+    }
+
     public void init(Pipe p, HexNode l)
     {
         connectionToBase = p;
         base.init(l);
-    }
-    private void Attack(EntityBase target, float dmg, float range)
-    {
-        DamageSystem.DealDamage(target, this);
-        Debug.DrawRay(gameObject.transform.Find("GunPos").position, target.transform.position - gameObject.transform.Find("GunPos").position, Color.red, 0.2f);
     }
 
     private void OnDrawGizmos()
@@ -58,3 +54,4 @@ public class BaseTower : EntityBase
         Gizmos.DrawWireSphere(gameObject.transform.position, attackRange);
     }
 }
+

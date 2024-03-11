@@ -12,7 +12,7 @@ public class FlameTower : BaseTower
     }
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         health = 150.0f;
         attackRange = 5.0f;

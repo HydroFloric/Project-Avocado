@@ -14,7 +14,7 @@ public class EntityManager : MonoBehaviour
 
     public List<EntityBase> entities = new List<EntityBase>();
     List<EntityBase> selectedUnits = new List<EntityBase>();
-    public string tag = "swarm"; //if tower player needs pathing can be reused in future
+    new public string tag = "swarm"; //if tower player needs pathing can be reused in future
     public GameObject[] types = null; //can add different prefabs/models 
     private void Start()
     {
