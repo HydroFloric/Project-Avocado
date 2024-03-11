@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class HexagonMapGenerator : MonoBehaviour
 {
+
+
     public GameObject waterPrefab;
     public GameObject lowlandPrefab;
     public GameObject highlandPrefab;
@@ -15,8 +17,7 @@ public class HexagonMapGenerator : MonoBehaviour
     public GameObject extraMountainPrefab;
     public GameObject treePrefab;
 
-    public GameObject basePrefab;
-    public GameObject baseWallPrefab;
+
 
     public int _MapWidth = 100;
     public int _MapHeight = 100;
@@ -34,23 +35,27 @@ public class HexagonMapGenerator : MonoBehaviour
     private float _palmTreeSpawnChance = 0.05f; // 5% chance
     private float _mountainExtraSpawnChance = 0.1f; // 10% chance
 
+   
 
     public GameObject[,] tileMap;
     void Start()
     {
         tileMap = new GameObject[_MapWidth, _MapHeight];
         GenerateHexagonGrid();
-        GenerateCrystals();
-        GenerateBase();
+        // GenerateCrystals();
+        // GenerateBase();
     }
 
-    private Vector3 GetHexCoords(int x, int z)
+    public Vector3 GetHexCoords(int x, int z)
     {
         float xPos = x * _tileSize * Mathf.Cos(Mathf.Deg2Rad * 30);
         float zPos = z * _tileSize + (x % 2 == 1 ? _tileSize * 0.5f : 0);
 
         return new Vector3(xPos, 0, zPos);
     }
+
+   
+
 
     void GenerateHexagonGrid()
     {
@@ -71,6 +76,9 @@ public class HexagonMapGenerator : MonoBehaviour
 
                 GameObject tilePrefab = GetTilePrefab(noiseValue, x, z);
                 GameObject instantiatedTile = Instantiate(tilePrefab, hexCoords, Quaternion.Euler(0, rotationAngle, 0));
+
+                // Assign the instantiated tile to the tileMap
+                tileMap[x, z] = instantiatedTile;
 
                 // Check for special cases
                 if (tilePrefab == desertPrefab && Random.value < _palmTreeSpawnChance)
@@ -108,53 +116,20 @@ public class HexagonMapGenerator : MonoBehaviour
                 }
             }
         }
+
+
     }
 
-    void GenerateCrystals()
+
+    public bool IsWaterTile(int x, int z)
     {
-        List<Vector2Int> crystalLocations = new List<Vector2Int>();
+        Vector3 hexCoords = GetHexCoords(x, z);
+        float noiseValue = Mathf.PerlinNoise((hexCoords.x + _noiseSeed) / _noiseFrequency, (hexCoords.z + _noiseSeed) / _noiseFrequency);
 
-        for (int i = 0; i < _numCrystals;)
-        {
-            int x = Random.Range(2, _MapWidth - 2);  // Ensure at least 2 tiles edges
-            int z = Random.Range(2, _MapHeight - 2); 
-
-            Vector2Int crystalLocation = new Vector2Int(x, z);
-
-            
-            if (IsCrystalTile(x, z) && !IsMountainTile(x, z) && IsFarFromOtherCrystals(crystalLocation, crystalLocations, 5))
-            {
-                Vector3 crystalCoords = GetHexCoords(x, z);
-
-                for (int j = 0; j < 3; j++)
-                {
-                    float yOffset = j * 0.2f;  // Adjust yOffset to the tile height
-                    Instantiate(crystalPrefab, new Vector3(crystalCoords.x, yOffset, crystalCoords.z), Quaternion.Euler(0, 90f, 0));
-                }
-
-                Instantiate(crystalPrefab, new Vector3(crystalCoords.x, 0.6f, crystalCoords.z), Quaternion.Euler(0, 90f, 0));
-
-                // Add the crystal location to the list
-                crystalLocations.Add(crystalLocation);
-
-                i++;
-            }
-        }
+        return noiseValue < _waterThreshold;
     }
 
-    bool IsFarFromOtherCrystals(Vector2Int currentLocation, List<Vector2Int> otherLocations, int minDistance)
-    {
-        foreach (Vector2Int location in otherLocations)
-        {
-            if (Vector2Int.Distance(currentLocation, location) < minDistance)
-            {
-                return false;  // Current location is too close to another crystal
-            }
-        }
-        return true;  
-    }
-
-    bool IsMountainTile(int x, int z)
+    public bool IsMountainTile(int x, int z)
     {
         Vector3 hexCoords = GetHexCoords(x, z);
         float noiseValue = Mathf.PerlinNoise((hexCoords.x + _noiseSeed) / _noiseFrequency, (hexCoords.z + _noiseSeed) / _noiseFrequency);
@@ -162,7 +137,7 @@ public class HexagonMapGenerator : MonoBehaviour
         return noiseValue >= _highlandThreshold;
     }
 
-    bool IsCrystalTile(int x, int z)
+    public bool IsCrystalTile(int x, int z)
     {
         Vector3 hexCoords = GetHexCoords(x, z);
         float noiseValue = Mathf.PerlinNoise((hexCoords.x + _noiseSeed) / _noiseFrequency, (hexCoords.z + _noiseSeed) / _noiseFrequency);
@@ -185,7 +160,7 @@ public class HexagonMapGenerator : MonoBehaviour
             if (HasSameTypeNeighbor(x, z, desertPrefab) && randomValue < 0.1f)
                 return desertPrefab;
 
-            return waterPrefab; 
+            return waterPrefab;
         }
         else if (noiseValue < _desertThreshold)
         {
@@ -205,7 +180,7 @@ public class HexagonMapGenerator : MonoBehaviour
             if (HasSameTypeNeighbor(x, z, grasslandPrefab) && randomValue < 0.2f)
                 return grasslandPrefab;
 
-            return lowlandPrefab; // Default to lowland
+            return lowlandPrefab;
         }
         else if (noiseValue < _grasslandThreshold)
         {
@@ -233,13 +208,15 @@ public class HexagonMapGenerator : MonoBehaviour
         }
     }
 
-    bool HasSameTypeNeighbor(int x, int z, GameObject prefab)
+    public bool HasSameTypeNeighbor(int x, int z, GameObject prefab)
     {
         // Check neighbors in all directions
-        if (IsSameType(x - 1, z, prefab) || // Left
-            IsSameType(x + 1, z, prefab) || // Right
-            IsSameType(x, z - 1, prefab) || // Down
-            IsSameType(x, z + 1, prefab))   // Up
+        if (IsSameType(x - 1, z, prefab) || 
+            IsSameType(x + 1, z, prefab) || 
+            IsSameType(x, z - 1, prefab) || 
+            IsSameType(x, z + 1, prefab) || 
+            IsSameType(x - 1, z + 1, prefab) || 
+            IsSameType(x + 1, z - 1, prefab))   
         {
             return true;
         }
@@ -247,7 +224,7 @@ public class HexagonMapGenerator : MonoBehaviour
         return false;
     }
 
-    bool IsSameType(int x, int z, GameObject prefab)
+    public bool IsSameType(int x, int z, GameObject prefab)
     {
         // Check if the position is within bounds
         if (IsInBounds(x, z))
@@ -258,21 +235,17 @@ public class HexagonMapGenerator : MonoBehaviour
         return false;
     }
 
-    bool IsInBounds(int x, int z)
+    public bool IsInBounds(int x, int z)
     {
         return x >= 0 && x < _MapWidth && z >= 0 && z < _MapHeight;
     }
 
-    GameObject GetTilePrefabAtPosition(int x, int z)
+    public GameObject GetTilePrefabAtPosition(int x, int z)
     {
-        
-
         if (IsInBounds(x, z))
         {
             return tileMap[x, z];
         }
-
-        // Return a default value or handle out-of-bounds accordingly
         return null;
     }
 
@@ -291,7 +264,7 @@ public class HexagonMapGenerator : MonoBehaviour
                 if (i == 0 && j == 0)
                     continue;
 
-                if (!IsWithinMapBounds(neighborX, neighborZ))
+                if (!IsInBounds(neighborX, neighborZ))
                     continue;
 
                 GameObject neighborPrefab = GetExactTilePrefabAt(neighborX, neighborZ);
@@ -305,7 +278,7 @@ public class HexagonMapGenerator : MonoBehaviour
         return neighbors;
     }
 
-    bool AreAllNeighborsSame(int x, int z)
+    public bool AreAllNeighborsSame(int x, int z)
     {
         for (int i = -1; i <= 1; i++)
         {
@@ -318,7 +291,7 @@ public class HexagonMapGenerator : MonoBehaviour
                 if (i == 0 && j == 0)
                     continue;
 
-                if (!IsWithinMapBounds(neighborX, neighborZ))
+                if (!IsInBounds(neighborX, neighborZ))
                     continue;
 
                 // Check if the neighboring tile has a different terrain type
@@ -373,32 +346,7 @@ public class HexagonMapGenerator : MonoBehaviour
     }
 
 
-
-    // Hcheck if a position is within map bounds
-    bool IsWithinMapBounds(int x, int z)
-    {
-        return x >= 0 && x < _MapWidth && z >= 0 && z < _MapHeight;
-    }
-
-
-
-    void GenerateBase()
-    {
-        int baseX, baseZ;
-
-        if (FindBaseLocation(out baseX, out baseZ))
-        {
-            GenerateBaseTile(baseX, baseZ);
-
-            GenerateWallTiles(baseX, baseZ);
-        }
-        else
-        {
-            Debug.LogWarning("Unable to find a suitable location for the base.");
-        }
-    }
-
-    bool FindBaseLocation(out int baseX, out int baseZ)
+    public bool FindBaseLocation(out int baseX, out int baseZ)
     {
         // Loop until a suitable location is found
         for (int attempt = 0; attempt < 100; attempt++)
@@ -406,7 +354,7 @@ public class HexagonMapGenerator : MonoBehaviour
             baseX = Random.Range(3, _MapWidth - 3);
             baseZ = Random.Range(3, _MapHeight - 3);
 
-            if (IsValidBaseLocation(baseX, baseZ))
+            if (IsValidBaseLocation(baseX, baseZ) && IsInBounds(baseX, baseZ))
             {
                 return true;
             }
@@ -416,7 +364,7 @@ public class HexagonMapGenerator : MonoBehaviour
         return false;
     }
 
-    bool IsValidBaseLocation(int baseX, int baseZ)
+    public bool IsValidBaseLocation(int baseX, int baseZ)
     {
         // Check if the base location is not on water, mountain, or crystal tiles
         if (IsWaterOrMountainOrCrystalTile(baseX, baseZ))
@@ -431,7 +379,7 @@ public class HexagonMapGenerator : MonoBehaviour
                 int x = baseX + i;
                 int z = baseZ + j;
 
-                if (!IsWithinMapBounds(x, z) || IsWaterOrMountainOrCrystalTile(x, z))
+                if (!IsInBounds(x, z) || IsMountainTile(x, z) || IsWaterTile(x, z))
                 {
                     return false;
                 }
@@ -441,65 +389,61 @@ public class HexagonMapGenerator : MonoBehaviour
         return true;
     }
 
-
-    void GenerateBaseTile(int baseX, int baseZ)
+    public void GetAdjacentTileCoordinates(int baseX, int baseZ, int direction, out int adjacentX, out int adjacentZ)
     {
-        Vector3 baseCoords = GetHexCoords(baseX, baseZ);
+        int[] deltaX = { 1, 1, 0, -1, -1, 0 , 0, 2};
+        int[] deltaZ = { 0, 1, 1, 0, -1, -1 , 2, 0};
 
-        // Check if a tile already exists at the location
-        if (tileMap[baseX, baseZ] != null)
+        adjacentX = baseX + deltaX[direction];
+        adjacentZ = baseZ + deltaZ[direction];
+
+        // For diagonal directions, adjust adjacent coordinates to cover all adjacent tiles
+        if (direction % 2 != 0)
         {
-            Destroy(tileMap[baseX, baseZ]);
-        }
+            int nextDirection = (direction + 1) % 6;
+            int prevDirection = (direction + 5) % 6;
 
-        GameObject baseTile = Instantiate(basePrefab, baseCoords, Quaternion.Euler(0, 90f, 0));
-        tileMap[baseX, baseZ] = baseTile;
-    }
+            int diagonal1X, diagonal1Z, diagonal2X, diagonal2Z;
 
-    void GenerateWallTiles(int baseX, int baseZ)
-    {
-        for (int i = 0; i < 6; i++)
-        {
-            int direction = (i + 1) % 6;
+            GetAdjacentTileCoordinates(adjacentX, adjacentZ, nextDirection, out diagonal1X, out diagonal1Z);
+            GetAdjacentTileCoordinates(adjacentX, adjacentZ, prevDirection, out diagonal2X, out diagonal2Z);
 
-            int wallX, wallZ;
-            GetAdjacentTileCoordinates(baseX, baseZ, direction, out wallX, out wallZ);
+            // Choose the adjacent tile that has the smallest difference in height
+            int heightDifference1 = Mathf.Abs(adjacentX - diagonal1X) + Mathf.Abs(adjacentZ - diagonal1Z);
+            int heightDifference2 = Mathf.Abs(adjacentX - diagonal2X) + Mathf.Abs(adjacentZ - diagonal2Z);
 
-            // Check if the position is valid for a wall tile
-            if (IsWithinMapBounds(wallX, wallZ) && !IsWaterOrMountainOrCrystalTile(wallX, wallZ))
+            if (heightDifference1 < heightDifference2)
             {
-                // Delete existing tile, if any
-                if (tileMap[wallX, wallZ] != null)
-                {
-                    Destroy(tileMap[wallX, wallZ]);
-                }
-
-                Vector3 wallCoords = GetHexCoords(wallX, wallZ);
-
-                GameObject wallTile = Instantiate(baseWallPrefab, wallCoords, Quaternion.Euler(0, 90f, 0));
-                tileMap[wallX, wallZ] = wallTile;
+                adjacentX = diagonal1X;
+                adjacentZ = diagonal1Z;
+            }
+            else
+            {
+                adjacentX = diagonal2X;
+                adjacentZ = diagonal2Z;
             }
         }
     }
 
-    void GetAdjacentTileCoordinates(int baseX, int baseZ, int direction, out int adjacentX, out int adjacentZ)
+    public bool IsWaterOrMountainOrCrystalTile(int x, int z)
+    {
+        if (!IsInBounds(x, z))
+            return false;
+
+        GameObject tilePrefab = GetTilePrefabAtPosition(x, z);
+
+        // Check if the tile is water, mountain, or crystal
+        return tilePrefab == waterPrefab || tilePrefab == mountainPrefab || tilePrefab == crystalPrefab;
+    }
+
+    public bool IsCloseToBases(Vector2Int crystalLocation, Vector2Int baseLocation1, Vector2Int baseLocation2, int minDistance)
+    {
+        if (Vector2Int.Distance(crystalLocation, baseLocation1) < minDistance || Vector2Int.Distance(crystalLocation, baseLocation2) < minDistance)
         {
-            int[] deltaX = { 1, 1, 0, -1, -1, 0};
-            int[] deltaZ = { 0, -1, -1, 0, 1, 1};
-
-            adjacentX = baseX + deltaX[direction];
-            adjacentZ = baseZ + deltaZ[direction];
+            return true;  // Crystal is too close to one of the bases
         }
-
-        bool IsWaterOrMountainOrCrystalTile(int x, int z)
-        {
-            if (!IsWithinMapBounds(x, z))
-                return false;
-
-            GameObject tilePrefab = GetTilePrefabAtPosition(x, z);
-
-            // Check if the tile is water, mountain, or crystal
-            return tilePrefab == waterPrefab || tilePrefab == mountainPrefab || tilePrefab == crystalPrefab;
-        }
-
+        return false;
+    }
 }
+
+
