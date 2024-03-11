@@ -97,9 +97,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8696451276978971815, guid: 9d73b04c4842b6f498dfc12707911902, type: 3}
-  - {fileID: -7378142871149829923, guid: 9d73b04c4842b6f498dfc12707911902, type: 3}
-  - {fileID: -1146244535577574688, guid: 9d73b04c4842b6f498dfc12707911902, type: 3}
+  - {fileID: 2100000, guid: 2254f6531d84c974b96a23b0f27f0755, type: 2}
+  - {fileID: 2100000, guid: 19f2a990d8fab5d42a65f2e4605bdf5e, type: 2}
+  - {fileID: 2100000, guid: 2254f6531d84c974b96a23b0f27f0755, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -186,6 +186,7 @@ MonoBehaviour:
   z: 0
   baseRotation: 0
   state: 0
+  active: 0
   maxHealth: 100
   health: 75
   speed: 1.25
