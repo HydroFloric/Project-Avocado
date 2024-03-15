@@ -16,6 +16,7 @@ public class PipeLineManager : MonoBehaviour
     List<Pipe> pipes = new List<Pipe>();
     Pipe curPipe;
     HexNode currentGoal;
+    HexNode goal;
 
     float pipeSpawnTickRate = 0.1f;
     float timeSinceLast = 0f;
@@ -23,6 +24,8 @@ public class PipeLineManager : MonoBehaviour
 
     private void Awake()
     {
+        currentGoal = GetComponent<HexNode>();
+        goal = GetComponent<HexNode>(); 
     }
     private void Start()
     {
@@ -35,7 +38,7 @@ public class PipeLineManager : MonoBehaviour
     {
         Vector3 origin = Camera.main.ScreenToWorldPoint(new Vector3(a.x, a.y, Camera.main.transform.position.z));
 
-        HexNode goal = mapManager.findNearestCrystal(origin);
+        goal = mapManager.findNearestCrystal(origin);
 
         if (root == null)
         {

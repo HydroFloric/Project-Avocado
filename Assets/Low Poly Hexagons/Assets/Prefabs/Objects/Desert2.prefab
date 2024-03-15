@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33937167363383292}
   - component: {fileID: 23305504154043962}
   - component: {fileID: 65038844034595162}
+  - component: {fileID: -5952925426939313404}
   m_Layer: 9
   m_Name: Desert2
   m_TagString: Untagged
@@ -105,3 +106,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8029007, y: 0.47994024, z: 0.70930076}
   m_Center: {x: -0.00396204, y: 0.4090689, z: -0.07082735}
+--- !u!114 &-5952925426939313404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090772466834840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1

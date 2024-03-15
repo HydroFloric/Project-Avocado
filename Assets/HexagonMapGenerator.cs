@@ -1,7 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Netcode;
+using System.Collections;
 
-public class HexagonMapGenerator : MonoBehaviour
+public class HexagonMapGenerator : NetworkBehaviour
 {
     public GameObject waterPrefab;
     public GameObject lowlandPrefab;
@@ -27,19 +29,29 @@ public class HexagonMapGenerator : MonoBehaviour
     public float _mountainThreshold = 1.0f;
     public float _numCrystals = 15f;
     private int _noiseSeed = -1;
+    public NetworkVariable<int> networkSeed = new NetworkVariable<int>();
+    public NetworkVariable<int> network_X = new NetworkVariable<int>();
+    public NetworkVariable<int> network_Z = new NetworkVariable<int>();
 
     private float _palmTreeSpawnChance = 0.05f; // 5% chance
     private float _mountainExtraSpawnChance = 0.1f; // 10% chance
     private GameObject[,] map;
 
     private MapManager mapManager;
+    private networkUI network;
+   
+    string serializedMapData;
+
+    
+
     void Awake()
     {
         mapManager = GetComponent<MapManager>();
+        network = GetComponent<networkUI>();
+       
         map = new GameObject[_MapWidth,_MapHeight];
-        GenerateHexagonGrid();
-        mapManager.initMap(map);
-        GenerateCrystals();
+
+    
 
 
 
@@ -47,7 +59,13 @@ public class HexagonMapGenerator : MonoBehaviour
     private void Start()
     {
         GetComponentInChildren<SwarmUI>().ShowMap();
+        network.SubscribeToNetworkEvents();
+        //NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+
+
     }
+
+
     private Vector3 GetHexCoords(int x, int z)
     {
         float xPos = x * _tileSize * Mathf.Cos(Mathf.Deg2Rad * 30);
@@ -55,8 +73,20 @@ public class HexagonMapGenerator : MonoBehaviour
 
         return new Vector3(xPos, 0, zPos);
     }
+    public int RandomSeed(int seed)
+    {
+        Debug.Log("Seed before randomisation : " + seed);
+        if (seed == -1)
+        {
+            seed = Random.Range(0, 99999999);
 
-    void GenerateHexagonGrid()
+        }
+        Debug.Log("Seed after randomisation : " + seed);
+        
+        return seed;
+    }
+
+    public void GenerateHexagonGrid(int seed)
     {
         for (int z = 0; z < _MapHeight; z++)
         {
@@ -64,22 +94,19 @@ public class HexagonMapGenerator : MonoBehaviour
             {
                 Vector3 hexCoords = GetHexCoords(x, z);
 
-                if (_noiseSeed == -1)
-                {
-                    _noiseSeed = Random.Range(0, 99999999);
-                }
-
-                float noiseValue = Mathf.PerlinNoise((hexCoords.x + _noiseSeed) / _noiseFrequency, (hexCoords.z + _noiseSeed) / _noiseFrequency);
+               
+                float noiseValue = Mathf.PerlinNoise((hexCoords.x + seed) / _noiseFrequency, (hexCoords.z + seed) / _noiseFrequency);
 
                 float rotationAngle = 90f;
 
                 GameObject tilePrefab = GetTilePrefab(noiseValue, x, z);
                 GameObject instantiatedTile = Instantiate(tilePrefab, hexCoords, Quaternion.Euler(0, rotationAngle, 0));
 
+
                 HexNode node = null;
-               
+
                 instantiatedTile.TryGetComponent<HexNode>(out node);
-               
+
                 if (node == null)
                 {
                     node = instantiatedTile.AddComponent<HexNode>();
@@ -135,7 +162,7 @@ public class HexagonMapGenerator : MonoBehaviour
         }
     }
 
-    void GenerateCrystals()
+    public void GenerateCrystals()
     {
         for (int i = 0; i < _numCrystals;)
         {
@@ -354,4 +381,91 @@ public class HexagonMapGenerator : MonoBehaviour
     {
         return x >= 0 && x < _MapWidth && z >= 0 && z < _MapHeight;
     }
+
+
+    public void isHostBttnEvent()
+    {
+        if (!NetworkManager.Singleton.IsHost)
+        {
+            NetworkManager.Singleton.StartHost();
+            int hostSeed = RandomSeed(_noiseSeed); // Generate or retrieve your seed here
+            networkSeed.Value = hostSeed; // Assign the seed to networkSeed for replication
+
+            // Generate the map with the seed
+            GenerateHexagonGrid(hostSeed);
+            mapManager.initMap(map);
+            
+           
+
+
+
+            Debug.Log($"Host started with seed: {hostSeed}");
+        }
+        else
+        {
+            Debug.Log("Host already started.");
+        }
+
+        NetworkManager.Singleton.OnClientConnectedCallback += (clientId) =>
+        {
+            if (clientId == NetworkManager.Singleton.LocalClientId)
+            {
+                Debug.Log($" Successfully connected to the server. Local Client ID: {clientId} & seed = " + networkSeed.Value);
+                
+            }
+            else
+            {
+                Debug.Log($"A client connected with Client ID: {clientId}");
+               // GenerateCrystals(network_X, network_Z);
+            }
+        };
+        
+    }
+    public void StartClientAndReceiveMap()
+    {
+        //int clientSeed = networkSeed.Value;
+        //Debug.Log("Client Seed value : " +  clientSeed);    
+        if (!NetworkManager.Singleton.IsClient)
+        {
+            // Starts the client
+            NetworkManager.Singleton.StartClient();
+            
+            //Debug.Log("client side Network seed value : " + networkSeed.Value);
+            //TestServerRpc();
+          // GenerateHexagonGrid(clientSeed);
+        }
+
+
+        NetworkManager.Singleton.OnClientConnectedCallback += (clientId) =>
+        {
+            if (clientId == NetworkManager.Singleton.LocalClientId)
+            {
+                Debug.Log($" Successfully connected to the server. Local Client ID: {clientId} & seed = " + networkSeed.Value);
+                GenerateHexagonGrid(networkSeed.Value);
+                //GenerateCrystals(network_X, network_Z);
+            }
+            else
+            {
+                Debug.Log($"A client connected with Client ID: {clientId}");
+            }
+        };
+
+    }
+
+    [ServerRpc (RequireOwnership = false)]
+    private void TestServerRpc()
+    {
+        Debug.Log(OwnerClientId +  ": Give me seeds");
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        TestServerRpc();
+        GenerateCrystals();
+
+    }
+
+
+
+
 }

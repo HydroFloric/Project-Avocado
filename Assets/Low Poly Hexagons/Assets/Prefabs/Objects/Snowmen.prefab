@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33579341904978922}
   - component: {fileID: 23308788433229574}
   - component: {fileID: 65344043587904218}
+  - component: {fileID: -48059634169258704}
   m_Layer: 9
   m_Name: Snowmen
   m_TagString: Untagged
@@ -105,3 +106,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7310238, y: 0.36872238, z: 0.55021054}
   m_Center: {x: 0.008861199, y: 0.32418463, z: -0.05061558}
+--- !u!114 &-48059634169258704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125181244151460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1

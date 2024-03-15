@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Utils;
 using Unity.Properties;
+using System.Text;
 
 /* Don't reference map nodes by their transform position in world space, always use reference.Vec3Location(). transform may not exist in future implementations.
  * 
@@ -19,6 +20,7 @@ public struct mapItem
     }
     public HexNode node;
     public int distance;
+    
 }
 public class MapManager : MonoBehaviour
 {
@@ -35,7 +37,12 @@ public class MapManager : MonoBehaviour
     HexNode[,] map;
     int map_x;
     int map_z;
-   public void initMap(GameObject[,] m) { //instead of a game object the input will be whatever map data is created when we eveutally get to that point
+    private HexagonMapGenerator hexMap;
+    private void Awake()
+    {
+        hexMap = GetComponent<HexagonMapGenerator>();
+    }
+    public void initMap(GameObject[,] m) { //instead of a game object the input will be whatever map data is created when we eveutally get to that point
         map_x = m.GetLength(0);
         map_z = m.GetLength(1);
         map = new HexNode[map_x, map_z];
@@ -191,4 +198,46 @@ public class MapManager : MonoBehaviour
         
         Gizmos.DrawWireSphere(debug, debug_rad);
     }
-}
+
+    //public string SerializeMap()
+    //{
+    //    StringBuilder sb = new StringBuilder();
+    //    HexNode[,] mapData = getMap();
+    //    for (int i = 0; i < mapData.GetLength(0); i++)
+    //    {
+    //        for (int j = 0; j < mapData.GetLength(1); j++)
+    //        {
+    //            HexNode node = mapData[i, j];
+    //            // Example serialization: type,x,y,z;
+    //            // You may need to include more data based on your game's requirements
+    //            sb.Append($"{node.type},{node.Vec3Location().x},{node.Vec3Location().y},{node.Vec3Location().z};");
+    //        }
+    //    }
+    //    return sb.ToString();
+    //}
+
+    //public void DeserializeAndGenerateMap(string serializedMapData)
+    //{
+    //    Debug.Log($"Deserializing map data: {serializedMapData}");
+    //    string[] items = serializedMapData.Split(';');
+    //    foreach (string item in items)
+    //    {
+    //        if (!string.IsNullOrEmpty(item))
+    //        {
+    //            string[] parts = item.Split(',');
+    //            string type = parts[0];
+    //            Vector3 position = new Vector3(float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3]));
+    //            GameObject prefab = hexMap.GetPrefabByType(type);
+    //            if (prefab != null)
+    //            {
+    //                Debug.Log($"Instantiating prefab of type {type} at position {position}");
+    //                Instantiate(prefab, position, Quaternion.identity);
+    //            }
+    //            else
+    //            {
+    //                Debug.LogError($"Failed to find prefab for type {type}");
+    //            }
+    //        }
+    //    }
+ }
+

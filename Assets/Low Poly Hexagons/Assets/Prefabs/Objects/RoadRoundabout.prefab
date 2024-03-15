@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33226137143596222}
   - component: {fileID: 23345454224671092}
   - component: {fileID: 65145509091318892}
+  - component: {fileID: -6179906497952949176}
   m_Layer: 9
   m_Name: RoadRoundabout
   m_TagString: Untagged
@@ -105,3 +106,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.9994282, y: 0, z: 1.1540402}
   m_Center: {x: 0.000000029802322, y: 0.20241609, z: 0}
+--- !u!114 &-6179906497952949176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410689929301814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
