@@ -511,6 +511,10 @@ MonoBehaviour:
   _numCrystals: 15
   networkSeed:
     m_InternalValue: 0
+  network_X:
+    m_InternalValue: 0
+  network_Z:
+    m_InternalValue: 0
 --- !u!4 &421072056
 Transform:
   m_ObjectHideFlags: 0
@@ -867,6 +871,7 @@ GameObject:
   - component: {fileID: 819200519}
   - component: {fileID: 819200518}
   - component: {fileID: 819200521}
+  - component: {fileID: 819200522}
   m_Layer: 0
   m_Name: TowerManager
   m_TagString: Untagged
@@ -959,6 +964,26 @@ MonoBehaviour:
   _uiDocument: {fileID: 1021335756}
   _gridIcon: {fileID: 9197481963319205126, guid: f5c28f4f07e2a6749a298806422e8975, type: 3}
   _maptile: {fileID: 9197481963319205126, guid: 8d09e6e01d14e5b4d885af86da8d5daa, type: 3}
+--- !u!114 &819200522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819200516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3544916983
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &938348273
 GameObject:
   m_ObjectHideFlags: 0
@@ -1445,7 +1470,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1856195016}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b45a64a0f97d9b4b96194679b26f472, type: 3}
   m_Name: 
@@ -1457,7 +1482,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1856195016}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0e06bff30612254ca0d124584bbf4eb, type: 3}
   m_Name: 

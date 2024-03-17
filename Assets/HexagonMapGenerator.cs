@@ -32,6 +32,9 @@ public class HexagonMapGenerator : NetworkBehaviour
     public NetworkVariable<int> networkSeed = new NetworkVariable<int>();
     public NetworkVariable<int> network_X = new NetworkVariable<int>();
     public NetworkVariable<int> network_Z = new NetworkVariable<int>();
+    List<Vector2Int> positions = new List<Vector2Int>();
+    List<Vector2Int> clientPos = new List<Vector2Int>();
+    public NetworkList<Vector2Int> networkPositions = new NetworkList<Vector2Int>();
 
     private float _palmTreeSpawnChance = 0.05f; // 5% chance
     private float _mountainExtraSpawnChance = 0.1f; // 10% chance
@@ -162,17 +165,63 @@ public class HexagonMapGenerator : NetworkBehaviour
         }
     }
 
-    public void GenerateCrystals()
-    {
-        for (int i = 0; i < _numCrystals;)
-        {
-            int x = Random.Range(0, _MapWidth);
-            int z = Random.Range(0, _MapHeight);
+    //public void GenerateCrystals()
+    //{
+    //    System.Random seededRandom = new System.Random(networkSeed.Value); // Seed with networkSeed.Value
 
-            if (IsCrystalTile(x, z) && !IsMountainTile(x, z))
+    //    List<Vector2Int> potentialPositions = new List<Vector2Int>();
+    //    for (int x = 0; x < _MapWidth; x++)
+    //    {
+    //        for (int z = 0; z < _MapHeight; z++)
+    //        {
+    //            // Add conditions to filter out undesirable locations (e.g., water, mountains)
+    //            if (IsCrystalTile(x, z) && !IsMountainTile(x, z)) // Assuming IsWaterTile is a method you have or will create similar to IsMountainTile
+    //            {
+    //                potentialPositions.Add(new Vector2Int(x, z));
+    //            }
+    //        }
+    //    }
+
+    //    int crystalsPlaced = 0;
+    //    while (crystalsPlaced < _numCrystals && potentialPositions.Count > 0)
+    //    {
+    //        int index = seededRandom.Next(potentialPositions.Count); // Select a random position
+    //        Vector2Int pos = potentialPositions[index];
+    //        potentialPositions.RemoveAt(index); // Remove the selected position to avoid duplicates
+
+    //        Vector3 crystalCoords = GetHexCoords(pos.x, pos.y);
+    //        mapManager.setCrystal(pos.x, pos.y); // Set crystal in logic map
+    //        for (int j = 0; j < 3; j++)
+    //        {
+    //            float yOffset = j * 0.2f; // Adjust yOffset to the tile height
+    //            Instantiate(crystalPrefab, new Vector3(crystalCoords.x, yOffset, crystalCoords.z), Quaternion.Euler(0, 90f, 0));
+    //        }
+
+    //        Instantiate(crystalPrefab, new Vector3(crystalCoords.x, 0.6f, crystalCoords.z), Quaternion.Euler(0, 90f, 0));
+
+    //        crystalsPlaced++;
+    //    }
+    //}
+    public List<Vector2Int> handleRNG()
+    {
+        List<Vector2Int> positions = new List<Vector2Int>();
+        // Example RNG handling, replace with your actual logic
+        for (int i = 0; i < _numCrystals; i++)
+        {
+            positions.Add(new Vector2Int(Random.Range(0, _MapWidth), Random.Range(0, _MapHeight)));
+        }
+        return positions;
+    }
+
+
+    public void GenerateCrystals(List<Vector2Int> positions)
+    {
+        foreach (var position in positions)
+        {
+            if (IsCrystalTile(position.x, position.y) && !IsMountainTile(position.x, position.y)) // Note: Using y for z value
             {
-                Vector3 crystalCoords = GetHexCoords(x, z);
-                mapManager.setCrystal(x, z);
+                Vector3 crystalCoords = GetHexCoords(position.x, position.y); // Adapt as necessary
+                mapManager.setCrystal(position.x, position.y);
                 for (int j = 0; j < 3; j++)
                 {
                     float yOffset = j * 0.2f;  // Adjust yOffset to the tile height
@@ -180,11 +229,34 @@ public class HexagonMapGenerator : NetworkBehaviour
                 }
 
                 Instantiate(crystalPrefab, new Vector3(crystalCoords.x, 0.6f, crystalCoords.z), Quaternion.Euler(0, 90f, 0));
-
-                i++;
             }
         }
     }
+
+    /*original function*/
+    //public void GenerateCrystals()
+    //{
+    //    for (int i = 0; i < _numCrystals;)
+    //    {
+    //        int x = Random.Range(0, _MapWidth);
+    //        int z = Random.Range(0, _MapHeight);
+
+    //        if (IsCrystalTile(x, z) && !IsMountainTile(x, z))
+    //        {
+    //            Vector3 crystalCoords = GetHexCoords(x, z);
+    //            mapManager.setCrystal(x, z);
+    //            for (int j = 0; j < 3; j++)
+    //            {
+    //                float yOffset = j * 0.2f;  // Adjust yOffset to the tile height
+    //                Instantiate(crystalPrefab, new Vector3(crystalCoords.x, yOffset, crystalCoords.z), Quaternion.Euler(0, 90f, 0));
+    //            }
+
+    //            Instantiate(crystalPrefab, new Vector3(crystalCoords.x, 0.6f, crystalCoords.z), Quaternion.Euler(0, 90f, 0));
+
+    //            i++;
+    //        }
+    //    }
+    //}
 
     bool IsMountainTile(int x, int z)
     {
@@ -382,67 +454,51 @@ public class HexagonMapGenerator : NetworkBehaviour
         return x >= 0 && x < _MapWidth && z >= 0 && z < _MapHeight;
     }
 
-
-    public void isHostBttnEvent()
+    void testRand(int t)
+    {
+        System.Random rand = new System.Random();
+        Debug.Log(rand.Next(t));
+    }
+    public void isHostBttnEvent() //starts the host and assign the seeds to the network variable
     {
         if (!NetworkManager.Singleton.IsHost)
         {
-            NetworkManager.Singleton.StartHost();
-            int hostSeed = RandomSeed(_noiseSeed); // Generate or retrieve your seed here
-            networkSeed.Value = hostSeed; // Assign the seed to networkSeed for replication
+            //NetworkManager.Singleton.StartHost();
+             // Assign the seed to networkSeed for replication
 
             // Generate the map with the seed
-            GenerateHexagonGrid(hostSeed);
-            mapManager.initMap(map);
-            
+            //GenerateHexagonGrid(hostSeed);
+            //mapManager.initMap(map);
+            //GenerateCrystals();
            
-
-
-
-            Debug.Log($"Host started with seed: {hostSeed}");
         }
         else
         {
             Debug.Log("Host already started.");
         }
 
-        NetworkManager.Singleton.OnClientConnectedCallback += (clientId) =>
-        {
-            if (clientId == NetworkManager.Singleton.LocalClientId)
-            {
-                Debug.Log($" Successfully connected to the server. Local Client ID: {clientId} & seed = " + networkSeed.Value);
-                
-            }
-            else
-            {
-                Debug.Log($"A client connected with Client ID: {clientId}");
-               // GenerateCrystals(network_X, network_Z);
-            }
-        };
+       
         
     }
-    public void StartClientAndReceiveMap()
+    public void StartClientAndReceiveMap() //starts client and use the seeds same as host to generate the map
     {
-        //int clientSeed = networkSeed.Value;
         //Debug.Log("Client Seed value : " +  clientSeed);    
         if (!NetworkManager.Singleton.IsClient)
         {
             // Starts the client
             NetworkManager.Singleton.StartClient();
-            
-            //Debug.Log("client side Network seed value : " + networkSeed.Value);
-            //TestServerRpc();
-          // GenerateHexagonGrid(clientSeed);
         }
-
+        
 
         NetworkManager.Singleton.OnClientConnectedCallback += (clientId) =>
         {
             if (clientId == NetworkManager.Singleton.LocalClientId)
             {
                 Debug.Log($" Successfully connected to the server. Local Client ID: {clientId} & seed = " + networkSeed.Value);
-                GenerateHexagonGrid(networkSeed.Value);
-                //GenerateCrystals(network_X, network_Z);
+                //GenerateHexagonGrid(networkSeed.Value);
+                //mapManager.initMap(map);
+                //GenerateCrystals();
+                
             }
             else
             {
@@ -452,20 +508,66 @@ public class HexagonMapGenerator : NetworkBehaviour
 
     }
 
-    [ServerRpc (RequireOwnership = false)]
-    private void TestServerRpc()
-    {
-        Debug.Log(OwnerClientId +  ": Give me seeds");
-    }
+   
 
     public override void OnNetworkSpawn()
     {
-        TestServerRpc();
-        GenerateCrystals();
+
+        int hostSeed = RandomSeed(_noiseSeed); // Generate or retrieve your seed here
+        
+
+        if (IsHost)
+        {
+            networkSeed.Value = hostSeed;
+            GenerateHexagonGrid(hostSeed);
+            mapManager.initMap(map);
+            positions = handleRNG();
+            GenerateCrystals(positions);
+
+            foreach (var temp in positions)
+            {
+                networkPositions.Add(temp);
+            }
+            // GenerateCrystals();
+            SubscribeNetwork();
+        }
+
+
+        foreach (var temp in networkPositions)
+        {
+            clientPos.Add(temp);
+        }
+
+        if(IsClient) 
+        {
+            GenerateHexagonGrid(networkSeed.Value);
+            mapManager.initMap(map);
+            
+            GenerateCrystals(clientPos);
+            SubscribeNetwork();
+            
+        }
+        
 
     }
 
+    void SubscribeNetwork()
+    {
+        NetworkManager.Singleton.OnClientConnectedCallback += (clientId) =>
+        {
+            if (clientId == NetworkManager.Singleton.LocalClientId)
+            {
+                Debug.Log($" Successfully connected to the server. Local Client ID: {clientId} & seed = " + networkSeed.Value);
 
+            }
+            else
+            {
+                Debug.Log($"A client connected with Client ID: {clientId}");
 
+            }
+        };
+    }
 
 }
+
+

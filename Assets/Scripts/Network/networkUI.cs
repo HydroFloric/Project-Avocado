@@ -14,23 +14,23 @@ public class networkUI : MonoBehaviour
     private void Awake()
     {
 
-        //hostBttn.onClick.AddListener(() =>
-        //   {
-        //       NetworkManager.Singleton.StartHost();
+        hostBttn.onClick.AddListener(() =>
+           {
+               NetworkManager.Singleton.StartHost();
 
-        //       Debug.Log("Host started.");
-        //   });
-
-        //SubscribeToNetworkEvents();
-
-        //clientBttn.onClick.AddListener(() =>
-        //{
-        //    NetworkManager.Singleton.StartClient();
-        //    Debug.Log("Client started.");
-        //});
+               Debug.Log("Host started.");
+           });
 
         //SubscribeToNetworkEvents();
-        //sendCalls();
+
+        clientBttn.onClick.AddListener(() =>
+        {
+            NetworkManager.Singleton.StartClient();
+            Debug.Log("Client started.");
+        });
+
+        SubscribeToNetworkEvents();
+       
     }
 
     public void SubscribeToNetworkEvents()
@@ -39,6 +39,8 @@ public class networkUI : MonoBehaviour
         {
             Debug.Log("OnServerStarted: Server has started.");
         };
+
+       
 
         NetworkManager.Singleton.OnClientConnectedCallback += (clientId) =>
         {
