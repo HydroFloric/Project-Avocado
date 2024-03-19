@@ -38,13 +38,10 @@ public class NetworkInit : NetworkBehaviour
         }
         GenerateMap();
 
-        Vector2[] vl = new Vector2[v.Count];
-        for (int i = 0; i < v.Count; i++)
-        {
-            vl[i] = v[i];
-        }
-        GenerateCrystals(vl);
-        players[playercount.Value].BaseLocation = GameObject.Find("Manager").GetComponent<MapManager>().getNode(Random.Range(0, GetComponent<HexagonMapGenerator>()._MapWidth), Random.Range(0, GetComponent<HexagonMapGenerator>()._MapHeight));
+        var temp = GetComponent<MapBaseGenerator>().GetBaseLocation(playercount.Value);
+
+        players[playercount.Value].BaseLocation = GameObject.Find("Manager").GetComponent<MapManager>().getNode(temp.x,temp.y);
+        players[playercount.Value].SetCamera();
 
     }
     [ServerRpc(RequireOwnership = false)] public void IncPlayerServerRpc()
@@ -61,11 +58,8 @@ public class NetworkInit : NetworkBehaviour
     public void GenerateMap()
     {
         Debug.Log("Finding Client object");
-        GetComponent<HexagonMapGenerator>().GenerateHexagonGrid(seed.Value);
-        GameObject.Find("Manager").GetComponent<MapManager>().initMap(GetComponent<HexagonMapGenerator>().map);
-    }
-    public void GenerateCrystals(Vector2[] vl)
-    {
-        GetComponent<HexagonMapGenerator>().GenerateCrystals(vl);
+        GetComponent<HexagonMapGenerator>().SetNoiseSeed(seed.Value);
+        GetComponent<HexagonMapGenerator>().GenerateHexagonGrid();
+        GameObject.Find("Manager").GetComponent<MapManager>().initMap(GetComponent<HexagonMapGenerator>().tileMap);
     }
 }

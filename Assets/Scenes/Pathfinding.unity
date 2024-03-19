@@ -195,7 +195,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e06bff30612254ca0d124584bbf4eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ui: {fileID: 0}
   entities: []
   types:
   - {fileID: 251435823809893643, guid: 5e50ec23033b19b4ab7ca5854e856e56, type: 3}
@@ -442,6 +441,8 @@ GameObject:
   - component: {fileID: 789585982}
   - component: {fileID: 789585983}
   - component: {fileID: 789585985}
+  - component: {fileID: 789585987}
+  - component: {fileID: 789585986}
   m_Layer: 0
   m_Name: NetworkIntilizer
   m_TagString: Untagged
@@ -519,6 +520,8 @@ MonoBehaviour:
   palmTreePrefab: {fileID: 1591559679761318, guid: 6aa6d57464e3a7742b51561c98bf11c8, type: 3}
   extraMountainPrefab: {fileID: 100000, guid: 86e82c81de2a4a74da13c3984957a116, type: 3}
   treePrefab: {fileID: 1928123463396898, guid: 71be69e7a312bc844ad384574d3624fe, type: 3}
+  desertPyramidPrefab: {fileID: 1097627780168390, guid: aa9ea7f7464180c49917654695328b13, type: 3}
+  waterRocksPrefab: {fileID: 1560994748941806, guid: 4eff434b792317140a2f08fcfdcb297b, type: 3}
   _MapWidth: 50
   _MapHeight: 50
   _tileSize: 1
@@ -530,6 +533,39 @@ MonoBehaviour:
   _highlandThreshold: 0.85
   _mountainThreshold: 1
   _numCrystals: 15
+  numElevation: 0.3
+--- !u!114 &789585986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789585981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6160199f64a094478c8c04f8f651a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hexagonMapGenerator: {fileID: 0}
+  mapBaseGenerator: {fileID: 0}
+  crystalPrefab: {fileID: 0}
+--- !u!114 &789585987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789585981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63a894c50b35a04429d72902afb4f28a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hexagonMapGenerator: {fileID: 0}
+  baseWallPrefab: {fileID: 0}
+  basePrefab: {fileID: 0}
+  crystalBasePrefab: {fileID: 0}
+  crystalBaseWall: {fileID: 0}
 --- !u!1001 &2061579475
 PrefabInstance:
   m_ObjectHideFlags: 0

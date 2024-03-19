@@ -41,6 +41,10 @@ public class CameraMovement : MonoBehaviour
         {
             movement += new Vector3(0, 0, -1);
         }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            GetComponentInParent<Player>().SetCamera();
+        }
         transform.Translate(movement);
         //ui.UpdateCameraPosition(new Vector2(movement.x, movement.y));
         
