@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class mapGenerateCrystals : MonoBehaviour
+public class MapGenerateCrystals : MonoBehaviour
 {
     [SerializeField]
     HexagonMapGenerator hexagonMapGenerator;
@@ -10,10 +10,12 @@ public class mapGenerateCrystals : MonoBehaviour
     MapBaseGenerator mapBaseGenerator;
 
     public GameObject crystalPrefab;
-    private int _numCrystals = 15; 
+    private int _numCrystals = 15;
+    private System.Random _random;
 
     void Start()
     {
+        _random = new System.Random((int)hexagonMapGenerator.GetNoiseSeed()); // Initialize deterministic random number generator
         GenerateCrystals();
     }
 
@@ -23,8 +25,8 @@ public class mapGenerateCrystals : MonoBehaviour
 
         for (int i = 0; i < _numCrystals;)
         {
-            int x = Random.Range(2, hexagonMapGenerator._MapWidth - 2);
-            int z = Random.Range(2, hexagonMapGenerator._MapHeight - 2);
+            int x = _random.Next(2, hexagonMapGenerator._MapWidth - 2); // Use deterministic random number generator
+            int z = _random.Next(2, hexagonMapGenerator._MapHeight - 2); // Use deterministic random number generator
 
             Vector2Int crystalLocation = new Vector2Int(x, z);
 
@@ -38,13 +40,15 @@ public class mapGenerateCrystals : MonoBehaviour
             {
                 Vector3 crystalCoords = hexagonMapGenerator.GetHexCoords(x, z);
 
+                float elevation = hexagonMapGenerator.CalculateElevation(Mathf.PerlinNoise((crystalCoords.x + hexagonMapGenerator.GetNoiseSeed()) / hexagonMapGenerator._noiseFrequency, (crystalCoords.z + hexagonMapGenerator.GetNoiseSeed()) / hexagonMapGenerator._noiseFrequency));
+
                 for (int j = 0; j < 3; j++)
                 {
-                    float yOffset = j * 0.2f;  
-                    Instantiate(crystalPrefab, new Vector3(crystalCoords.x, yOffset, crystalCoords.z), Quaternion.Euler(0, 90f, 0));
+                    float yOffset = j * 0.2f;
+                    Instantiate(crystalPrefab, new Vector3(crystalCoords.x, elevation + yOffset, crystalCoords.z), Quaternion.Euler(0, 90f, 0));
                 }
 
-                Instantiate(crystalPrefab, new Vector3(crystalCoords.x, 0.6f, crystalCoords.z), Quaternion.Euler(0, 90f, 0));
+                Instantiate(crystalPrefab, new Vector3(crystalCoords.x, elevation + 0.6f, crystalCoords.z), Quaternion.Euler(0, 90f, 0));
 
                 // Add the crystal location to the list
                 crystalLocations.Add(crystalLocation);
@@ -55,30 +59,28 @@ public class mapGenerateCrystals : MonoBehaviour
     }
 
     bool IsOnCrystalBase(Vector2Int crystalLocation)
-{
-    
-    int bufferDistance = 4;  
-
-    for (int baseIndex = 0; baseIndex < 2; baseIndex++)
     {
-        Vector2Int crystalBaseLocation = mapBaseGenerator.GetBaseLocation(baseIndex);
+        int bufferDistance = 4;
 
-        if (Mathf.Abs(crystalLocation.x - crystalBaseLocation.x) < bufferDistance &&
-            Mathf.Abs(crystalLocation.y - crystalBaseLocation.y) < bufferDistance)
+        for (int baseIndex = 0; baseIndex < 2; baseIndex++)
         {
-            return true;  
-        }
-    }
+            Vector2Int crystalBaseLocation = mapBaseGenerator.GetBaseLocation(baseIndex);
 
-    return false;
-}
+            if (Mathf.Abs(crystalLocation.x - crystalBaseLocation.x) < bufferDistance &&
+                Mathf.Abs(crystalLocation.y - crystalBaseLocation.y) < bufferDistance)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     bool IsBufferFromWalls(Vector2Int crystalLocation)
     {
         // Define the buffer distance from walls
-        int bufferDistance = 4;  
+        int bufferDistance = 4;
 
-    
         for (int baseIndex = 0; baseIndex < 2; baseIndex++)
         {
             Vector2Int baseLocation = mapBaseGenerator.GetBaseLocation(baseIndex);
@@ -86,7 +88,7 @@ public class mapGenerateCrystals : MonoBehaviour
             if (Mathf.Abs(crystalLocation.x - baseLocation.x) < bufferDistance &&
                 Mathf.Abs(crystalLocation.y - baseLocation.y) < bufferDistance)
             {
-                return false;  
+                return false;
             }
         }
 
@@ -99,7 +101,7 @@ public class mapGenerateCrystals : MonoBehaviour
         {
             if (Vector2Int.Distance(currentLocation, location) < minDistance)
             {
-                return false;  
+                return false;
             }
         }
         return true;
@@ -112,7 +114,7 @@ public class mapGenerateCrystals : MonoBehaviour
 
         if (Vector2Int.Distance(crystalLocation, baseLocation1) < minDistance || Vector2Int.Distance(crystalLocation, baseLocation2) < minDistance)
         {
-            return true;  
+            return true;
         }
         return false;
     }

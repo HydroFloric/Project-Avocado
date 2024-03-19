@@ -16,6 +16,8 @@ public class HexagonMapGenerator : MonoBehaviour
     public GameObject palmTreePrefab;
     public GameObject extraMountainPrefab;
     public GameObject treePrefab;
+    public GameObject desertPyramidPrefab;
+    public GameObject waterRocksPrefab;
 
 
 
@@ -30,20 +32,22 @@ public class HexagonMapGenerator : MonoBehaviour
     public float _highlandThreshold = 0.8f;
     public float _mountainThreshold = 1.0f;
     public float _numCrystals = 15f;
-    private int _noiseSeed = -1;
+
+
+    private System.Random _random;
+    private int _noiseSeed = 420;
 
     private float _palmTreeSpawnChance = 0.05f; // 5% chance
     private float _mountainExtraSpawnChance = 0.1f; // 10% chance
 
-   
+    public float numElevation = 0.3f;
 
     public GameObject[,] tileMap;
     void Start()
     {
         tileMap = new GameObject[_MapWidth, _MapHeight];
+        _random = new System.Random(_noiseSeed);
         GenerateHexagonGrid();
-        // GenerateCrystals();
-        // GenerateBase();
     }
 
     public Vector3 GetHexCoords(int x, int z)
@@ -54,8 +58,6 @@ public class HexagonMapGenerator : MonoBehaviour
         return new Vector3(xPos, 0, zPos);
     }
 
-   
-
 
     void GenerateHexagonGrid()
     {
@@ -65,31 +67,47 @@ public class HexagonMapGenerator : MonoBehaviour
             {
                 Vector3 hexCoords = GetHexCoords(x, z);
 
-                if (_noiseSeed == -1)
-                {
-                    _noiseSeed = Random.Range(0, 99999999);
-                }
-
                 float noiseValue = Mathf.PerlinNoise((hexCoords.x + _noiseSeed) / _noiseFrequency, (hexCoords.z + _noiseSeed) / _noiseFrequency);
-
+                float elevation = CalculateElevation(noiseValue);
                 float rotationAngle = 90f;
 
                 GameObject tilePrefab = GetTilePrefab(noiseValue, x, z);
-                GameObject instantiatedTile = Instantiate(tilePrefab, hexCoords, Quaternion.Euler(0, rotationAngle, 0));
+                GameObject instantiatedTile = Instantiate(tilePrefab, new Vector3(hexCoords.x, elevation, hexCoords.z), Quaternion.Euler(0, rotationAngle, 0));
 
                 // Assign the instantiated tile to the tileMap
                 tileMap[x, z] = instantiatedTile;
 
                 // Check for special cases
-                if (tilePrefab == desertPrefab && Random.value < _palmTreeSpawnChance)
+                if (tilePrefab == desertPrefab)
                 {
-                    // Spawn palm tree on a desert
-                    Instantiate(palmTreePrefab, hexCoords, Quaternion.Euler(0, rotationAngle, 0), instantiatedTile.transform);
+                    // Use deterministic random number for special case probability
+                    float randomValue = _random.Next(0, 100) / 100f; // Assuming _random is System.Random
+                    if (randomValue < 0.01f) // 0.5% chance for palmTreePrefab
+                    {
+                        // Spawn palm tree on a desert
+                        Instantiate(palmTreePrefab, new Vector3(hexCoords.x, elevation, hexCoords.z), Quaternion.Euler(0, rotationAngle, 0), instantiatedTile.transform);
+                    }
+                    else if (randomValue < 0.02f) // 0.5% chance for desertPyramidPrefab
+                    {
+                        // Spawn desert pyramid on a desert
+                        Instantiate(desertPyramidPrefab, new Vector3(hexCoords.x, elevation, hexCoords.z), Quaternion.Euler(0, rotationAngle, 0), instantiatedTile.transform);
+                    }
+                }
+                else if (tilePrefab == waterPrefab)
+                {
+                    // Use deterministic random number for special case probability
+                    float randomValue = _random.Next(0, 100) / 100f; // Assuming _random is System.Random
+                    if (randomValue < 0.01f) // 1% chance for waterRocksPrefab
+                    {
+                        // Spawn water rocks on water
+                        Instantiate(waterRocksPrefab, new Vector3(hexCoords.x, elevation, hexCoords.z), Quaternion.Euler(0, rotationAngle, 0), instantiatedTile.transform);
+                    }
                 }
                 else if (tilePrefab == grasslandPrefab)
                 {
-                    GameObject selectedTreePrefab;
-                    float randomValue = Random.value;
+                    GameObject selectedTreePrefab = null;
+                    // Use deterministic random number for selecting tree prefab
+                    float randomValue = _random.Next(0, 100) / 100f; // Assuming _random is System.Random
 
                     if (randomValue < 0.01f)
                     {
@@ -99,26 +117,39 @@ public class HexagonMapGenerator : MonoBehaviour
                     {
                         selectedTreePrefab = treePrefab2; // 1% chance for treePrefab2
                     }
-                    else
-                    {
-                        // Default to no tree 
-                        selectedTreePrefab = null;
-                    }
+                    // No need for an 'else' condition here as 'selectedTreePrefab' is already initialized to null
 
                     if (selectedTreePrefab != null)
                     {
-                        Instantiate(selectedTreePrefab, hexCoords, Quaternion.Euler(0, rotationAngle, 0), instantiatedTile.transform);
+                        Instantiate(selectedTreePrefab, new Vector3(hexCoords.x, elevation, hexCoords.z), Quaternion.Euler(0, rotationAngle, 0), instantiatedTile.transform);
                     }
                 }
-                else if (tilePrefab == mountainPrefab && Random.value < _mountainExtraSpawnChance)
+                else if (tilePrefab == mountainPrefab)
                 {
-                    Instantiate(extraMountainPrefab, hexCoords, Quaternion.Euler(0, rotationAngle, 0), instantiatedTile.transform);
+                    // Use deterministic random number for special case probability
+                    float randomValue = _random.Next(0, 100) / 100f; // Assuming _random is System.Random
+                    if (randomValue < _mountainExtraSpawnChance)
+                    {
+                        // Add 0.5 to the elevation for extraMountainPrefab
+                        float extraMountainElevation = elevation + 0.2f;
+                        Instantiate(extraMountainPrefab, new Vector3(hexCoords.x, extraMountainElevation, hexCoords.z), Quaternion.Euler(0, rotationAngle, 0), instantiatedTile.transform);
+                    }
                 }
             }
         }
-
-
     }
+
+
+    public float CalculateElevation(float noiseValue)
+    {
+        float minY = 0.0f;   // Minimum Y value for the terrain
+        float maxY = numElevation;   // Maximum Y value for the terrain
+
+        float elevation = Mathf.Lerp(minY, maxY, noiseValue);
+
+        return elevation;
+    }
+
 
 
     public bool IsWaterTile(int x, int z)
@@ -211,12 +242,12 @@ public class HexagonMapGenerator : MonoBehaviour
     public bool HasSameTypeNeighbor(int x, int z, GameObject prefab)
     {
         // Check neighbors in all directions
-        if (IsSameType(x - 1, z, prefab) || 
-            IsSameType(x + 1, z, prefab) || 
-            IsSameType(x, z - 1, prefab) || 
-            IsSameType(x, z + 1, prefab) || 
-            IsSameType(x - 1, z + 1, prefab) || 
-            IsSameType(x + 1, z - 1, prefab))   
+        if (IsSameType(x - 1, z, prefab) ||
+            IsSameType(x + 1, z, prefab) ||
+            IsSameType(x, z - 1, prefab) ||
+            IsSameType(x, z + 1, prefab) ||
+            IsSameType(x - 1, z + 1, prefab) ||
+            IsSameType(x + 1, z - 1, prefab))
         {
             return true;
         }
@@ -348,11 +379,14 @@ public class HexagonMapGenerator : MonoBehaviour
 
     public bool FindBaseLocation(out int baseX, out int baseZ)
     {
+        // Initialize deterministic random number generator with noise seed
+        System.Random random = new System.Random((int)_noiseSeed);
+
         // Loop until a suitable location is found
         for (int attempt = 0; attempt < 100; attempt++)
         {
-            baseX = Random.Range(3, _MapWidth - 3);
-            baseZ = Random.Range(3, _MapHeight - 3);
+            baseX = random.Next(3, _MapWidth - 3);
+            baseZ = random.Next(3, _MapHeight - 3);
 
             if (IsValidBaseLocation(baseX, baseZ) && IsInBounds(baseX, baseZ))
             {
@@ -362,6 +396,11 @@ public class HexagonMapGenerator : MonoBehaviour
 
         baseX = baseZ = -1;
         return false;
+    }
+
+    public float GetNoiseSeed()
+    {
+        return _noiseSeed;
     }
 
     public bool IsValidBaseLocation(int baseX, int baseZ)
@@ -389,41 +428,7 @@ public class HexagonMapGenerator : MonoBehaviour
         return true;
     }
 
-    public void GetAdjacentTileCoordinates(int baseX, int baseZ, int direction, out int adjacentX, out int adjacentZ)
-    {
-        int[] deltaX = { 1, 1, 0, -1, -1, 0 , 0, 2};
-        int[] deltaZ = { 0, 1, 1, 0, -1, -1 , 2, 0};
 
-        adjacentX = baseX + deltaX[direction];
-        adjacentZ = baseZ + deltaZ[direction];
-
-        // For diagonal directions, adjust adjacent coordinates to cover all adjacent tiles
-        if (direction % 2 != 0)
-        {
-            int nextDirection = (direction + 1) % 6;
-            int prevDirection = (direction + 5) % 6;
-
-            int diagonal1X, diagonal1Z, diagonal2X, diagonal2Z;
-
-            GetAdjacentTileCoordinates(adjacentX, adjacentZ, nextDirection, out diagonal1X, out diagonal1Z);
-            GetAdjacentTileCoordinates(adjacentX, adjacentZ, prevDirection, out diagonal2X, out diagonal2Z);
-
-            // Choose the adjacent tile that has the smallest difference in height
-            int heightDifference1 = Mathf.Abs(adjacentX - diagonal1X) + Mathf.Abs(adjacentZ - diagonal1Z);
-            int heightDifference2 = Mathf.Abs(adjacentX - diagonal2X) + Mathf.Abs(adjacentZ - diagonal2Z);
-
-            if (heightDifference1 < heightDifference2)
-            {
-                adjacentX = diagonal1X;
-                adjacentZ = diagonal1Z;
-            }
-            else
-            {
-                adjacentX = diagonal2X;
-                adjacentZ = diagonal2Z;
-            }
-        }
-    }
 
     public bool IsWaterOrMountainOrCrystalTile(int x, int z)
     {
@@ -444,6 +449,8 @@ public class HexagonMapGenerator : MonoBehaviour
         }
         return false;
     }
+
+  
 }
 
 
