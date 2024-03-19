@@ -9,7 +9,7 @@ public class EntityManager : MonoBehaviour
     JobManager pathFinder;
     MapManager mapManager;
     //I really shouldn't reference swarmUI here and shunt it into a player class! player classes dont exist so we do it here for now
-    public SwarmUI ui;
+    SwarmUI ui;
     Dictionary<EntityBase, HexNode> goals = new Dictionary<EntityBase, HexNode>();
 
     public List<EntityBase> entities = new List<EntityBase>();
@@ -21,7 +21,7 @@ public class EntityManager : MonoBehaviour
     {
         pathFinder = GetComponent<JobManager>();
         mapManager= GetComponent<MapManager>();
-
+        ui = GameObject.Find("PlayerManager").GetComponentInChildren<SwarmUI>();
         if (types != null)
         {
             for(int i = 0; i < types.Length; i++) {

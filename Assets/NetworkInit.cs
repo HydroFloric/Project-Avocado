@@ -18,8 +18,6 @@ public class NetworkInit : NetworkBehaviour
     
         
         Debug.Log("We are here " + playercount.Value);
-   
-        GameObject.Find("Manager").GetComponent<EntityManager>().ui = GetComponentInChildren<SwarmUI>();
         var players = GameObject.Find("PlayerManager").GetComponentsInChildren<Player>();
         players[playercount.Value].playerName = OwnerClientId.ToString();
         IncPlayerServerRpc();
