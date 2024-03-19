@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -5434960457334218801}
   - component: {fileID: -5531589314611556165}
   - component: {fileID: 148680772048236014}
+  - component: {fileID: 7762144432442069176}
   m_Layer: 6
   m_Name: SkirmisherBug
   m_TagString: swarm
@@ -157,12 +158,14 @@ MonoBehaviour:
   maxHealth: 100
   health: 75
   speed: 1.25
+  cost: 100
   attackDamage: 15
+  attackSpeed: 1
+  attackRange: 1.5
   damageResist: 3
   damageType: 2
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
-  maxRange: 1
 --- !u!114 &148680772048236014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,3 +180,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentDir: {x: 0, y: 0, z: 0}
   timeSincelastPositionUpdate: 0
+--- !u!114 &7762144432442069176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3531261816396147804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3147865797
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1

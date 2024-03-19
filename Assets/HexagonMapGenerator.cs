@@ -30,23 +30,24 @@ public class HexagonMapGenerator : MonoBehaviour
 
     private float _palmTreeSpawnChance = 0.05f; // 5% chance
     private float _mountainExtraSpawnChance = 0.1f; // 10% chance
-    private GameObject[,] map;
+    public GameObject[,] map;
 
     private MapManager mapManager;
     void Awake()
     {
-        mapManager = GetComponent<MapManager>();
+        mapManager = GameObject.Find("Manager").GetComponent<MapManager>();
+
         map = new GameObject[_MapWidth,_MapHeight];
+        /*
         GenerateHexagonGrid();
         mapManager.initMap(map);
+     
         GenerateCrystals();
-
-
-
+        */
     }
     private void Start()
     {
-        GetComponentInChildren<SwarmUI>().ShowMap();
+        GameObject.Find("PlayerManager").GetComponentInChildren<SwarmUI>().ShowMap();
     }
     private Vector3 GetHexCoords(int x, int z)
     {
@@ -56,7 +57,7 @@ public class HexagonMapGenerator : MonoBehaviour
         return new Vector3(xPos, 0, zPos);
     }
 
-    void GenerateHexagonGrid()
+    public void GenerateHexagonGrid(int seed)
     {
         for (int z = 0; z < _MapHeight; z++)
         {
@@ -66,7 +67,7 @@ public class HexagonMapGenerator : MonoBehaviour
 
                 if (_noiseSeed == -1)
                 {
-                    _noiseSeed = Random.Range(0, 99999999);
+                    _noiseSeed = seed;
                 }
 
                 float noiseValue = Mathf.PerlinNoise((hexCoords.x + _noiseSeed) / _noiseFrequency, (hexCoords.z + _noiseSeed) / _noiseFrequency);
@@ -135,12 +136,12 @@ public class HexagonMapGenerator : MonoBehaviour
         }
     }
 
-    void GenerateCrystals()
+   public void GenerateCrystals(Vector2[] crystalCords)
     {
-        for (int i = 0; i < _numCrystals;)
+        for (int i = 0; i < crystalCords.Length; i++)
         {
-            int x = Random.Range(0, _MapWidth);
-            int z = Random.Range(0, _MapHeight);
+            int x = (int)crystalCords[i].x;
+            int z = (int)crystalCords[i].y;
 
             if (IsCrystalTile(x, z) && !IsMountainTile(x, z))
             {

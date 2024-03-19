@@ -45,7 +45,7 @@ public class SwarmUI : MonoBehaviour
     {
         items = new List<string>();
         activeCam = new GameObject("cam");
-        _miniMap = new miniMap(GetComponentInParent<MapManager>());
+        _miniMap = new miniMap(GameObject.Find("Manager").GetComponent<MapManager>());
         _items = new List<gridItem>();
         _map = _uiDocument.rootVisualElement.Query("Map");
         _camView = _uiDocument.rootVisualElement.Q("cameraView");

@@ -9,21 +9,19 @@ public class EntityManager : MonoBehaviour
     JobManager pathFinder;
     MapManager mapManager;
     //I really shouldn't reference swarmUI here and shunt it into a player class! player classes dont exist so we do it here for now
-    SwarmUI ui;
+    public SwarmUI ui;
     Dictionary<EntityBase, HexNode> goals = new Dictionary<EntityBase, HexNode>();
 
     public List<EntityBase> entities = new List<EntityBase>();
     List<EntityBase> selectedUnits = new List<EntityBase>();
-    public string tag = "swarm"; //if tower player needs pathing can be reused in future
+
+
     public GameObject[] types = null; //can add different prefabs/models 
     private void Start()
     {
         pathFinder = GetComponent<JobManager>();
-        mapManager= GetComponentInParent<MapManager>();
-        if(tag == "swarm")
-        {
-            ui = GetComponent<SwarmUI>();
-        }
+        mapManager= GetComponent<MapManager>();
+
         if (types != null)
         {
             for(int i = 0; i < types.Length; i++) {

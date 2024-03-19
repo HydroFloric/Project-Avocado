@@ -26,8 +26,8 @@ public class PipeLineManager : MonoBehaviour
     }
     private void Start()
     {
-        mapManager = GetComponentInParent<MapManager>();
-        player = GetComponent<TowerPlayer>();
+        mapManager = GetComponent<MapManager>();
+        player = GameObject.Find("PlayerManager").GetComponentInChildren<TowerPlayer>();
         
     }
     //I might need to grab my data structures textbook if i do anymore of this wacky shit!

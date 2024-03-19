@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.FilePathAttribute;
@@ -18,11 +19,15 @@ public class TowerInput : MonoBehaviour
     GameObject pointer;
     GameObject cur_pointer;
     Rect rect;
+
+    TowerPlayerNet tNetwork;
     private void Start()
     {
-        pipeLineManager = GetComponent<PipeLineManager>();
+        tNetwork = GetComponentInParent<TowerPlayerNet>();
+      
+        pipeLineManager = GameObject.Find("Manager").GetComponent<PipeLineManager>();
         player = GetComponent<TowerPlayer>();
-        mapManager = GetComponentInParent<MapManager>();
+        mapManager = GameObject.Find("Manager").GetComponent<MapManager>();
         pointer = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cylinder));
 
         cur_pointer = pointer;
@@ -40,7 +45,10 @@ public class TowerInput : MonoBehaviour
         {
             getPointerColor();
             if(Input.GetMouseButtonDown(0) && canPlace) {
-                player.AddTower(selectedTower, mapManager.findClosetNode(cur_pointer.transform.position), pipeLineManager.GetPipe(cur_pointer.transform.position, 1f));
+                var hn = mapManager.findClosetNode(cur_pointer.transform.position);
+                Vector2 v = new Vector2(hn._gridPositionX, hn._gridPositionZ);
+                tNetwork.AskPlacementServerRpc(selectedTower.name, v, pipeLineManager.GetPipe(cur_pointer.transform.position, 1f).location.Vec3Location());
+                //player.AddTower(selectedTower, mapManager.findClosetNode(cur_pointer.transform.position), pipeLineManager.GetPipe(cur_pointer.transform.position, 1f));
 
                 pointer.transform.position = cur_pointer.transform.position;
                 Destroy(cur_pointer);
@@ -69,7 +77,8 @@ public class TowerInput : MonoBehaviour
             if (Input.GetMouseButtonDown(1))
             {
                 Debug.Log(Input.mousePosition);
-                pipeLineManager.setGoal(Input.mousePosition);
+                tNetwork.AskSetGoalServerRpc(Input.mousePosition);
+                //pipeLineManager.setGoal(Input.mousePosition);
             }
             if (Input.GetMouseButtonUp(0))
             {

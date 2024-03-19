@@ -55,7 +55,7 @@ public class TowerUI : MonoBehaviour
         _attributes = _uiDocument.rootVisualElement.Q<ListView>("Attributes");
         */
 
-        _miniMap = new miniMap(GetComponentInParent<MapManager>());
+        _miniMap = new miniMap(GameObject.Find("Manager").GetComponent<MapManager>());
         _items = new List<horizontalItem>();
         _map = _uiDocument.rootVisualElement.Query("Map");
        

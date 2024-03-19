@@ -7,10 +7,7 @@ public class TowerPlayer : Player
    public List<BaseTower> towers = new List<BaseTower>();
 
    public int TowerLimit = 5; //some multiple of crystals controlled or smth;
-    private void Start()
-    {
-        BaseLocation = GetComponentInParent<MapManager>().getNode(5, 5);
-    }
+  
     private void OnEnable()
     {
         GetComponent<TowerInput>().enabled = true;

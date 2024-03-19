@@ -12,7 +12,7 @@ public class SwitchPlayer : MonoBehaviour
         {
             GetComponentInChildren<TowerPlayer>().enabled = true;
         }
-        if(defaultPlayer== 1)
+        if(defaultPlayer == 1)
         {
             GetComponentInChildren<SwarmPlayer>().enabled = true;
         }
