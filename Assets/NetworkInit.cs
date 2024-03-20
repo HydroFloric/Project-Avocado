@@ -1,17 +1,22 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
+using Unity.Networking.Transport.Relay;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
 using Random = UnityEngine.Random;
+using Unity.Services.Core;
+using Unity.Services.Authentication;
+using Unity.Netcode.Transports.UTP;
 
 public class NetworkInit : NetworkBehaviour
 {
     NetworkVariable<int> playercount = new NetworkVariable<int>(0);
     NetworkVariable<int> seed = new NetworkVariable<int>(0);
-  
+
+
     
+
 
     public override void OnNetworkSpawn()
     {
@@ -27,9 +32,12 @@ public class NetworkInit : NetworkBehaviour
             
             var mg = GetComponent<HexagonMapGenerator>();
             mg.SetNoiseSeed(seed.Value);
-  
+
         }
         GenerateMap();
+
+
+
 
         for (int i = 0; i < players.Length; i++)
         {
@@ -63,4 +71,6 @@ public class NetworkInit : NetworkBehaviour
         GetComponent<MapBaseGenerator>().init();
         GetComponent<MapGenerateCrystals>().init();
     }
+
+    
 }
