@@ -19,10 +19,11 @@ public class HexNode : MonoBehaviour
     
     public int terrainDif = 1; //higher number increases edge cost of node
     public string type;
-    public void initialize(float x, float z, int grid_x, int grid_z)
+    public void initialize(float x, float y,float z, int grid_x, int grid_z)
     {
         _positionX= x;
         _positionZ= z;
+        _positionY= y;
         _gridPositionX = grid_x;
         _gridPositionZ = grid_z;
     }
@@ -36,7 +37,7 @@ public class HexNode : MonoBehaviour
     }
     public Vector3 Vec3Location()
     {
-        return new Vector3(_positionX, 0, _positionZ);
+        return new Vector3(_positionX, _positionY, _positionZ);
     }
     public bool RemoveNeightbour(int index)
     {

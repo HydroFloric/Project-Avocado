@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class SwarmInput : MonoBehaviour
 {
+    SwarmPlayerNet sNetwork;
     EntityManager entityManager;
     SwarmUI ui;
     Vector2 set_mouse = Vector2.negativeInfinity;
@@ -12,7 +14,8 @@ public class SwarmInput : MonoBehaviour
     Rect rect;
     private void Start()
     {
-        entityManager = GetComponent<EntityManager>();
+        sNetwork= GetComponentInParent<SwarmPlayerNet>();
+        entityManager = GameObject.Find("Manager").GetComponent<EntityManager>();
         ui = GetComponent<SwarmUI>();
     }
     // Update is called once per frame
@@ -24,7 +27,8 @@ public class SwarmInput : MonoBehaviour
         }
         if(Input.GetMouseButtonUp(0))
         {
-            entityManager.select(set_mouse, cur_mouse);
+            sNetwork.AskSelectServerRpc(set_mouse, cur_mouse);
+            //entityManager.select(set_mouse, cur_mouse);
             set_mouse = Vector2.negativeInfinity; cur_mouse = Vector2.zero;
             rect.Set(0,0,0,0);
         }
@@ -34,7 +38,8 @@ public class SwarmInput : MonoBehaviour
             DrawSelectionBox();
         }
         if (Input.GetMouseButtonDown(1)) {
-            entityManager.setGoal(Input.mousePosition);
+            sNetwork.AskIssueMoveServerRpc(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,Input.mousePosition.y, Camera.main.transform.position.z)));
+            //entityManager.setGoal(Input.mousePosition);
         }
     }
     private void OnGUI()

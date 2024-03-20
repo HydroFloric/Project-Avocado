@@ -9,6 +9,15 @@ public class Player : MonoBehaviour
     public HexNode BaseLocation;
     public List<HexNode> ControlledCrystals = new List<HexNode>();
 
+    public void SetCamera()
+    {
+        var temp = BaseLocation.Vec3Location();
+        gameObject.transform.GetChild(0).position = new Vector3(temp.x, 120, temp.z);
+    }
+    public void SetBaseLocation(HexNode loc)
+    {
+        BaseLocation = loc;
+    }
     // Start is called before the first frame update
     void Start()
     {

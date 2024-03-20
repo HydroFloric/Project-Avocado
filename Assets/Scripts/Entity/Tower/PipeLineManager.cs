@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
-using UnityEditor.Animations;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PipeLineManager : MonoBehaviour
@@ -26,16 +23,16 @@ public class PipeLineManager : MonoBehaviour
     }
     private void Start()
     {
-        mapManager = GetComponentInParent<MapManager>();
-        player = GetComponent<TowerPlayer>();
+        mapManager = GetComponent<MapManager>();
+        player = GameObject.Find("PlayerManager").GetComponentInChildren<TowerPlayer>();
         
     }
     //I might need to grab my data structures textbook if i do anymore of this wacky shit!
-    public void setGoal(Vector2 a)
+    public void setGoal(Vector3 worldPointCords)
     {
-        Vector3 origin = Camera.main.ScreenToWorldPoint(new Vector3(a.x, a.y, Camera.main.transform.position.z));
+       
 
-        HexNode goal = mapManager.findNearestCrystal(origin);
+        HexNode goal = mapManager.findNearestCrystal(worldPointCords);
 
         if (root == null)
         {
@@ -97,7 +94,7 @@ public class PipeLineManager : MonoBehaviour
     {
         timeSinceLast = 0f;
         var node = mapManager.nextNodeInPath(currentGoal, curPipe.location);
-        pipes.RemoveAll(p => p == null);
+        //pipes.RemoveAll(p => p == null);
         foreach(var p in pipes.FindAll(p => p.Parent == null))
         {
             if(p.location == node)
@@ -124,6 +121,7 @@ public class PipeLineManager : MonoBehaviour
         child.transform.position = node.Vec3Location();
 
         var tempPipe = child.AddComponent<Pipe>();
+        child.GetComponent<PipeEnity>().init();
         tempPipe.initPipe(curPipe, node);
         //pipeGO.GetComponent<PipeEnity>().p = tempPipe;
         pipes.Add(tempPipe);

@@ -57,6 +57,10 @@ public class CameraMovement : MonoBehaviour
         {
             GetComponent<Camera>().orthographicSize += 0.75f;
         }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            GetComponentInParent<Player>().SetCamera();
+        }
         transform.Translate(movement);
         //ui.UpdateCameraPosition(new Vector2(movement.x, movement.y));
         

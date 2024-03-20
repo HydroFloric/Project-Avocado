@@ -13,11 +13,15 @@ public class SwarmUI : MonoBehaviour
 
     public Texture2D[] icons;
     public string[] dmgTypes = { "Magic", "Physical", "Explosive" };
-    public UIDocument _uiDocument;
+
+    UIDocument _uiDocument;
     public VisualTreeAsset _gridIcon;
     public VisualTreeAsset _maptile;
+
     private GameObject activeCam;
     private GameObject selectedObj;
+
+
     private VisualElement _close;
     private VisualElement _camView;
     private Label _id;
@@ -40,12 +44,12 @@ public class SwarmUI : MonoBehaviour
     private int _hItems = 4;
     private List<gridItem> _items;
 
-
     void OnEnable()
     {
+        _uiDocument = GetComponent<UIDocument>();
         items = new List<string>();
         activeCam = new GameObject("cam");
-        _miniMap = new miniMap(GetComponentInParent<MapManager>());
+        _miniMap = new miniMap(GameObject.Find("Manager").GetComponent<MapManager>());
         _items = new List<gridItem>();
         _map = _uiDocument.rootVisualElement.Query("Map");
         _camView = _uiDocument.rootVisualElement.Q("cameraView");
