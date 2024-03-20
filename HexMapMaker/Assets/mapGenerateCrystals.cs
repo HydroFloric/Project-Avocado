@@ -10,7 +10,7 @@ public class MapGenerateCrystals : MonoBehaviour
     MapBaseGenerator mapBaseGenerator;
 
     public GameObject crystalPrefab;
-    private int _numCrystals = 15;
+    public int _numCrystals = 15;
     private System.Random _random;
 
     void Start()

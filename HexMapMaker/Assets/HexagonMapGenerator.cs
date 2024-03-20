@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public class HexagonMapGenerator : MonoBehaviour
 {
 
-
     public GameObject waterPrefab;
     public GameObject lowlandPrefab;
     public GameObject highlandPrefab;
@@ -20,7 +19,6 @@ public class HexagonMapGenerator : MonoBehaviour
     public GameObject waterRocksPrefab;
 
 
-
     public int _MapWidth = 100;
     public int _MapHeight = 100;
     public float _tileSize = 1f;
@@ -31,11 +29,9 @@ public class HexagonMapGenerator : MonoBehaviour
     public float _grasslandThreshold = 0.65f;
     public float _highlandThreshold = 0.8f;
     public float _mountainThreshold = 1.0f;
-    public float _numCrystals = 15f;
-
-
+  
     private System.Random _random;
-    private int _noiseSeed = 420;
+    private int _noiseSeed ;
 
     private float _palmTreeSpawnChance = 0.05f; // 5% chance
     private float _mountainExtraSpawnChance = 0.1f; // 10% chance
@@ -46,6 +42,8 @@ public class HexagonMapGenerator : MonoBehaviour
     void Start()
     {
         tileMap = new GameObject[_MapWidth, _MapHeight];
+        SeedManager seedManager = new SeedManager();
+        _noiseSeed = seedManager.GetRandomSeed();
         _random = new System.Random(_noiseSeed);
         GenerateHexagonGrid();
     }
@@ -57,7 +55,6 @@ public class HexagonMapGenerator : MonoBehaviour
 
         return new Vector3(xPos, 0, zPos);
     }
-
 
     void GenerateHexagonGrid()
     {
@@ -150,7 +147,27 @@ public class HexagonMapGenerator : MonoBehaviour
         return elevation;
     }
 
+    public class SeedManager
+    {
+        // List of manually selected valid seeds
+        private List<int> validSeeds = new List<int>
+    {
+        42, 129, 245, 361, 456, 570, 642, 777, 832, 925, 1166, 1234, 1380, 1466, 1722, 1837, 1958, 2052,
+    };
 
+        public int GetRandomSeed()
+        {
+            // Generate a unique identifier based on system time
+            long uniqueIdentifier = System.DateTime.Now.Ticks;
+
+            // Calculate a random index using the unique identifier
+            int randomIndex = (int)(uniqueIdentifier % validSeeds.Count);
+
+            // Get the seed at the calculated index
+            int selectedSeed = validSeeds[randomIndex];
+            return selectedSeed;
+        }
+    }
 
     public bool IsWaterTile(int x, int z)
     {
@@ -178,13 +195,16 @@ public class HexagonMapGenerator : MonoBehaviour
 
     GameObject GetTilePrefab(float noiseValue, int x, int z)
     {
+        // Initialize deterministic random number generator with noise seed
+        Random.InitState((_noiseSeed << 16) ^ (x << 8) ^ z);
+
         // Check if all neighboring tiles have the same terrain type
         if (AreAllNeighborsSame(x, z))
         {
             return GetExactTilePrefab(noiseValue);
         }
 
-        float randomValue = Random.value;
+        float randomValue = Random.value; // Use deterministic random value
 
         if (noiseValue < _waterThreshold)
         {
@@ -237,7 +257,7 @@ public class HexagonMapGenerator : MonoBehaviour
 
             return mountainPrefab; // Default to mountain
         }
-    }
+    } 
 
     public bool HasSameTypeNeighbor(int x, int z, GameObject prefab)
     {

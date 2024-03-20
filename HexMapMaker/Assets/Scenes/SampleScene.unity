@@ -380,8 +380,7 @@ MonoBehaviour:
   _grasslandThreshold: 0.7
   _highlandThreshold: 0.85
   _mountainThreshold: 1
-  _numCrystals: 10
-  numElevation: 0.5
+  numElevation: 1
 --- !u!114 &844131955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,6 +396,7 @@ MonoBehaviour:
   hexagonMapGenerator: {fileID: 844131954}
   mapBaseGenerator: {fileID: 844131956}
   crystalPrefab: {fileID: 1763809724018642, guid: 779906fa38069b447b328c7912776cb9, type: 3}
+  _numCrystals: 15
 --- !u!114 &844131956
 MonoBehaviour:
   m_ObjectHideFlags: 0
