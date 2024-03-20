@@ -10,7 +10,7 @@ public class Explode : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Collider[] colliderHits = Physics.OverlapSphere(transform.position, explosionRange, LayerMask.GetMask("Swarm"));
+        Collider[] colliderHits = Physics.OverlapSphere(transform.position, explosionRange, LayerMask.GetMask(explosionParent.gameObject.layer.ToString()));
 
         foreach (Collider collider in colliderHits)
         {

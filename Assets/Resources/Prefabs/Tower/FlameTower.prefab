@@ -921,7 +921,7 @@ MonoBehaviour:
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
   connectionToBase: {fileID: 0}
-  flameEffect: {fileID: 5196490483826687445, guid: 3042a0733678cd14bb238c24617a5ce3, type: 3}
+  flameEffect: {fileID: 5196490483826687445, guid: 92e61e4a8a78f1543b21e83178c3703f, type: 3}
 --- !u!65 &344175319903121328
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -955,7 +955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 196740770
+  GlobalObjectIdHash: 2164635356
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0

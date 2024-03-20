@@ -14,7 +14,7 @@ public class SuicideBug : BaseBug
     // Start is called before the first frame update
     void Start()
     {
-        health = 15.0f;
+        health = 35.0f;
         speed = 0.75f;
         attackRange = 1.5f;
         attackSpeed = 0.25f;
@@ -32,13 +32,13 @@ public class SuicideBug : BaseBug
 
     public override void Attack(EntityBase target, float dmg, float range)
     {
-        Collider[] colliderHits = Physics.OverlapSphere(gameObject.transform.position, explosionRange, LayerMask.GetMask("Tower"));
+        //Collider[] colliderHits = Physics.OverlapSphere(gameObject.transform.position, explosionRange, LayerMask.GetMask("Tower"));
 
-        foreach (Collider collider in colliderHits)
-        {
-            DamageSystem.DealDamage(collider.gameObject.GetComponent<EntityBase>(), this);
-            Debug.DrawRay(gameObject.transform.Find("GunPos").position, target.transform.position - gameObject.transform.Find("GunPos").position, Color.red, 0.2f);
-        }
+        //foreach (Collider collider in colliderHits)
+        //{
+            //DamageSystem.DealDamage(collider.gameObject.GetComponent<EntityBase>(), this);
+            //Debug.DrawRay(gameObject.transform.Find("GunPos").position, target.transform.position - gameObject.transform.Find("GunPos").position, Color.red, 0.2f);
+        //}
         Instantiate(explosionEffect, this.transform.position, Quaternion.identity);
         this.health = 0; //Dies
     }

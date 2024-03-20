@@ -150,7 +150,7 @@ MonoBehaviour:
   damageType: 3
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
-  explosionEffect: {fileID: 2780256490669445960, guid: f65ad6b79c3b8374587ffa319b002593, type: 3}
+  explosionEffect: {fileID: 2780256490669445960, guid: 31c0aec21c1195f4583fe5e4d20d38b0, type: 3}
 --- !u!114 &6965741392047613574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2913936182
+  GlobalObjectIdHash: 567022201
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0

@@ -121,7 +121,7 @@ MonoBehaviour:
   damageType: 1
   currentLocation: {fileID: 0}
   pathingTo: {fileID: 0}
-  acidEffect: {fileID: 8144923239335526559, guid: b924221384f7628459b4ba247fe6dc2b, type: 3}
+  acidEffect: {fileID: 8144923239335526559, guid: 283465fe439fa3345a79388551f359d1, type: 3}
 --- !u!114 &5960219106520208765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2491005031
+  GlobalObjectIdHash: 496955344
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0

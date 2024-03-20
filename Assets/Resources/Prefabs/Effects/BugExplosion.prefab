@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4494444640719968688}
   - component: {fileID: 8488686465751965370}
   m_Layer: 2
-  m_Name: Explosion
+  m_Name: BugExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionRange: 1.5
-  explosionParent: {fileID: 5545212221409639987, guid: f70308a54271df54483fb331c977da4d, type: 3}
+  explosionParent: {fileID: 6297766085968777317, guid: 0d38db6edbaab7640822bf3fd8d7b785, type: 3}
 --- !u!1 &7432775867321062109
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,7 +284,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0.2285633, g: 0.5849056, b: 0.20692417, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}

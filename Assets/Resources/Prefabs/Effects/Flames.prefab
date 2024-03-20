@@ -4914,7 +4914,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageRadius: 0.5
   layerTarget: Swarm
-  hazardOwner: {fileID: -5210874908594261520, guid: 1a3b76d88f6a7584ba34da5377802e4b, type: 3}
+  hazardOwner: {fileID: -5210874908594261520, guid: 18ec9ee60603f7e4da69beb38111e385, type: 3}
 --- !u!1 &7535720583037749723
 GameObject:
   m_ObjectHideFlags: 0
