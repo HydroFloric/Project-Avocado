@@ -6,6 +6,12 @@ public class SkimisherBug : BaseBug
 {
     SkimisherBug()
     {
+        
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
         health = 75.0f;
         speed = 1.25f;
         attackRange = 1.5f;
@@ -13,12 +19,6 @@ public class SkimisherBug : BaseBug
         attackDamage = 15.0f;
         damageType = DamageSystem.KINETIC_ELEMENT;
         damageResist = DamageSystem.EXPOSIVE_ELEMENT;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame

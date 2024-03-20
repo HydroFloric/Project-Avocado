@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Principal;
 using UnityEngine;
 
 public class DamageSystem : MonoBehaviour
@@ -41,10 +42,14 @@ public class DamageSystem : MonoBehaviour
        //Check through the entities list and do what must be done.
         foreach (EntityBase entity in entities)
         {
-            if(entity.health <= 0 && entity != null)
+            if (entity != null)
             {
-                Destroy(entity.gameObject);
+                if (entity.health <= 0)
+                {
+                    entity.OnDeath();
+                }
             }
+            
         }
     }
 

@@ -33,13 +33,29 @@ public class CameraMovement : MonoBehaviour
         {
             movement += new Vector3(1, 0, 0);
         }
+        if (Input.GetKey(KeyCode.W))
+        {
+            movement += new Vector3(0, 1, 0);
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            movement += new Vector3(0, -1, 0);
+        } 
+        if (Input.GetKey(KeyCode.A))
+        {
+            movement += new Vector3(-1, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            movement += new Vector3(1, 0, 0);
+        }
         if (Input.mouseScrollDelta.y > 0)
         {
-            movement += new Vector3(0, 0, 1);
+            GetComponent<Camera>().orthographicSize -= 0.75f;
         }
         if (Input.mouseScrollDelta.y < 0)
         {
-            movement += new Vector3(0, 0, -1);
+            GetComponent<Camera>().orthographicSize += 0.75f;
         }
         if (Input.GetKey(KeyCode.Space))
         {
