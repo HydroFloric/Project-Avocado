@@ -10,7 +10,7 @@ public class NetworkInit : NetworkBehaviour
 {
     NetworkVariable<int> playercount = new NetworkVariable<int>(0);
     NetworkVariable<int> seed = new NetworkVariable<int>(0);
-    NetworkList<Vector2> v = new NetworkList<Vector2>();
+  
     
 
     public override void OnNetworkSpawn()
@@ -26,15 +26,8 @@ public class NetworkInit : NetworkBehaviour
             seed.Value = Random.Range(0, 99999);
             
             var mg = GetComponent<HexagonMapGenerator>();
-            int _crystalNum = (int)mg._numCrystals; //why is num crystals a float?
-            var _x = mg._MapWidth;
-            var _y = mg._MapHeight;
-            for (int i = 0; i < _crystalNum; i++)
-            {
-
-              v.Add(new Vector2(Random.Range(0, _x), Random.Range(0, _y)));
-              
-            }
+            mg.SetNoiseSeed(seed.Value);
+  
         }
         GenerateMap();
 
