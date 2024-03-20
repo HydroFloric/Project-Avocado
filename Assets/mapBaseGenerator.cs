@@ -19,7 +19,7 @@ public class MapBaseGenerator : MonoBehaviour
     private bool centerBaseSpawned = false;
     private System.Random random;
 
-    void Start()
+    public void init()
     {
         hexagonMapGenerator = GetComponent<HexagonMapGenerator>();
 
@@ -71,7 +71,7 @@ public class MapBaseGenerator : MonoBehaviour
         // Check if the base location is valid
         if (hexagonMapGenerator.IsValidBaseLocation(x, z))
         {
-            RemoveTileAtLocation(x, z);
+            //RemoveTileAtLocation(x, z);
 
             // Spawn base walls using the same random instance
             SpawnBaseWalls(x, z);
@@ -115,7 +115,7 @@ public class MapBaseGenerator : MonoBehaviour
                 if (hexagonMapGenerator.IsValidBaseLocation(wallX, wallZ))
                 {
                     // Remove the existing tile at the wall location
-                    RemoveTileAtLocation(wallX, wallZ);
+                    //RemoveTileAtLocation(wallX, wallZ);
 
                     // Adjusted position to center the base wall prefab
                     Vector3 wallCoords = hexagonMapGenerator.GetHexCoords(wallX, wallZ);
@@ -150,7 +150,7 @@ public class MapBaseGenerator : MonoBehaviour
                 if (hexagonMapGenerator.IsValidBaseLocation(wallX, wallZ))
                 {
                     // Remove the existing tile at the wall location
-                    RemoveTileAtLocation(wallX, wallZ);
+                    //RemoveTileAtLocation(wallX, wallZ);
 
                     // Adjusted position to center the crystalBaseWall prefab
                     Vector3 wallCoords = hexagonMapGenerator.GetHexCoords(wallX, wallZ);

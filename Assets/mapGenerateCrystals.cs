@@ -9,14 +9,16 @@ public class MapGenerateCrystals : MonoBehaviour
     [SerializeField]
     MapBaseGenerator mapBaseGenerator;
 
+    MapManager mm;
     public GameObject crystalPrefab;
     private int _numCrystals = 15;
     private System.Random _random;
 
-    void Start()
+    public void init()
     {
         hexagonMapGenerator = GetComponent<HexagonMapGenerator>();
         mapBaseGenerator = GetComponent<MapBaseGenerator>();
+        mm = GameObject.Find("Manager").GetComponent<MapManager>();
 
         _random = new System.Random((int)hexagonMapGenerator.GetNoiseSeed()); // Initialize deterministic random number generator
         GenerateCrystals();
@@ -52,7 +54,7 @@ public class MapGenerateCrystals : MonoBehaviour
                 }
 
                 Instantiate(crystalPrefab, new Vector3(crystalCoords.x, elevation + 0.6f, crystalCoords.z), Quaternion.Euler(0, 90f, 0));
-
+                mm.setCrystal(crystalLocation.x, crystalLocation.y);
                 // Add the crystal location to the list
                 crystalLocations.Add(crystalLocation);
 

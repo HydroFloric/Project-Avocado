@@ -20,7 +20,7 @@ public class NetworkInit : NetworkBehaviour
         Debug.Log("We are here " + playercount.Value);
         var players = GameObject.Find("PlayerManager").GetComponentsInChildren<Player>();
         players[playercount.Value].playerName = OwnerClientId.ToString();
-        IncPlayerServerRpc();
+       
         if (IsServer)
         {
             seed.Value = Random.Range(0, 99999);
@@ -38,11 +38,15 @@ public class NetworkInit : NetworkBehaviour
         }
         GenerateMap();
 
-        var temp = GetComponent<MapBaseGenerator>().GetBaseLocation(playercount.Value);
+        for (int i = 0; i < players.Length; i++)
+        {
+            var temp = GetComponent<MapBaseGenerator>().GetBaseLocation(i);
+            var temp1 = GameObject.Find("Manager").GetComponent<MapManager>().getNode(temp.x, temp.y);
 
-        players[playercount.Value].BaseLocation = GameObject.Find("Manager").GetComponent<MapManager>().getNode(temp.x,temp.y);
-        players[playercount.Value].SetCamera();
-
+            players[i].SetBaseLocation(temp1);
+            players[i].SetCamera();
+        }
+        IncPlayerServerRpc();
     }
     [ServerRpc(RequireOwnership = false)] public void IncPlayerServerRpc()
     {
@@ -60,6 +64,10 @@ public class NetworkInit : NetworkBehaviour
         Debug.Log("Finding Client object");
         GetComponent<HexagonMapGenerator>().SetNoiseSeed(seed.Value);
         GetComponent<HexagonMapGenerator>().GenerateHexagonGrid();
+
         GameObject.Find("Manager").GetComponent<MapManager>().initMap(GetComponent<HexagonMapGenerator>().tileMap);
+
+        GetComponent<MapBaseGenerator>().init();
+        GetComponent<MapGenerateCrystals>().init();
     }
 }

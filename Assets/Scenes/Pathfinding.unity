@@ -548,7 +548,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hexagonMapGenerator: {fileID: 0}
   mapBaseGenerator: {fileID: 0}
-  crystalPrefab: {fileID: 0}
+  crystalPrefab: {fileID: 1763809724018642, guid: 779906fa38069b447b328c7912776cb9, type: 3}
 --- !u!114 &789585987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -562,10 +562,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hexagonMapGenerator: {fileID: 0}
-  baseWallPrefab: {fileID: 0}
-  basePrefab: {fileID: 0}
-  crystalBasePrefab: {fileID: 0}
-  crystalBaseWall: {fileID: 0}
+  baseWallPrefab: {fileID: 100000, guid: 60d00613262778e46b8837d66fd34d59, type: 3}
+  basePrefab: {fileID: 1658682004144390, guid: aa767870062b50b4c9cd1f7d02bde55c, type: 3}
+  crystalBasePrefab: {fileID: 100000, guid: 60d00613262778e46b8837d66fd34d59, type: 3}
+  crystalBaseWall: {fileID: 1658682004144390, guid: aa767870062b50b4c9cd1f7d02bde55c, type: 3}
 --- !u!1001 &2061579475
 PrefabInstance:
   m_ObjectHideFlags: 0
