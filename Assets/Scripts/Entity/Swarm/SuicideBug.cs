@@ -14,7 +14,7 @@ public class SuicideBug : BaseBug
     // Start is called before the first frame update
     void Start()
     {
-        health = 50.0f;
+        health = 15.0f;
         speed = 0.75f;
         attackRange = 1.5f;
         attackSpeed = 0.25f;

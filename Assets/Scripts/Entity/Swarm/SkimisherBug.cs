@@ -12,7 +12,7 @@ public class SkimisherBug : BaseBug
     // Start is called before the first frame update
     void Start()
     {
-        health = 75.0f;
+        health = 45.0f;
         speed = 1.25f;
         attackRange = 1.5f;
         attackSpeed = 1.0f;
