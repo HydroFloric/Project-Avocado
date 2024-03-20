@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class PipeEnity : EntityBase
 {
+    [SerializeField]
     Pipe p;
-    private void Start()
+    public void init()
     {
         p = GetComponent<Pipe>();
     }
     private void OnDestroy()
     {
-        p.setActive(false);
-        foreach (var c in p.Children)
+        if (p != null)
         {
-            c.Parent = null;
+            p.setActive(false);
+            foreach (var c in p.Children)
+            {
+                c.Parent = null;
+            }
         }
     }
 }

@@ -80,7 +80,7 @@ public class MapBaseGenerator : MonoBehaviour
             mapManager.setNewDiff(x,z, 100);
             float elevation = hexagonMapGenerator.CalculateElevation(Mathf.PerlinNoise((baseCoords.x + hexagonMapGenerator.GetNoiseSeed()) / hexagonMapGenerator._noiseFrequency, (baseCoords.z + hexagonMapGenerator.GetNoiseSeed()) / hexagonMapGenerator._noiseFrequency));
 
-            GameObject baseObject = Instantiate(basePrefab, new Vector3(baseCoords.x, elevation + 0.5f, baseCoords.z), Quaternion.Euler(0, 90f, 0));
+            GameObject baseObject = Instantiate(basePrefab, new Vector3(baseCoords.x, elevation + 0.1f, baseCoords.z), Quaternion.Euler(0, 90f, 0));
 
             centerBaseSpawned = true;
 
@@ -92,7 +92,7 @@ public class MapBaseGenerator : MonoBehaviour
             // Use the same method to calculate elevation for crystal base as for crystal
             float crystalElevation = hexagonMapGenerator.CalculateElevation(Mathf.PerlinNoise((crystalBaseCoords.x + hexagonMapGenerator.GetNoiseSeed()) / hexagonMapGenerator._noiseFrequency, (crystalBaseCoords.z + hexagonMapGenerator.GetNoiseSeed()) / hexagonMapGenerator._noiseFrequency));
 
-            GameObject crystalBaseObject = Instantiate(crystalBasePrefab, new Vector3(crystalBaseCoords.x, crystalElevation, crystalBaseCoords.z), Quaternion.Euler(0, 90f, 0));
+            GameObject crystalBaseObject = Instantiate(crystalBasePrefab, new Vector3(crystalBaseCoords.x, crystalElevation + 0.1f, crystalBaseCoords.z), Quaternion.Euler(0, 90f, 0));
         }
     }
 
@@ -124,7 +124,7 @@ public class MapBaseGenerator : MonoBehaviour
                     // Set the elevation of the base wall to match the crystal base
                     float elevation = crystalElevation;
 
-                    Instantiate(baseWallPrefab, new Vector3(wallCoords.x, elevation + 0.5f, wallCoords.z), Quaternion.Euler(0, 90f, 0));
+                    Instantiate(baseWallPrefab, new Vector3(wallCoords.x, elevation + 0.1f, wallCoords.z), Quaternion.Euler(0, 90f, 0));
                     mapManager.setNewDiff(wallX, wallZ, 100);
                 }
             }
@@ -160,7 +160,7 @@ public class MapBaseGenerator : MonoBehaviour
                     // Set the elevation of the base wall to match the crystal base
                     float elevation = crystalElevation;
 
-                    Instantiate(crystalBaseWall, new Vector3(wallCoords.x, elevation, wallCoords.z), Quaternion.Euler(0, 90f, 0));
+                    Instantiate(crystalBaseWall, new Vector3(wallCoords.x, elevation + 0.1f, wallCoords.z), Quaternion.Euler(0, 90f, 0));
                     mapManager.setNewDiff(wallX, wallZ, 100);
                 }
             }
