@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -683,6 +683,18 @@ PrefabInstance:
       propertyPath: _uiDocument
       value: 
       objectReference: {fileID: 1022867298}
+    - target: {fileID: 5881263997445329433, guid: 266f4fc9853be174d938b0a660d8a92b, type: 3}
+      propertyPath: Towers.Array.data[0]
+      value: 
+      objectReference: {fileID: 3982783068456333081, guid: 2995c089f3309ca46bf341ff7cdc8104, type: 3}
+    - target: {fileID: 5881263997445329433, guid: 266f4fc9853be174d938b0a660d8a92b, type: 3}
+      propertyPath: Towers.Array.data[1]
+      value: 
+      objectReference: {fileID: 8743326056648374426, guid: 1a3b76d88f6a7584ba34da5377802e4b, type: 3}
+    - target: {fileID: 5881263997445329433, guid: 266f4fc9853be174d938b0a660d8a92b, type: 3}
+      propertyPath: Towers.Array.data[2]
+      value: 
+      objectReference: {fileID: 2208849421132018705, guid: f6b6c8b528405234b9399a3a131d9f04, type: 3}
     - target: {fileID: 7101676790032439331, guid: 266f4fc9853be174d938b0a660d8a92b, type: 3}
       propertyPath: _uiDocument
       value: 

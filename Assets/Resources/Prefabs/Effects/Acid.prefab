@@ -4845,7 +4845,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageRadius: 0.25
   layerTarget: Tower
-  hazardOwner: {fileID: 2692369359612290404, guid: 5e50ec23033b19b4ab7ca5854e856e56, type: 3}
+  hazardOwner: {fileID: 2692369359612290404, guid: 0c83eb417679b4444849b629b91e177d, type: 3}
 --- !u!1 &8144923239335526559
 GameObject:
   m_ObjectHideFlags: 0

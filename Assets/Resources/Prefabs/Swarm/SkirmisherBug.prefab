@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &772326444749170764
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7889880672153436246}
+  m_Layer: 0
+  m_Name: GunPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7889880672153436246
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772326444749170764}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.14241815, y: 7.4271874, z: 6.9695606}
+  m_LocalScale: {x: 40, y: 40, z: 40}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4761840242107384222}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3531261816396147804
 GameObject:
   m_ObjectHideFlags: 0
@@ -15,7 +46,7 @@ GameObject:
   - component: {fileID: -5434960457334218801}
   - component: {fileID: -5531589314611556165}
   - component: {fileID: 148680772048236014}
-  - component: {fileID: 7762144432442069176}
+  - component: {fileID: 1407816966076034582}
   m_Layer: 6
   m_Name: SkirmisherBug
   m_TagString: swarm
@@ -36,7 +67,8 @@ Transform:
   m_LocalScale: {x: 0.025, y: 0.025, z: 0.025}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1292784422163091180}
+  - {fileID: 1652541934840763876}
+  - {fileID: 7889880672153436246}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8272753141544932339
@@ -67,9 +99,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8696451276978971815, guid: 9d73b04c4842b6f498dfc12707911902, type: 3}
-  - {fileID: -7378142871149829923, guid: 9d73b04c4842b6f498dfc12707911902, type: 3}
-  - {fileID: -1146244535577574688, guid: 9d73b04c4842b6f498dfc12707911902, type: 3}
+  - {fileID: 2100000, guid: 2254f6531d84c974b96a23b0f27f0755, type: 2}
+  - {fileID: 2100000, guid: 19f2a990d8fab5d42a65f2e4605bdf5e, type: 2}
+  - {fileID: 2100000, guid: 2254f6531d84c974b96a23b0f27f0755, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -156,7 +188,8 @@ MonoBehaviour:
   z: 0
   baseRotation: 0
   state: 0
-  maxHealth: 75
+  active: 0
+  maxHealth: 100
   health: 75
   speed: 1.25
   cost: 100
@@ -181,7 +214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentDir: {x: 0, y: 0, z: 0}
   timeSincelastPositionUpdate: 0
---- !u!114 &7762144432442069176
+--- !u!114 &1407816966076034582
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3147865797
+  GlobalObjectIdHash: 3829195195
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -201,7 +234,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!1001 &3047441935738734657
+--- !u!1001 &3266612745628832585
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -270,8 +303,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89c4349131a88ba4fa0158b182808532, type: 3}
---- !u!4 &1292784422163091180 stripped
+--- !u!4 &1652541934840763876 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4303845708435719853, guid: 89c4349131a88ba4fa0158b182808532, type: 3}
-  m_PrefabInstance: {fileID: 3047441935738734657}
+  m_PrefabInstance: {fileID: 3266612745628832585}
   m_PrefabAsset: {fileID: 0}

@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2939877360695506235}
-  m_Layer: 0
+  - component: {fileID: 7658803539718171463}
+  m_Layer: 2
   m_Name: Flames
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33,6 +34,19 @@ Transform:
   - {fileID: 6861712188179529572}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7658803539718171463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5196490483826687445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ce9029045678684cbb8a4bd32bb446f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onTrigger: 0
 --- !u!1 &6085179182276952033
 GameObject:
   m_ObjectHideFlags: 0
@@ -45,7 +59,8 @@ GameObject:
   - component: {fileID: 3856580627105166787}
   - component: {fileID: 3465698577177707055}
   - component: {fileID: 8054116177441707877}
-  m_Layer: 0
+  - component: {fileID: 6086161340000479743}
+  m_Layer: 2
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4885,6 +4900,21 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6086161340000479743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6085179182276952033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fb7429457d1cd3459dad222986d4d39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageRadius: 0.5
+  layerTarget: Swarm
+  hazardOwner: {fileID: -5210874908594261520, guid: 1a3b76d88f6a7584ba34da5377802e4b, type: 3}
 --- !u!1 &7535720583037749723
 GameObject:
   m_ObjectHideFlags: 0
@@ -4895,7 +4925,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6861712188179529572}
   - component: {fileID: 2105969050983955356}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
