@@ -77,7 +77,7 @@ public class TowerInput : MonoBehaviour
             if (Input.GetMouseButtonDown(1))
             {
                 Debug.Log(Input.mousePosition);
-                tNetwork.AskSetGoalServerRpc(Input.mousePosition);
+                tNetwork.AskSetGoalServerRpc(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.z)));
                 //pipeLineManager.setGoal(Input.mousePosition);
             }
             if (Input.GetMouseButtonUp(0))

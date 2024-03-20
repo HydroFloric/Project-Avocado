@@ -31,11 +31,11 @@ public class PipeLineManager : MonoBehaviour
         
     }
     //I might need to grab my data structures textbook if i do anymore of this wacky shit!
-    public void setGoal(Vector2 a)
+    public void setGoal(Vector3 worldPointCords)
     {
-        Vector3 origin = Camera.main.ScreenToWorldPoint(new Vector3(a.x, a.y, Camera.main.transform.position.z));
+       
 
-        HexNode goal = mapManager.findNearestCrystal(origin);
+        HexNode goal = mapManager.findNearestCrystal(worldPointCords);
 
         if (root == null)
         {

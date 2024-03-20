@@ -124,7 +124,7 @@ public class MapManager : MonoBehaviour
         {
             c = Physics.OverlapBox(v,new Vector3(i,i,i),Quaternion.identity,LayerMask.GetMask("HexagonTerrain"));
             i = i + i;
-            if (i >= 100) return null;
+            if (i >= 512) return null;
         }
         debug_rad = i;
         debug = v;
@@ -167,6 +167,10 @@ public class MapManager : MonoBehaviour
         map[x, z].type = "Hex27";
         map[x, z].terrainDif = 100;
         return;
+    }
+    public void setNewDiff(int x, int z, int diff)
+    {
+        map[x, z].terrainDif = diff;
     }
     public HexNode findNearestCrystal(Vector3 v)
     {

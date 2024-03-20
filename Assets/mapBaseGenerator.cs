@@ -6,7 +6,7 @@ public class MapBaseGenerator : MonoBehaviour
 {
     [SerializeField]
     HexagonMapGenerator hexagonMapGenerator;
-
+    MapManager mapManager;
     public GameObject baseWallPrefab;
     public GameObject basePrefab;
 
@@ -22,7 +22,7 @@ public class MapBaseGenerator : MonoBehaviour
     public void init()
     {
         hexagonMapGenerator = GetComponent<HexagonMapGenerator>();
-
+        mapManager = GameObject.Find("Manager").GetComponent<MapManager>();
         // Initialize deterministic random number generator with noise seed
         random = new System.Random((int)hexagonMapGenerator.GetNoiseSeed());
         GenerateBases();
@@ -77,9 +77,10 @@ public class MapBaseGenerator : MonoBehaviour
             SpawnBaseWalls(x, z);
 
             Vector3 baseCoords = hexagonMapGenerator.GetHexCoords(x, z);
+            mapManager.setNewDiff(x,z, 100);
             float elevation = hexagonMapGenerator.CalculateElevation(Mathf.PerlinNoise((baseCoords.x + hexagonMapGenerator.GetNoiseSeed()) / hexagonMapGenerator._noiseFrequency, (baseCoords.z + hexagonMapGenerator.GetNoiseSeed()) / hexagonMapGenerator._noiseFrequency));
 
-            GameObject baseObject = Instantiate(basePrefab, new Vector3(baseCoords.x, elevation, baseCoords.z), Quaternion.Euler(0, 90f, 0));
+            GameObject baseObject = Instantiate(basePrefab, new Vector3(baseCoords.x, elevation + 0.5f, baseCoords.z), Quaternion.Euler(0, 90f, 0));
 
             centerBaseSpawned = true;
 
@@ -123,7 +124,8 @@ public class MapBaseGenerator : MonoBehaviour
                     // Set the elevation of the base wall to match the crystal base
                     float elevation = crystalElevation;
 
-                    Instantiate(baseWallPrefab, new Vector3(wallCoords.x, elevation, wallCoords.z), Quaternion.Euler(0, 90f, 0));
+                    Instantiate(baseWallPrefab, new Vector3(wallCoords.x, elevation + 0.5f, wallCoords.z), Quaternion.Euler(0, 90f, 0));
+                    mapManager.setNewDiff(wallX, wallZ, 100);
                 }
             }
         }
@@ -159,11 +161,12 @@ public class MapBaseGenerator : MonoBehaviour
                     float elevation = crystalElevation;
 
                     Instantiate(crystalBaseWall, new Vector3(wallCoords.x, elevation, wallCoords.z), Quaternion.Euler(0, 90f, 0));
+                    mapManager.setNewDiff(wallX, wallZ, 100);
                 }
             }
         }
         // Remove the existing tile at the crystal base location
-        RemoveTileAtLocation(baseX, baseZ);
+        //RemoveTileAtLocation(baseX, baseZ);
     }
 
 

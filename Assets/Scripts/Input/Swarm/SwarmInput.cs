@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class SwarmInput : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class SwarmInput : MonoBehaviour
             DrawSelectionBox();
         }
         if (Input.GetMouseButtonDown(1)) {
-            sNetwork.AskIssueMoveServerRpc(Input.mousePosition);
+            sNetwork.AskIssueMoveServerRpc(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,Input.mousePosition.y, Camera.main.transform.position.z)));
             //entityManager.setGoal(Input.mousePosition);
         }
     }

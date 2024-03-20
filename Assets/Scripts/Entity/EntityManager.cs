@@ -62,9 +62,9 @@ public class EntityManager : MonoBehaviour
         }
         ui.UpdateUI(selectedUnits);
     }
-    public void setGoal(Vector2 a)
+    public void setGoal(Vector3 origin)
     {
-        Vector3 origin = Camera.main.ScreenToWorldPoint(new Vector3(a.x, a.y, Camera.main.transform.position.z));
+       
 
         HexNode node = mapManager.findClosetNode(origin);
         selectedUnits.RemoveAll(a=> a == null);
