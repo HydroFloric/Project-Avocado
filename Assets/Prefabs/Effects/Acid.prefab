@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8195537138045458726}
   - component: {fileID: 7074854303864021505}
   - component: {fileID: 5708009581947630168}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4856,7 +4856,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4846712976079383367}
   - component: {fileID: 7930279538661668465}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Acid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4891,3 +4891,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ce9029045678684cbb8a4bd32bb446f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onTrigger: 0

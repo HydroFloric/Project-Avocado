@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7171692234746129235}
   - component: {fileID: 4494444640719968688}
-  m_Layer: 0
+  - component: {fileID: 8488686465751965370}
+  m_Layer: 2
   m_Name: Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,6 +46,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ce9029045678684cbb8a4bd32bb446f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onTrigger: 0
+--- !u!114 &8488686465751965370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2780256490669445960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df52a5f7eec61034292647544cd977b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionRange: 1.5
+  explosionParent: {fileID: 5545212221409639987, guid: f70308a54271df54483fb331c977da4d, type: 3}
 --- !u!1 &7432775867321062109
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,7 +72,7 @@ GameObject:
   - component: {fileID: 8952035787530979769}
   - component: {fileID: 4582974307172204941}
   - component: {fileID: 6139876690462548431}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}

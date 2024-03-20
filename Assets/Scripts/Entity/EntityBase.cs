@@ -97,7 +97,7 @@ public class EntityBase : MonoBehaviour
         {
             targetDistance = float.MaxValue;
         }
-        LayerMask mask = LayerMask.GetMask(exclusionLayer);
+        LayerMask mask = LayerMask.GetMask(exclusionLayer, "Ignore Raycast");
         mask = ~mask;
         Collider[] colliderHits = Physics.OverlapSphere(gameObject.transform.position, attackRange, LayerMask.GetMask(targetLayer));
 
@@ -129,7 +129,7 @@ public class EntityBase : MonoBehaviour
     public virtual void Attack(EntityBase target, float dmg, float range)
     {
         DamageSystem.DealDamage(target, this);
-        Debug.DrawRay(gameObject.transform.Find("GunPos").position, target.transform.position - gameObject.transform.Find("GunPos").position, Color.red, 0.2f);
+        //Debug.DrawRay(gameObject.transform.Find("GunPos").position, target.transform.position - gameObject.transform.Find("GunPos").position, Color.red, 0.2f);
     }
     public virtual void TryAttack(EntityBase target, float damage, float range)
     {

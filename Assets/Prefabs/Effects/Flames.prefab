@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2939877360695506235}
   - component: {fileID: 7658803539718171463}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Flames
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ce9029045678684cbb8a4bd32bb446f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onTrigger: 0
 --- !u!1 &6085179182276952033
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,7 +60,7 @@ GameObject:
   - component: {fileID: 3465698577177707055}
   - component: {fileID: 8054116177441707877}
   - component: {fileID: 6086161340000479743}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4924,7 +4925,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6861712188179529572}
   - component: {fileID: 2105969050983955356}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

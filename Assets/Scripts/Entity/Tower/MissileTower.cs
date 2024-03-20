@@ -5,7 +5,8 @@ using UnityEngine;
 public class MissileTower : BaseTower
 
 {
-    private float explosionRange;
+    private GameObject gunPos;
+    //private float explosionRange;
     public GameObject explosionEffect;
     MissileTower()
     {
@@ -17,11 +18,12 @@ public class MissileTower : BaseTower
     {
         health = 150.0f;
         attackRange = 10.0f;
-        attackSpeed = 0.5f;
+        attackSpeed = 0.25f;
         attackDamage = 30.0f;
-        explosionRange = 1.5f;
+        //explosionRange = 1.5f;
         damageType = DamageSystem.EXPOSIVE_ELEMENT;
         damageResist = DamageSystem.EXPOSIVE_ELEMENT;
+        gunPos = gameObject.transform.Find("GunPos").gameObject;
     }
 
     // Update is called once per frame
@@ -32,13 +34,22 @@ public class MissileTower : BaseTower
 
     public override void Attack(EntityBase target, float dmg, float range)
     {
-        Collider[] colliderHits = Physics.OverlapSphere(target.transform.position, explosionRange, LayerMask.GetMask("Swarm"));
+        GameObject shell = gameObject.transform.Find("CannonShell").gameObject;
+        Vector3 vector3 = target.transform.position;
+        Vector3 launchVector = target.transform.position - gunPos.transform.position;
+        
+        shell.transform.position = gunPos.transform.position;
+        shell.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
-        foreach (Collider collider in colliderHits)
+        Quaternion shellDir = Quaternion.FromToRotation(Vector3.up, launchVector);
+        shell.transform.rotation = shellDir;
+        gunPos.GetComponent<LaunchProjectile>().Launch(launchVector);
+        //Instantiate(explosionEffect, target.transform.position, Quaternion.identity);
+
+        ParticleSystem[] muzzles = gameObject.GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem muzzle in muzzles)
         {
-            DamageSystem.DealDamage(collider.gameObject.GetComponent<EntityBase>(), this);
-            Debug.DrawRay(gameObject.transform.Find("GunPos").position, target.transform.position - gameObject.transform.Find("GunPos").position, Color.red, 0.2f);
+            muzzle.Play();
         }
-        Instantiate(explosionEffect, target.transform.position, Quaternion.identity);
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class destroySelf : MonoBehaviour
 {
     private float timer;
+    public bool onTrigger = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +18,14 @@ public class destroySelf : MonoBehaviour
     {
         timer -= Time.deltaTime;
         if( timer < 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(onTrigger && other.gameObject != this.gameObject)
         {
             Destroy(gameObject);
         }
