@@ -37,6 +37,7 @@ public class MultiplayerNetwork : MonoBehaviour
     public  string PlayerId {get; private set;}
 
     public string PlayerName { get; private set;}
+    public string pName;
 
     const float k_lobbyHeartbeatInterval = 20f;
     const float k_lobbyPollInterval = 65f;
@@ -70,6 +71,8 @@ public class MultiplayerNetwork : MonoBehaviour
             handlePollForUpdatesAsync();
             pollForUpdatesTimer.Start();
         };
+
+        pName = "Player" + UnityEngine.Random.Range(1,99);
     }
 
    
@@ -135,8 +138,13 @@ public class MultiplayerNetwork : MonoBehaviour
                 }
             });
 
+            
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, connectionType));
             NetworkManager.Singleton.StartHost();
+            
+            MainMenu.Instance.EnterLobby(lobbyCode);
+            MainMenu.Instance.UpdateLobbyDetails(currentLobby);
+            PrintPlayers(currentLobby);
         }
         catch(LobbyServiceException e)
         {
@@ -157,12 +165,17 @@ public class MultiplayerNetwork : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, connectionType));
             NetworkManager.Singleton.StartClient();
             Debug.Log("Joined Lobby : " + currentLobby.Name + " with code " + currentLobby.LobbyCode);
+
+            
         }
         catch (LobbyServiceException e)
         {
             Debug.Log("Failed to quick join lobby : " + e.Message);
         }
-    } public async Task JoinLobbyByCode(string lobbyCode)
+    } 
+    
+    
+    public async Task JoinLobbyByCode(string lobbyCode)
     {
         try
         {
@@ -180,6 +193,10 @@ public class MultiplayerNetwork : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, connectionType));
             NetworkManager.Singleton.StartClient();
             Debug.Log("Joined Lobby : " + currentLobby.Name + " with code " + currentLobby.LobbyCode);
+
+            MainMenu.Instance.EnterLobby(lobbyCode);
+            MainMenu.Instance.UpdateLobbyDetails(currentLobby);
+            PrintPlayers(currentLobby);
         }
         catch (LobbyServiceException e)
         {
@@ -263,15 +280,18 @@ public class MultiplayerNetwork : MonoBehaviour
 
     public Unity.Services.Lobbies.Models.Player GetPlayer()
     {
-        return new Unity.Services.Lobbies.Models.Player
+        Unity.Services.Lobbies.Models.Player player =  new Unity.Services.Lobbies.Models.Player
         {
             Data = new Dictionary<string, PlayerDataObject>
                     {
-                        {"PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member) }
+                        {"PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, pName) }
                     }
         };
+
+        return player;
     }
 
+    
 
     async Task handleHeartBeatAsync()
     {
@@ -299,6 +319,15 @@ public class MultiplayerNetwork : MonoBehaviour
         }
     }
 
+    private void PrintPlayers(Lobby lobby)
+    {
+        Debug.Log("Players in lobby " + lobby.Name);
+        foreach(Unity.Services.Lobbies.Models.Player player in lobby.Players)
+        {
+            Debug.Log("name :  " + player.Data["PlayerName"].Value);
+        }
+    }
+
     public string getLobbyCode()
     {
         return this.lobbyCode;
@@ -307,5 +336,17 @@ public class MultiplayerNetwork : MonoBehaviour
     public Lobby getCurrentLobby()
     {
         return this.currentLobby;
+    }
+
+    private bool IsHost()
+    {
+        if(currentLobby != null && currentLobby.HostId == PlayerId)
+        {
+            return true;
+        }
+        else 
+        {
+            return false; 
+        }
     }
 }

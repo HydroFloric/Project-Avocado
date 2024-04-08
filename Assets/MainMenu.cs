@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    public static MainMenu Instance { get; private set; }
     [SerializeField] SceneReference gameScene;
 
     [SerializeField] private Button createBttn;
@@ -25,12 +27,20 @@ public class MainMenu : MonoBehaviour
    [SerializeField] private GameObject joinPanel;
    [SerializeField] private GameObject readyPanel;
 
+    [SerializeField] private GameObject playerInfoPrefab;
+    [SerializeField] private GameObject playerInfoContent;
+    [SerializeField] private TMP_Text playerText;
+
     
 
     public string playerName;
     public string LobbyCode;
-    
 
+    private void Start()
+    {
+        Instance = this;
+        DontDestroyOnLoad(Instance);
+    }
     private void Awake()
     {
         mainPanel.SetActive(true);
@@ -39,17 +49,36 @@ public class MainMenu : MonoBehaviour
         readyPanel.SetActive(false);
     }
 
-    public void onCreateBttnClick()
+    public void onCreateBttnClick()  //event call for creating lobby
     {
         //createPanel.SetActive(true);
         CreateGame();
+        
+    }
+
+    public void EnterLobby(string code)  //UI update after lobby started
+    {
+        
         mainPanel.SetActive(false);
         readyPanel.SetActive(true);
-        
-        LobbyCode = MultiplayerNetwork.Instance.getLobbyCode();
-        joinText.SetText("Lobby Join Code : " + LobbyCode);
-        Debug.Log(LobbyCode);
+        joinText.SetText("Lobby Join Code : " + code);
     }
+
+    public void UpdateLobbyDetails(Lobby currentLobby)
+    {
+        foreach(Unity.Services.Lobbies.Models.Player player in currentLobby.Players)
+        {
+            //playerText.SetText(player.Data["PlayerName"].Value);
+            for(int i = 0; i<playerInfoContent.transform.childCount; i++)
+            {
+                Destroy(playerInfoContent.transform.GetChild(i).gameObject);
+            }
+
+            GameObject newPlayerInfo = Instantiate(playerInfoPrefab, playerInfoContent.transform);
+            newPlayerInfo.GetComponentInChildren<TextMeshProUGUI>().text = player.Data["PlayerName"].Value;
+        }
+    }
+
     public void onJoinBttnClick()
     {
         joinPanel.SetActive(true);
@@ -91,6 +120,10 @@ public class MainMenu : MonoBehaviour
         await MultiplayerNetwork.Instance.ListLobbies();
     }
 
+    public string GetCode()
+    {
+        return this.LobbyCode;
+    }
 }
 
 public static class Loader
