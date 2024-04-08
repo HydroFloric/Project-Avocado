@@ -12,97 +12,163 @@ public class MainMenu : MonoBehaviour
 {
     public static MainMenu Instance { get; private set; }
     [SerializeField] SceneReference gameScene;
+    private string LobbyCode;
 
+    [Header("Main Menu")]
+    [SerializeField] private GameObject mainPanel;
     [SerializeField] private Button createBttn;
-   [SerializeField] private Button joinBttn;
-   [SerializeField] private Button submitName;
-   [SerializeField] private Button StartGame;
-    [SerializeField] private TMP_Text joinText;
+    [SerializeField] private Button joinBttn;
 
-    [SerializeField] private TMP_InputField nameInput;
+    [Space(10)]
+    [Header("Join Room With Code")]
+    [SerializeField] private GameObject joinPanel;
     [SerializeField] private TMP_InputField joinCodeInput;
+    [SerializeField] private Button submitName;
 
 
-   [SerializeField] private GameObject mainPanel;
-   [SerializeField] private GameObject createPanel;
-   [SerializeField] private GameObject joinPanel;
-   [SerializeField] private GameObject readyPanel;
-
+    [Space(10)]
+    [Header("Ready Panel")]
+    [SerializeField] private GameObject readyPanel;
+    [SerializeField] private TMP_Text joinText;
     [SerializeField] private GameObject playerInfoPrefab;
     [SerializeField] private GameObject playerInfoContent;
-    [SerializeField] private TMP_Text playerText;
 
-    
+    [Space(10)]
+    [Header("Start Game")]
+    [SerializeField] private Button StartGameBttn;
 
+    [Space(10)]
+    [Header("Experimental stuff")]
+    [SerializeField] private TMP_InputField nameInput;
+    [SerializeField] private GameObject createPanel;
     public string playerName;
-    public string LobbyCode;
+
 
     private void Start()
     {
         Instance = this;
         DontDestroyOnLoad(Instance);
-        StartGame.gameObject.SetActive(false);
+        StartGameBttn.gameObject.SetActive(false);
     }
+
+    //set the UI panels coorectly when first booted up
     private void Awake()
     {
         mainPanel.SetActive(true);
         createPanel.SetActive(false);
         joinPanel.SetActive(false);
         readyPanel.SetActive(false);
-
     }
 
     public void onCreateBttnClick()  //event call for creating lobby
     {
-        //createPanel.SetActive(true);
-        CreateGame();
-        
+        CreateGame(); 
     }
 
-    public void EnterLobby(string code)  //UI update after lobby started
+    async void CreateGame() //call the the function responsible for lobby creation
     {
-        
+        await MultiplayerNetwork.Instance.CreateLobby();
+    }
+
+
+    public void EnterLobby(string code)  //Once lobby is successfully creates, enter a room or "party"
+    {
         mainPanel.SetActive(false);
         readyPanel.SetActive(true);
         joinText.SetText("Lobby Join Code : " + code);
     }
 
-    public void setStartGameButton()
+    public void UpdateLobbyDetails(Lobby currentLobby) //update UI with details like player name that are currently in the lobby
     {
-        StartGame.gameObject.SetActive(true);
-    }
-    public void UpdateLobbyDetails(Lobby currentLobby)
-    {
-        for (int i = 0; i < playerInfoContent.transform.childCount; i++)
+        for (int i = 0; i < playerInfoContent.transform.childCount; i++) //destroy if the panel prefab is already there
         {
             Destroy(playerInfoContent.transform.GetChild(i).gameObject);
         }
-        foreach (Unity.Services.Lobbies.Models.Player player in currentLobby.Players)
+        //loops through the players in lobby, get their name and update UI
+        foreach (Unity.Services.Lobbies.Models.Player player in currentLobby.Players) 
         {
             //playerText.SetText(player.Data["PlayerName"].Value);
-           
 
             GameObject newPlayerInfo = Instantiate(playerInfoPrefab, playerInfoContent.transform);
             newPlayerInfo.GetComponentInChildren<TextMeshProUGUI>().text = player.Data["PlayerName"].Value;
         }
 
-        if(MultiplayerNetwork.Instance.IsHost())
+        //only host can start the game
+        if (MultiplayerNetwork.Instance.IsHost()) //calls multiplayer script instance and checks if the current player is host or not
         {
-            StartGame.gameObject.SetActive(true);
+            //if true, then start game buttom is activated only on host side.
+            StartGameBttn.gameObject.SetActive(true);
         }
         else
         {
-            StartGame.gameObject.SetActive(false);
+            StartGameBttn.gameObject.SetActive(false);
         }
 
-        if(MultiplayerNetwork.Instance.IsGameStarted() == true)
+        //if game is started then turn off the UI panels
+        if (MultiplayerNetwork.Instance.IsGameStarted() == true) //checks for both host and client as well
         {
             setUIOff();
         }
-        
+
+    }
+   
+
+    public void onJoinBttnClick() //update the UI when join button is clicked
+    {
+        joinPanel.SetActive(true);
+        mainPanel.SetActive(false);
+    }
+    public void onSubmitClick() //part of the join panel where it take the user input and pass it to lobby code string
+    {
+        if(joinPanel.activeSelf)
+        {
+            LobbyCode = joinCodeInput.text;
+            Debug.Log(LobbyCode);
+            //once done, player will be able to join the lobby using the code
+            JoinGameByCode();
+        }
     }
 
-    public void leaveRoom()
+    async void JoinGameByCode() //call the the function responsible for joining lobby
+    {
+        await MultiplayerNetwork.Instance.JoinLobbyByCode(LobbyCode);
+    }
+
+
+    public void onStartGameBttn() //only host can call for this action. Also, only host can see the start button. 
+    {
+        if(MultiplayerNetwork.Instance.IsHost())
+        {
+            MultiplayerNetwork.Instance.StartGame(); 
+        }
+    }
+
+    public void setUIOff() //sets all of the UI off
+    {
+        mainPanel.SetActive(false);
+        createPanel.SetActive(false);
+        joinPanel.SetActive(false);
+        readyPanel.SetActive(false);
+    }
+   
+
+    async void JoinGame() //quick join for testing
+    {
+        await MultiplayerNetwork.Instance.QuickJoinLobby();
+    }
+
+    
+
+    async void ListGame() //list lobbies for testing
+    {
+        await MultiplayerNetwork.Instance.ListLobbies();
+    }
+
+
+    /*
+     * All the experimental stuff
+     */
+    public void leaveRoom() //experimental stuff
     {
         mainPanel.SetActive(true);
         createPanel.SetActive(false);
@@ -110,76 +176,11 @@ public class MainMenu : MonoBehaviour
         readyPanel.SetActive(false);
     }
 
-    public void onJoinBttnClick()
-    {
-        joinPanel.SetActive(true);
-        mainPanel.SetActive(false);
-    }
-    public void onSubmitClick()
-    {
-        playerName = nameInput.text;
-        Debug.Log(playerName);
-
-        if(joinPanel.activeSelf)
-        {
-            LobbyCode = joinCodeInput.text;
-            Debug.Log(LobbyCode);
-            JoinGameByCode();
-        }
-        //transition to lobby ready scene
-    }
-    public void onStartGameBttn()
-    {
-        if(MultiplayerNetwork.Instance.IsHost())
-        {
-            MultiplayerNetwork.Instance.StartGame();
-            
-        }
-
-
-        //Loader.LoadNetwork(gameScene);
-        
-            
-
-
-    }
-
-    public void setUIOff()
-    {
-        
-            mainPanel.SetActive(false);
-            createPanel.SetActive(false);
-            joinPanel.SetActive(false);
-            readyPanel.SetActive(false);
-        
-    }
-    async void CreateGame()
-    {
-        await MultiplayerNetwork.Instance.CreateLobby();
-
-
-        //Loader.LoadNetwork(gameScene);
-    }
-
-    async void JoinGame()
-    {
-        await MultiplayerNetwork.Instance.QuickJoinLobby();
-    }
-
-    async void JoinGameByCode()
-    {
-        await MultiplayerNetwork.Instance.JoinLobbyByCode(LobbyCode);
-    }
-
-    async void ListGame()
-    {
-        await MultiplayerNetwork.Instance.ListLobbies();
-    }
-
     public string GetCode()
     {
         return this.LobbyCode;
     }
+
 }
 
 
