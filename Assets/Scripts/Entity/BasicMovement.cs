@@ -58,9 +58,7 @@ public class BasicMovement : MonoBehaviour
         {
             Vector3 temp;
             temp = entityBase.pathingTo.Vec3Location();
-            temp.y = 0;
             Vector3 tempTransform = entityBase.toVec3();
-            tempTransform.y = 0;
             currentDir = (temp - tempTransform).normalized;
         }
     }

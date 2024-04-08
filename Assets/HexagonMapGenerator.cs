@@ -97,7 +97,7 @@ public class HexagonMapGenerator : MonoBehaviour
                 {
                     node = instantiatedTile.AddComponent<HexNode>();
                 }
-                node.initialize(hexCoords.x, hexCoords.z, x, z);
+                node.initialize(hexCoords.x,elevation,hexCoords.z, x, z);
                 node.type = tilePrefab.name;
 
                 tileMap[x, z] = instantiatedTile;

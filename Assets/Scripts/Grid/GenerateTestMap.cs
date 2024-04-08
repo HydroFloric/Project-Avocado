@@ -40,7 +40,7 @@ public class GenerateTestMap : MonoBehaviour
                 }
                 else
                 {
-                    node.initialize(Real_x, Real_z, i, j);
+                    //node.initialize(Real_x, Real_z, i, j);
                 }
                 map[i, j].transform.position = new Vector3(Real_x, 0, Real_z);
                 

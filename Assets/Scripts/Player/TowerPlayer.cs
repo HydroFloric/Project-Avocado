@@ -1,15 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class TowerPlayer : Player
 {
    public List<BaseTower> towers = new List<BaseTower>();
 
    public int TowerLimit = 5; //some multiple of crystals controlled or smth;
-  
+    TowerUI UIref;
+    private void Start()
+    {
+        UIref = GetComponent<TowerUI>();
+        if (UIref.enabled)
+        {
+            GetComponent<UIDocument>().enabled = true;
+        }
+    }
     private void OnEnable()
     {
+        GetComponent<UIDocument>().enabled = true;
         GetComponent<TowerInput>().enabled = true;
         GetComponent<TowerUI>().enabled = true;
         GetComponentInChildren<Camera>().enabled = true;
@@ -17,7 +28,7 @@ public class TowerPlayer : Player
     }
     private void OnDisable()
     {
-
+        GetComponent<UIDocument>().enabled = false;
         GetComponent<TowerInput>().enabled = false;
         GetComponent<TowerUI>().enabled = false;
         GetComponentInChildren<Camera>().enabled = false;

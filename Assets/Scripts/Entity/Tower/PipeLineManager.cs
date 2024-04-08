@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
-using UnityEditor.Animations;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PipeLineManager : MonoBehaviour
@@ -97,7 +94,7 @@ public class PipeLineManager : MonoBehaviour
     {
         timeSinceLast = 0f;
         var node = mapManager.nextNodeInPath(currentGoal, curPipe.location);
-        pipes.RemoveAll(p => p == null);
+        //pipes.RemoveAll(p => p == null);
         foreach(var p in pipes.FindAll(p => p.Parent == null))
         {
             if(p.location == node)
@@ -124,6 +121,7 @@ public class PipeLineManager : MonoBehaviour
         child.transform.position = node.Vec3Location();
 
         var tempPipe = child.AddComponent<Pipe>();
+        child.GetComponent<PipeEnity>().init();
         tempPipe.initPipe(curPipe, node);
         //pipeGO.GetComponent<PipeEnity>().p = tempPipe;
         pipes.Add(tempPipe);
