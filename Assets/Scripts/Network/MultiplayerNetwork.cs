@@ -75,7 +75,11 @@ public class MultiplayerNetwork : MonoBehaviour
         pName = "Player" + UnityEngine.Random.Range(1,99);
     }
 
-   
+    private void Update()
+    {
+        HandleRoomUpdate();
+    }
+
 
 
     async Task Authenticate()
@@ -118,7 +122,11 @@ public class MultiplayerNetwork : MonoBehaviour
             CreateLobbyOptions Options = new CreateLobbyOptions
             {
                 IsPrivate = false,
-                Player = GetPlayer()
+                Player = GetPlayer(),
+                 Data = new Dictionary<string, DataObject>
+                {
+                    {"IsGameStarted", new DataObject(DataObject.VisibilityOptions.Member,"false") }
+                }
             };
 
             currentLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, Options);
@@ -143,7 +151,7 @@ public class MultiplayerNetwork : MonoBehaviour
             NetworkManager.Singleton.StartHost();
             
             MainMenu.Instance.EnterLobby(lobbyCode);
-            MainMenu.Instance.UpdateLobbyDetails(currentLobby);
+            //MainMenu.Instance.UpdateLobbyDetails(currentLobby);
             PrintPlayers(currentLobby);
         }
         catch(LobbyServiceException e)
@@ -195,7 +203,7 @@ public class MultiplayerNetwork : MonoBehaviour
             Debug.Log("Joined Lobby : " + currentLobby.Name + " with code " + currentLobby.LobbyCode);
 
             MainMenu.Instance.EnterLobby(lobbyCode);
-            MainMenu.Instance.UpdateLobbyDetails(currentLobby);
+            //MainMenu.Instance.UpdateLobbyDetails(currentLobby);
             PrintPlayers(currentLobby);
         }
         catch (LobbyServiceException e)
@@ -204,6 +212,38 @@ public class MultiplayerNetwork : MonoBehaviour
         }
     }
 
+
+    private float lobbyUpdateTimer = 2f;
+    private async void HandleRoomUpdate()
+    {
+        if (currentLobby != null)
+        {
+            lobbyUpdateTimer -= Time.deltaTime;
+            if (lobbyUpdateTimer <= 0)
+            {
+                lobbyUpdateTimer = 2f;
+                try
+                {
+                    if (IsinLobby())
+                    {
+                        currentLobby = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
+                        MainMenu.Instance.UpdateLobbyDetails(currentLobby);
+                    }
+
+                }
+                catch (LobbyServiceException e)
+                {
+                    Debug.Log(e);
+                    if ((e.Reason == LobbyExceptionReason.Forbidden || e.Reason == LobbyExceptionReason.LobbyNotFound))
+                    {
+                        currentLobby = null;
+                        //ExitRoom();
+                    }
+                }
+            }
+        }
+
+    }
 
     public async Task ListLobbies()
     {
@@ -287,7 +327,7 @@ public class MultiplayerNetwork : MonoBehaviour
                         {"PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, pName) }
                     }
         };
-
+       
         return player;
     }
 
@@ -338,7 +378,7 @@ public class MultiplayerNetwork : MonoBehaviour
         return this.currentLobby;
     }
 
-    private bool IsHost()
+    public bool IsHost()
     {
         if(currentLobby != null && currentLobby.HostId == PlayerId)
         {
@@ -348,5 +388,72 @@ public class MultiplayerNetwork : MonoBehaviour
         {
             return false; 
         }
+    }
+
+    public bool IsinLobby()
+    {
+        foreach (Unity.Services.Lobbies.Models.Player player in currentLobby.Players)
+        {
+            if (player.Id == PlayerId)
+            {
+                return true;
+            }
+        }
+        currentLobby = null;
+        return false;
+    }
+
+    private async void LeaveLobby()
+    {
+       
+        try
+        {
+            await LobbyService.Instance.RemovePlayerAsync(currentLobby.Id, PlayerId);
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+
+
+    private async void StartGame()
+    {
+        if (currentLobby != null && IsHost())
+        {
+            try
+            {
+                UpdateLobbyOptions updateoptions = new UpdateLobbyOptions
+                {
+                    Data = new Dictionary<string, DataObject>
+                    {
+                         {"IsGameStarted", new DataObject(DataObject.VisibilityOptions.Member,"true") }
+                    }
+                };
+
+                currentLobby = await LobbyService.Instance.UpdateLobbyAsync(currentLobby.Id, updateoptions);
+
+                //EnterGame();
+
+            }
+            catch (LobbyServiceException e)
+            {
+                Debug.Log(e);
+            }
+
+        }
+
+    }
+
+    private bool IsGameStarted()
+    {
+        if (currentLobby != null)
+        {
+            if (currentLobby.Data["IsGameStarted"].Value == "true")
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

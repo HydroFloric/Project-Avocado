@@ -16,6 +16,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button createBttn;
    [SerializeField] private Button joinBttn;
    [SerializeField] private Button submitName;
+   [SerializeField] private Button StartGame;
     [SerializeField] private TMP_Text joinText;
 
     [SerializeField] private TMP_InputField nameInput;
@@ -66,17 +67,26 @@ public class MainMenu : MonoBehaviour
 
     public void UpdateLobbyDetails(Lobby currentLobby)
     {
-        foreach(Unity.Services.Lobbies.Models.Player player in currentLobby.Players)
+        for (int i = 0; i < playerInfoContent.transform.childCount; i++)
+        {
+            Destroy(playerInfoContent.transform.GetChild(i).gameObject);
+        }
+        foreach (Unity.Services.Lobbies.Models.Player player in currentLobby.Players)
         {
             //playerText.SetText(player.Data["PlayerName"].Value);
-            for(int i = 0; i<playerInfoContent.transform.childCount; i++)
-            {
-                Destroy(playerInfoContent.transform.GetChild(i).gameObject);
-            }
+           
 
             GameObject newPlayerInfo = Instantiate(playerInfoPrefab, playerInfoContent.transform);
             newPlayerInfo.GetComponentInChildren<TextMeshProUGUI>().text = player.Data["PlayerName"].Value;
         }
+    }
+
+    public void leaveRoom()
+    {
+        mainPanel.SetActive(true);
+        createPanel.SetActive(false);
+        joinPanel.SetActive(false);
+        readyPanel.SetActive(false);
     }
 
     public void onJoinBttnClick()
@@ -97,7 +107,14 @@ public class MainMenu : MonoBehaviour
         }
         //transition to lobby ready scene
     }
-
+    public void onStartGameBttn()
+    {
+        
+        
+            Loader.LoadNetwork(gameScene);
+        
+       
+    }
     async void CreateGame()
     {
         await MultiplayerNetwork.Instance.CreateLobby();
