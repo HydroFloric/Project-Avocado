@@ -41,6 +41,7 @@ public class MainMenu : MonoBehaviour
     {
         Instance = this;
         DontDestroyOnLoad(Instance);
+        StartGame.gameObject.SetActive(false);
     }
     private void Awake()
     {
@@ -48,6 +49,7 @@ public class MainMenu : MonoBehaviour
         createPanel.SetActive(false);
         joinPanel.SetActive(false);
         readyPanel.SetActive(false);
+
     }
 
     public void onCreateBttnClick()  //event call for creating lobby
@@ -65,6 +67,10 @@ public class MainMenu : MonoBehaviour
         joinText.SetText("Lobby Join Code : " + code);
     }
 
+    public void setStartGameButton()
+    {
+        StartGame.gameObject.SetActive(true);
+    }
     public void UpdateLobbyDetails(Lobby currentLobby)
     {
         for (int i = 0; i < playerInfoContent.transform.childCount; i++)
@@ -79,6 +85,21 @@ public class MainMenu : MonoBehaviour
             GameObject newPlayerInfo = Instantiate(playerInfoPrefab, playerInfoContent.transform);
             newPlayerInfo.GetComponentInChildren<TextMeshProUGUI>().text = player.Data["PlayerName"].Value;
         }
+
+        if(MultiplayerNetwork.Instance.IsHost())
+        {
+            StartGame.gameObject.SetActive(true);
+        }
+        else
+        {
+            StartGame.gameObject.SetActive(false);
+        }
+
+        if(MultiplayerNetwork.Instance.IsGameStarted() == true)
+        {
+            setUIOff();
+        }
+        
     }
 
     public void leaveRoom()
@@ -109,15 +130,33 @@ public class MainMenu : MonoBehaviour
     }
     public void onStartGameBttn()
     {
+        if(MultiplayerNetwork.Instance.IsHost())
+        {
+            MultiplayerNetwork.Instance.StartGame();
+            
+        }
+
+
+        //Loader.LoadNetwork(gameScene);
         
+            
+
+
+    }
+
+    public void setUIOff()
+    {
         
-            Loader.LoadNetwork(gameScene);
+            mainPanel.SetActive(false);
+            createPanel.SetActive(false);
+            joinPanel.SetActive(false);
+            readyPanel.SetActive(false);
         
-       
     }
     async void CreateGame()
     {
         await MultiplayerNetwork.Instance.CreateLobby();
+
 
         //Loader.LoadNetwork(gameScene);
     }
@@ -143,10 +182,4 @@ public class MainMenu : MonoBehaviour
     }
 }
 
-public static class Loader
-{
-    public static void LoadNetwork(SceneReference gameScene)
-    {
-        NetworkManager.Singleton.SceneManager.LoadScene(gameScene.Name, LoadSceneMode.Single);
-    }
-}
+

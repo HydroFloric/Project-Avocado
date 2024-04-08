@@ -15,6 +15,8 @@ using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
 using Unity.VisualScripting;
 using UnityEngine.PlayerLoop;
+using Eflatun.SceneReference;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public enum EncryptionType
@@ -30,7 +32,7 @@ public class MultiplayerNetwork : MonoBehaviour
     [SerializeField] EncryptionType encryption = EncryptionType.DTLS;
     private Lobby hostLobby;
     private string lobbyCode;
-    
+    [SerializeField] SceneReference gameScene;
 
     public static MultiplayerNetwork Instance { get; private set; }
 
@@ -78,6 +80,7 @@ public class MultiplayerNetwork : MonoBehaviour
     private void Update()
     {
         HandleRoomUpdate();
+        
     }
 
 
@@ -123,9 +126,9 @@ public class MultiplayerNetwork : MonoBehaviour
             {
                 IsPrivate = false,
                 Player = GetPlayer(),
-                 Data = new Dictionary<string, DataObject>
+                Data = new Dictionary<string, DataObject>
                 {
-                    {"IsGameStarted", new DataObject(DataObject.VisibilityOptions.Member,"false") }
+                   {"IsGameStarted", new DataObject(DataObject.VisibilityOptions.Member,"false") }
                 }
             };
 
@@ -152,6 +155,7 @@ public class MultiplayerNetwork : MonoBehaviour
             
             MainMenu.Instance.EnterLobby(lobbyCode);
             //MainMenu.Instance.UpdateLobbyDetails(currentLobby);
+            //MainMenu.Instance.setStartGameButton();
             PrintPlayers(currentLobby);
         }
         catch(LobbyServiceException e)
@@ -417,9 +421,9 @@ public class MultiplayerNetwork : MonoBehaviour
     }
 
 
-    private async void StartGame()
+    public async void StartGame()
     {
-        if (currentLobby != null && IsHost())
+        if (currentLobby != null)
         {
             try
             {
@@ -434,6 +438,7 @@ public class MultiplayerNetwork : MonoBehaviour
                 currentLobby = await LobbyService.Instance.UpdateLobbyAsync(currentLobby.Id, updateoptions);
 
                 //EnterGame();
+                Loader.LoadNetwork(gameScene);
 
             }
             catch (LobbyServiceException e)
@@ -442,10 +447,19 @@ public class MultiplayerNetwork : MonoBehaviour
             }
 
         }
+       
 
     }
 
-    private bool IsGameStarted()
+    private void GameStartedUI()
+    {
+        foreach (Unity.Services.Lobbies.Models.Player player in currentLobby.Players)
+        {
+            MainMenu.Instance.setUIOff();
+        }
+    }
+
+    public bool IsGameStarted()
     {
         if (currentLobby != null)
         {
@@ -455,5 +469,13 @@ public class MultiplayerNetwork : MonoBehaviour
             }
         }
         return false;
+    }
+}
+
+public static class Loader
+{
+    public static void LoadNetwork(SceneReference gameScene)
+    {
+        NetworkManager.Singleton.SceneManager.LoadScene(gameScene.Name, LoadSceneMode.Single);
     }
 }
