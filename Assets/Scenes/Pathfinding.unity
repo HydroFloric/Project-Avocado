@@ -337,7 +337,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &717679518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae7befb2be2b4c49ba2956184f6dc8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joinCode: 8WPGJH
+  joinCode: F9MPTQ
 --- !u!114 &717679520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,6 +622,10 @@ PrefabInstance:
     - target: {fileID: 4699752822017347217, guid: 266f4fc9853be174d938b0a660d8a92b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5868143386989842114, guid: 266f4fc9853be174d938b0a660d8a92b, type: 3}
+      propertyPath: defaultPlayer
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1885966848692171425, guid: 266f4fc9853be174d938b0a660d8a92b, type: 3}

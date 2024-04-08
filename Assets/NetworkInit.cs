@@ -34,10 +34,8 @@ public class NetworkInit : NetworkBehaviour
             mg.SetNoiseSeed(seed.Value);
 
         }
+
         GenerateMap();
-
-
-
 
         for (int i = 0; i < players.Length; i++)
         {

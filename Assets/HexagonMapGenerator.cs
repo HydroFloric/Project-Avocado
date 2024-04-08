@@ -50,13 +50,14 @@ public class HexagonMapGenerator : MonoBehaviour
       
 
       
-        _random = new System.Random(_noiseSeed);
+        
 
         /*GenerateHexagonGrid();*/
         GameObject.Find("PlayerManager").GetComponentInChildren<SwarmUI>().ShowMap();
     }
     void Awake()
     {
+        _random = new System.Random(_noiseSeed);
         mapManager = GameObject.Find("Manager").GetComponent<MapManager>();
         tileMap = new GameObject[_MapWidth, _MapHeight];
     }
