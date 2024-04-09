@@ -44,6 +44,7 @@ public class GunnerTower : BaseTower
 
 
         ParticleSystem[] muzzles = gameObject.GetComponentsInChildren<ParticleSystem>();
+        GetComponent<AudioSource>().Play();
         foreach (ParticleSystem muzzle in muzzles)
         {
             muzzle.Play();
