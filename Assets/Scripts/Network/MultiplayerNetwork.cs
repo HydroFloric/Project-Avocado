@@ -22,7 +22,9 @@ using UnityEngine.SceneManagement;
 public enum EncryptionType 
 {
     DTLS,
-    WSS
+    //WSS,
+    UDP
+
 }
 
 public class MultiplayerNetwork : MonoBehaviour
@@ -43,14 +45,15 @@ public class MultiplayerNetwork : MonoBehaviour
     
     const string k_keyJoinCode = "RelayJoinCode";
     const string k_dtls = "dtls";
-    const string k_wss = "wss";
+    const string k_udp = "udp";
+    //const string k_wss = "wss";
  
 
     private Lobby currentLobby;
     private Lobby hostLobby; //experimental stuff
     private string lobbyCode;
 
-    string connectionType => encryption == EncryptionType.DTLS ? k_dtls : k_wss;  //enum to change the encryption type from inspector
+    string connectionType => encryption == EncryptionType.DTLS ? k_dtls : k_udp;  //enum to change the encryption type from inspector
 
     async void Start()
     {
