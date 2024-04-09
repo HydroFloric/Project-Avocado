@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class AcidBug : BaseBug
 {
     public GameObject acidEffect;
+    public Animation ani;
     private GameObject gunPos;
     AcidBug() 
     {
@@ -28,7 +29,7 @@ public class AcidBug : BaseBug
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public override void Attack(EntityBase target, float dmg, float range)
