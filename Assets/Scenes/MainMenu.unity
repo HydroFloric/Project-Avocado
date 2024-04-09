@@ -877,7 +877,6 @@ MonoBehaviour:
   gameScene:
     asset: {fileID: 102900000, guid: 2e6418e7013911b468a31a6efe046f47, type: 3}
     guid: 2e6418e7013911b468a31a6efe046f47
-  pName: 
 --- !u!4 &655352147
 Transform:
   m_ObjectHideFlags: 0
@@ -974,7 +973,7 @@ MonoBehaviour:
     EnableNetworkLogs: 1
     OldPrefabList: []
   RunInBackground: 1
-  LogLevel: 1
+  LogLevel: 0
 --- !u!4 &816003792
 Transform:
   m_ObjectHideFlags: 0
@@ -1007,7 +1006,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &866026805
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3423,7 +3422,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1839995322
 RectTransform:
   m_ObjectHideFlags: 0

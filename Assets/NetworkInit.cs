@@ -20,6 +20,8 @@ public class NetworkInit : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        var players = GameObject.Find("PlayerManager").GetComponentsInChildren<Player>();
+        players[playercount.Value].playerName = OwnerClientId.ToString();
         if (IsServer)
         {
             seed.Value = Random.Range(0, 99999);

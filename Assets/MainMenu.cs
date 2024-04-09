@@ -176,10 +176,7 @@ public class MainMenu : MonoBehaviour
         readyPanel.SetActive(false);
     }
 
-    public string GetCode()
-    {
-        return this.LobbyCode;
-    }
+   
 
 }
 
