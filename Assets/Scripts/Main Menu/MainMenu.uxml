@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/Main%20Menu/MainMenuStyleSheets.uss?fileID=7433441132597879392&amp;guid=a4d0aefab381d5741b5667f5bad2c068&amp;type=3#MainMenuStyleSheets" />
+    <ui:VisualElement name="MainContainer" style="flex-grow: 1; height: 405px; display: flex;">
+        <ui:Label tabindex="-1" text="Main Menu" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MainMenuText" class="header" style="-unity-text-align: upper-center; font-size: 50px; -unity-font-style: bold;" />
+        <ui:Button text="Create" parse-escape-sequences="true" display-tooltip-when-elided="true" name="createLobbyBttn" class="CreateGameButton button" />
+        <ui:Button text="Join" parse-escape-sequences="true" display-tooltip-when-elided="true" name="joinLobbyBttn" class="button" />
+        <ui:Button text="List Lobbies" parse-escape-sequences="true" display-tooltip-when-elided="true" name="listLobbyBttn" class="button" />
+    </ui:VisualElement>
+    <ui:VisualElement name="createContainer" style="flex-grow: 1; display: none; height: 500%;">
+        <ui:Label tabindex="-1" text="Create Lobby Menu" parse-escape-sequences="true" display-tooltip-when-elided="true" class="CreateMenuHeader" />
+        <ui:Button text="public" parse-escape-sequences="true" display-tooltip-when-elided="true" name="publicLobby" class="hidden button" style="display: flex;" />
+        <ui:Button text="Private" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PrivateLobby" class="button" />
+    </ui:VisualElement>
+</ui:UXML>

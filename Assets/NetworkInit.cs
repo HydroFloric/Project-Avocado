@@ -1,55 +1,36 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
+using Unity.Networking.Transport.Relay;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
 using Random = UnityEngine.Random;
+using Unity.Services.Core;
+using Unity.Services.Authentication;
+using Unity.Netcode.Transports.UTP;
 
 public class NetworkInit : NetworkBehaviour
 {
-    // Network variable to track the number of players connected
-    public NetworkVariable<int> playercount = new NetworkVariable<int>();
-
-    // Network variable to store the random seed for map generation (used by server)
-    public NetworkVariable<int> seed = new NetworkVariable<int>();
+    NetworkVariable<int> playercount = new NetworkVariable<int>(0);
+    NetworkVariable<int> seed = new NetworkVariable<int>(0);
 
 
     
+
+
     public override void OnNetworkSpawn()
     {
-        if (IsServer)
-        {
-            seed.Value = 0;
-            playercount.Value = 0;
-        }
-        // Debug message to check if spawning is successful (commented out for clarity)
-        // Debug.Log("We are here " + playercount.Value);
-
-        // Find all Player objects as children of the "PlayerManager" GameObject
         var players = GameObject.Find("PlayerManager").GetComponentsInChildren<Player>();
-
-        // If we have a player object corresponding to the playercount value
-        if (players.Length > playercount.Value)
-        {
-            // Set the playerName of that player object to the OwnerClientId (the client's unique ID)
-            players[playercount.Value].playerName = OwnerClientId.ToString();
-        }
-
-        // Only run the following code if this is the server
+        players[playercount.Value].playerName = OwnerClientId.ToString();
         if (IsServer)
         {
-            // Generate a random seed value for map generation
             seed.Value = Random.Range(0, 99999);
-
-            // Get the HexagonMapGenerator component from this GameObject
+            
             var mg = GetComponent<HexagonMapGenerator>();
-
-            // Set the noise seed for the HexagonMapGenerator using the network variable
             mg.SetNoiseSeed(seed.Value);
+
         }
 
-        // Call the GenerateMap function (implementation likely defined elsewhere)
         GenerateMap();
 
         // Loop through all the Player objects found earlier
@@ -105,4 +86,6 @@ public class NetworkInit : NetworkBehaviour
         GetComponent<MapBaseGenerator>().init();
         GetComponent<MapGenerateCrystals>().init();
     }
+
+    
 }
