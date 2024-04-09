@@ -269,9 +269,9 @@ public class MultiplayerNetwork : MonoBehaviour
                         currentLobby = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
 
                         // Update UI with the latest lobby details.
-                        
+                        MainMenu.Instance.UpdateLobbyDetails(currentLobby);
                     }
-                    MainMenu.Instance.UpdateLobbyDetails(currentLobby);
+                   
                 }
                 catch (LobbyServiceException e)
                 {

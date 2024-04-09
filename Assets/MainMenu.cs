@@ -91,6 +91,7 @@ public class MainMenu : MonoBehaviour
 
             GameObject newPlayerInfo = Instantiate(playerInfoPrefab, playerInfoContent.transform);
             newPlayerInfo.GetComponentInChildren<TextMeshProUGUI>().text = player.Data["PlayerName"].Value;
+            newPlayerInfo.SetActive(true);
         }
 
         //only host can start the game

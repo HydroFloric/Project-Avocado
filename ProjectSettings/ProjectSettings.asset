@@ -883,11 +883,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: a8bf3773-c8dd-40b2-920e-7b5e8f2026da
+  cloudProjectId: 62cb34f7-cfe1-476f-b99c-3be082d32dee
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Project Avocado
-  organizationId: nerdx01
+  projectName: Project-Avocado
+  organizationId: comp4432
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
