@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -676,6 +676,14 @@ PrefabInstance:
       propertyPath: defaultPlayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5881263997445329433, guid: 266f4fc9853be174d938b0a660d8a92b, type: 3}
+      propertyPath: _maptile
+      value: 
+      objectReference: {fileID: 9197481963319205126, guid: 8d09e6e01d14e5b4d885af86da8d5daa, type: 3}
+    - target: {fileID: 5881263997445329433, guid: 266f4fc9853be174d938b0a660d8a92b, type: 3}
+      propertyPath: _gridIcon
+      value: 
+      objectReference: {fileID: 9197481963319205126, guid: f5c28f4f07e2a6749a298806422e8975, type: 3}
     - target: {fileID: 5881263997445329433, guid: 266f4fc9853be174d938b0a660d8a92b, type: 3}
       propertyPath: _uiDocument
       value: 
